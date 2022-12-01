@@ -1,0 +1,25 @@
+
+# Vivado folders
+*.cache/
+*.hw/
+*.sim/
+*.ip_user_files/
+*.runs/
+*.srcs/
+*.gen/
+*.ioplanning/
+
+# Vivado project files
+*.xpr
+
+# Exported Vivado design file
+*.xsa
+
+# Vivado log and journal files
+vivado.jou
+vivado.log
+*.backup.jou
+*.backup.log
+
+picotem-transceiver-fpga/
+
