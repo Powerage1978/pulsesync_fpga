@@ -15,11 +15,26 @@
 # Exported Vivado design file
 *.xsa
 
+# Waveform temporary files
+*.wdb
+
 # Vivado log and journal files
 vivado.jou
 vivado.log
 *.backup.jou
 *.backup.log
 
+# Compiler log files
+xvlog.log
+xvlog.pb
+xelab.log
+xelab.pb
+xsim.jou
+xsim.log
+
+# Simulation directory
+xsim.dir/
+
+# Generated Vivado project dir
 picotem-transceiver-fpga/
 

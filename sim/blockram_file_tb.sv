@@ -20,18 +20,25 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module myip_v1_0_S00_AXI_tb(
+module blockram_file_tb(
     );
     
     localparam C_S00_AXI_DATA_WIDTH = 32;
     localparam LOG2_BUFFER_SIZE = 5;
     localparam C_S00_AXI_ADDR_WIDTH	= LOG2_BUFFER_SIZE + 3;
 
+    localparam integer COUNT_SIZE = 25;
+    localparam integer IDX_SIZE = 4;
+    localparam integer OUTPUT_WIDTH = 4;
+    localparam integer WORD_SIZE = 32;
+    localparam integer NO_OF_STATES_OFFSET = 8;
+    localparam integer T_TOLERANCE = 0;
+
     reg [C_S00_AXI_DATA_WIDTH-1 : 0] status;
     reg s00_axi_aclk;
-    reg enb;
+    logic enb;
     reg rstb;
-    reg regceb;
+    logic regceb;
     reg [C_S00_AXI_DATA_WIDTH-1 : 0] doutb;
     reg [C_S00_AXI_ADDR_WIDTH-2 : 2] addrb;
 	  // reg  s00_axi_aclk;
@@ -55,6 +62,9 @@ module myip_v1_0_S00_AXI_tb(
     wire [1 : 0] s00_axi_rresp;
     wire  s00_axi_rvalid;
     reg  s00_axi_rready;
+    logic sync;
+    logic [WORD_SIZE-1:0]ctrl_reg;
+    logic gate_output[OUTPUT_WIDTH];
     
     // Instantiation of Axi Bus Interface S00_AXI
 	myip_v1_0_S00_AXI # ( 
@@ -89,6 +99,27 @@ module myip_v1_0_S00_AXI_tb(
 		.S_AXI_RVALID(s00_axi_rvalid),
 		.S_AXI_RREADY(s00_axi_rready)
 	);
+
+  gate_driver #(
+    .COUNT_SIZE(COUNT_SIZE),
+    .IDX_SIZE(IDX_SIZE),
+    .OUTPUT_WIDTH(OUTPUT_WIDTH),
+    .WORD_SIZE(WORD_SIZE),
+    .NO_OF_STATES_OFFSET(NO_OF_STATES_OFFSET),
+    .T_TOLERANCE(T_TOLERANCE)
+  ) gate_driver_instance(
+    .clk(s00_axi_aclk),
+    .rst_n(s00_axi_aresetn),
+    .doutb(doutb),
+    .ctrl_reg(ctrl_reg),
+    .external_err(external_err),
+    .addrb(addrb),
+    .status(status),
+    .enb(enb),
+    .regceb(regceb),
+    .sync(sync),
+    .gate_output(gate_output)
+  );
     
     initial begin
         s00_axi_aclk = 0;
@@ -99,14 +130,50 @@ module myip_v1_0_S00_AXI_tb(
     #5 s00_axi_aclk = ~s00_axi_aclk;
 
     initial begin
+      sync = 1'b0;
        s00_axi_aresetn = 0;
        rstb = 1;
        s00_axi_bready = 0;
+       ctrl_reg[NO_OF_STATES_OFFSET+IDX_SIZE-1 : NO_OF_STATES_OFFSET] = 4;
        #50
+       ctrl_reg[0] = 1'b1;
        s00_axi_aresetn = 1;
        rstb = 0;
        status = 32'd63;
 
+      // 00000004 0000000f 00000006 0000000a 00000008 0000000b 00000010 0000000c
+
+       #250
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+
+      #100
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+      
+      #120
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+
+      #200
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+
+      #80
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+
+      #100
+      sync = 1'b1;
+      #10
+      sync = 1'b0;
+
+      /*
        myip_v1_0_S00_AXI_tb.axi_write(0, 32'd127);
        myip_v1_0_S00_AXI_tb.enforce_axi_read(0, 32'd127);
        repeat (3) @(posedge s00_axi_aclk);
@@ -118,6 +185,7 @@ module myip_v1_0_S00_AXI_tb(
            repeat (3) @(posedge s00_axi_aclk);
            myip_v1_0_S00_AXI_tb.enforce_bram_read(i, i);
        end
+       */
 	   $display("Test done");
      #200 $finish;
 	end
