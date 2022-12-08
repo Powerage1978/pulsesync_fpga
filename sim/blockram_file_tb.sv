@@ -32,7 +32,10 @@ module blockram_file_tb(
     localparam integer OUTPUT_WIDTH = 4;
     localparam integer WORD_SIZE = 32;
     localparam integer NO_OF_STATES_OFFSET = 8;
-    localparam integer T_TOLERANCE = 0;
+    localparam integer T_TOLERANCE = 100;
+    localparam integer STATUS_SIZE = 3;
+    localparam integer CLOCK_PERIOD = 20;
+    localparam HALF_PERIOD = CLOCK_PERIOD / 2;
 
     reg [C_S00_AXI_DATA_WIDTH-1 : 0] status;
     reg s00_axi_aclk;
@@ -65,6 +68,8 @@ module blockram_file_tb(
     logic sync;
     logic [WORD_SIZE-1:0]ctrl_reg;
     logic gate_output[OUTPUT_WIDTH];
+    logic [STATUS_SIZE-1:0] state_dbg;
+    logic fsclk;
     
     // Instantiation of Axi Bus Interface S00_AXI
 	myip_v1_0_S00_AXI # ( 
@@ -117,17 +122,22 @@ module blockram_file_tb(
     .status(status),
     .enb(enb),
     .regceb(regceb),
+    .state_dbg(state_dbg),
     .sync(sync),
     .gate_output(gate_output)
   );
     
     initial begin
+        fsclk = 0;
         s00_axi_aclk = 0;
         s00_axi_wstrb = 4'b1111;
     end
     
-    always 
-    #5 s00_axi_aclk = ~s00_axi_aclk;
+    always begin
+        #10
+        s00_axi_aclk = ~s00_axi_aclk;
+        fsclk = ~fsclk;
+    end
 
     initial begin
       sync = 1'b0;
@@ -139,39 +149,55 @@ module blockram_file_tb(
        ctrl_reg[0] = 1'b1;
        s00_axi_aresetn = 1;
        rstb = 0;
-       status = 32'd63;
+       // status = 32'd63;
 
       // 00000004 0000000f 00000006 0000000a 00000008 0000000b 00000010 0000000c
 
-       #250
+      #250
       sync = 1'b1;
-      #10
-      sync = 1'b0;
-
-      #100
-      sync = 1'b1;
-      #10
+      #200
       sync = 1'b0;
       
-      #120
+      #((25-0.2)*1000)
       sync = 1'b1;
-      #10
-      sync = 1'b0;
-
       #200
+      sync = 1'b0;
+      
+      #((500-25-0.2)*1000)
       sync = 1'b1;
-      #10
+      #200
       sync = 1'b0;
 
-      #80
+      #((25-1-0.2)*1000)
       sync = 1'b1;
-      #10
+      #200
       sync = 1'b0;
 
-      #100
+      #((1000-(500+25-1)-0.2)*1000)
       sync = 1'b1;
-      #10
+      #200
       sync = 1'b0;
+
+      #((25-0.2)*1000)
+      sync = 1'b1;
+      #200
+      sync = 1'b0;
+      
+      #((500-25-0.2)*1000)
+      sync = 1'b1;
+      #200
+      sync = 1'b0;
+
+      #((25-1-0.2)*1000)
+      sync = 1'b1;
+      #200
+      sync = 1'b0;
+
+      #((1000-(500+25-1)-0.2)*1000)
+      sync = 1'b1;
+      #200
+      sync = 1'b0;
+      
 
       /*
        myip_v1_0_S00_AXI_tb.axi_write(0, 32'd127);
