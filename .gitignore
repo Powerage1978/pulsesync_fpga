@@ -45,7 +45,12 @@ picotem-transceiver-fpga/
 # Temp directory
 tmp/
 
+<<<<<<< HEAD
 # Makefile temp variables
 .comp_sv.timestamp
 .comp_v.timestamp
 .comp_vhdl.timestamp
+=======
+# Timestamp files used for compile indicators
+*.timestamp
+>>>>>>> 5131309 (Separated into bram, axi and combined files)

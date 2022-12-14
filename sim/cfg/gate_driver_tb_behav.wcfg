@@ -6,20 +6,21 @@
       <db_ref path="gate_driver_tb_behav.wdb" id="1">
          <top_modules>
             <top_module name="gate_driver_tb" />
+            <top_module name="gatedriver_pkg" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,934.001 ns"></ZoomEndTime>
-      <Cursor1Time time="180.002 ns"></Cursor1Time>
+      <ZoomEndTime time="2,041.329 ns"></ZoomEndTime>
+      <Cursor1Time time="740.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="160"></ValueColumnWidth>
+      <ValueColumnWidth column_width="154"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="11" />
    <wave_markers>
       <marker label="" time="155002" />
    </wave_markers>
@@ -44,8 +45,8 @@
       <obj_property name="ObjectShortName">external_err</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/gate_driver_tb/addrb">
-      <obj_property name="ElementShortName">addrb[4:0]</obj_property>
-      <obj_property name="ObjectShortName">addrb[4:0]</obj_property>
+      <obj_property name="ElementShortName">addrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">addrb[3:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/gate_driver_tb/status">
       <obj_property name="ElementShortName">status[31:0]</obj_property>
@@ -55,68 +56,16 @@
       <obj_property name="ElementShortName">sync</obj_property>
       <obj_property name="ObjectShortName">sync</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_dut/ssync">
-      <obj_property name="ElementShortName">ssync</obj_property>
-      <obj_property name="ObjectShortName">ssync</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/gate_driver_tb/gate_output">
       <obj_property name="ElementShortName">gate_output[0:3]</obj_property>
       <obj_property name="ObjectShortName">gate_output[0:3]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/COUNT_SIZE">
-      <obj_property name="ElementShortName">COUNT_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">COUNT_SIZE[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_instance/ssync">
+      <obj_property name="ElementShortName">ssync</obj_property>
+      <obj_property name="ObjectShortName">ssync</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/IDX_SIZE">
-      <obj_property name="ElementShortName">IDX_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IDX_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/OUTPUT_WIDTH">
-      <obj_property name="ElementShortName">OUTPUT_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">OUTPUT_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/WORD_SIZE">
-      <obj_property name="ElementShortName">WORD_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WORD_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/NO_OF_STATES_OFFSET">
-      <obj_property name="ElementShortName">NO_OF_STATES_OFFSET[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NO_OF_STATES_OFFSET[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/T_TOLERANCE">
-      <obj_property name="ElementShortName">T_TOLERANCE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">T_TOLERANCE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_dut/q_state">
-      <obj_property name="ElementShortName">q_state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">q_state[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_dut/d_state">
-      <obj_property name="ElementShortName">d_state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">d_state[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_dut/q_mon_time">
-      <obj_property name="ElementShortName">q_mon_time</obj_property>
-      <obj_property name="ObjectShortName">q_mon_time</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_dut/q_tcounter">
-      <obj_property name="ElementShortName">q_tcounter[24:0]</obj_property>
-      <obj_property name="ObjectShortName">q_tcounter[24:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_dut/q_value">
-      <obj_property name="ElementShortName">q_value[3:0]</obj_property>
-      <obj_property name="ObjectShortName">q_value[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_dut/SYNC_TOO_LATE">
-      <obj_property name="ElementShortName">SYNC_TOO_LATE</obj_property>
-      <obj_property name="ObjectShortName">SYNC_TOO_LATE</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_dut/q_idx">
-      <obj_property name="ElementShortName">q_idx[4:0]</obj_property>
-      <obj_property name="ObjectShortName">q_idx[4:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_dut/q_reset_output">
-      <obj_property name="ElementShortName">q_reset_output</obj_property>
-      <obj_property name="ObjectShortName">q_reset_output</obj_property>
+   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_instance/gate_output_pin">
+      <obj_property name="ElementShortName">gate_output_pin[0:3]</obj_property>
+      <obj_property name="ObjectShortName">gate_output_pin[0:3]</obj_property>
    </wvobject>
 </wave_config>

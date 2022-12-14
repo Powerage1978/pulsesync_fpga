@@ -1,7 +1,17 @@
-#     sim/myip_v1_0_S00_AXI_tb.sv \
-
 SOURCES_SV := \
-	sim/myip_tb.sv
+	src/hdl/axi4lite_pkg.sv \
+	src/hdl/gatedriver_pkg.sv \
+	src/hdl/axi4lite_bram.sv \
+	src/hdl/bram.sv \
+	src/hdl/axi4lite.sv \
+	src/hdl/gate_driver.sv \
+	src/hdl/toplevel.sv \
+	sim/sim_pkg.sv \
+	sim/bram_tb.sv \
+	sim/axi4lite_bram_tb.sv \
+	sim/axi4lite_tb.sv \
+	sim/blockram_file_tb.sv \
+	sim/gate_driver_tb.sv
 
 COMP_OPTS_SV := \
     --incr \
@@ -9,8 +19,7 @@ COMP_OPTS_SV := \
 
 DEFINES_SV :=
 
-SOURCES_V := \
-    src/hdl/myip_v1_0_S00_AXI.v
+SOURCES_V :=    
 
 COMP_OPTS_V := \
     --incr \
@@ -26,7 +35,7 @@ COMP_OPTS_VHDL := \
 
 DEFINES_VHDL :=
 
-TB_TOP := myip_tb
+#TB_TOP := gate_driver_tb
 
 .PHONY : simulate
 simulate : $(TB_TOP)_snapshot.wdb
@@ -41,11 +50,12 @@ $(TB_TOP)_snapshot.wdb : .elab.timestamp
 	@echo "*** RUNNING SIMULATION ***"
 	xsim $(TB_TOP)_snapshot --tclbatch tcl/xsim_cfg.tcl --wdb sim/$(TB_TOP)_snapshot.wdb --nolog
 
+#.elab.timestamp : .comp_sv.timestamp .comp_v.timestamp .comp_vhdl.timestamp
+.PHONY : .elab.timestamp
 .elab.timestamp : .comp_sv.timestamp .comp_v.timestamp .comp_vhdl.timestamp
 	@echo
 	@echo "*** ELABORATING ***"
 	xelab -debug all -top $(TB_TOP) -snapshot $(TB_TOP)_snapshot --nolog
-#    xelab -top myip_v1_0_S00_AXI_tb -snapshot myip_tb_snapshot -debug all --nolog
 	touch .elab.timestamp
 
 ifeq ($(SOURCES_SV),)

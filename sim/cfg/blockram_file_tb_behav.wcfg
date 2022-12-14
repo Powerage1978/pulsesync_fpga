@@ -5,28 +5,29 @@
    <db_ref_list>
       <db_ref path="blockram_file_tb_behav.wdb" id="1">
          <top_modules>
+            <top_module name="axi4lite_pkg" />
             <top_module name="blockram_file_tb" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="326.961 ns"></ZoomStartTime>
-      <ZoomEndTime time="521.562 ns"></ZoomEndTime>
-      <Cursor1Time time="405.961 ns"></Cursor1Time>
+      <ZoomStartTime time="1,500,137.400 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,500,527.801 ns"></ZoomEndTime>
+      <Cursor1Time time="1,500,430.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="148"></ValueColumnWidth>
+      <ValueColumnWidth column_width="142"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="27" />
+   <WVObjectSize size="36" />
    <wvobject type="array" fp_name="/blockram_file_tb/status">
       <obj_property name="ElementShortName">status[31:0]</obj_property>
       <obj_property name="ObjectShortName">status[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/blockram_file_tb/s00_axi_aclk">
-      <obj_property name="ElementShortName">s00_axi_aclk</obj_property>
-      <obj_property name="ObjectShortName">s00_axi_aclk</obj_property>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_aclk">
+      <obj_property name="ElementShortName">axi_aclk</obj_property>
+      <obj_property name="ObjectShortName">axi_aclk</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/enb">
       <obj_property name="ElementShortName">enb</obj_property>
@@ -48,84 +49,120 @@
       <obj_property name="ElementShortName">addrb[6:2]</obj_property>
       <obj_property name="ObjectShortName">addrb[6:2]</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_aresetn">
+      <obj_property name="ElementShortName">axi_aresetn</obj_property>
+      <obj_property name="ObjectShortName">axi_aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_awaddr">
+      <obj_property name="ElementShortName">axi_awaddr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_awaddr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_awprot">
+      <obj_property name="ElementShortName">axi_awprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_awprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_awvalid">
+      <obj_property name="ElementShortName">axi_awvalid</obj_property>
+      <obj_property name="ObjectShortName">axi_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_awready">
+      <obj_property name="ElementShortName">axi_awready</obj_property>
+      <obj_property name="ObjectShortName">axi_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_wdata">
+      <obj_property name="ElementShortName">axi_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_wstrb">
+      <obj_property name="ElementShortName">axi_wstrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_wstrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_wvalid">
+      <obj_property name="ElementShortName">axi_wvalid</obj_property>
+      <obj_property name="ObjectShortName">axi_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_wready">
+      <obj_property name="ElementShortName">axi_wready</obj_property>
+      <obj_property name="ObjectShortName">axi_wready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_bresp">
+      <obj_property name="ElementShortName">axi_bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_bvalid">
+      <obj_property name="ElementShortName">axi_bvalid</obj_property>
+      <obj_property name="ObjectShortName">axi_bvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_bready">
+      <obj_property name="ElementShortName">axi_bready</obj_property>
+      <obj_property name="ObjectShortName">axi_bready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_araddr">
+      <obj_property name="ElementShortName">axi_araddr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_araddr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_arprot">
+      <obj_property name="ElementShortName">axi_arprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_arprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/xi_arvalid">
+      <obj_property name="ElementShortName">xi_arvalid</obj_property>
+      <obj_property name="ObjectShortName">xi_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_arready">
+      <obj_property name="ElementShortName">axi_arready</obj_property>
+      <obj_property name="ObjectShortName">axi_arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_rdata">
+      <obj_property name="ElementShortName">axi_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/axi_rresp">
+      <obj_property name="ElementShortName">axi_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_rvalid">
+      <obj_property name="ElementShortName">axi_rvalid</obj_property>
+      <obj_property name="ObjectShortName">axi_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_rready">
+      <obj_property name="ElementShortName">axi_rready</obj_property>
+      <obj_property name="ObjectShortName">axi_rready</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/sync">
       <obj_property name="ElementShortName">sync</obj_property>
       <obj_property name="ObjectShortName">sync</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/ssync">
-      <obj_property name="ElementShortName">ssync</obj_property>
-      <obj_property name="ObjectShortName">ssync</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/blockram_file_tb/ctrl_reg">
       <obj_property name="ElementShortName">ctrl_reg[31:0]</obj_property>
       <obj_property name="ObjectShortName">ctrl_reg[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_output">
-      <obj_property name="ElementShortName">gate_output[0:3]</obj_property>
-      <obj_property name="ObjectShortName">gate_output[0:3]</obj_property>
+   <wvobject type="array" fp_name="/blockram_file_tb/state_dbg">
+      <obj_property name="ElementShortName">state_dbg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state_dbg[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/axi_arvalid">
+      <obj_property name="ElementShortName">axi_arvalid</obj_property>
+      <obj_property name="ObjectShortName">axi_arvalid</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/external_err">
       <obj_property name="ElementShortName">external_err</obj_property>
       <obj_property name="ObjectShortName">external_err</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/C_S00_AXI_DATA_WIDTH">
-      <obj_property name="ElementShortName">C_S00_AXI_DATA_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_S00_AXI_DATA_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/LOG2_BUFFER_SIZE">
-      <obj_property name="ElementShortName">LOG2_BUFFER_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">LOG2_BUFFER_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/C_S00_AXI_ADDR_WIDTH">
-      <obj_property name="ElementShortName">C_S00_AXI_ADDR_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">C_S00_AXI_ADDR_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/COUNT_SIZE">
-      <obj_property name="ElementShortName">COUNT_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">COUNT_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/IDX_SIZE">
-      <obj_property name="ElementShortName">IDX_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IDX_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/OUTPUT_WIDTH">
-      <obj_property name="ElementShortName">OUTPUT_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">OUTPUT_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/WORD_SIZE">
-      <obj_property name="ElementShortName">WORD_SIZE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WORD_SIZE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/NO_OF_STATES_OFFSET">
-      <obj_property name="ElementShortName">NO_OF_STATES_OFFSET[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NO_OF_STATES_OFFSET[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/T_TOLERANCE">
-      <obj_property name="ElementShortName">T_TOLERANCE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">T_TOLERANCE[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_state">
-      <obj_property name="ElementShortName">q_state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">q_state[2:0]</obj_property>
+   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_tcounter">
+      <obj_property name="ElementShortName">q_tcounter[24:0]</obj_property>
+      <obj_property name="ObjectShortName">q_tcounter[24:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_value">
       <obj_property name="ElementShortName">q_value[3:0]</obj_property>
       <obj_property name="ObjectShortName">q_value[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_tcounter">
-      <obj_property name="ElementShortName">q_tcounter[24:0]</obj_property>
-      <obj_property name="ObjectShortName">q_tcounter[24:0]</obj_property>
+   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/RUN">
+      <obj_property name="ElementShortName">RUN</obj_property>
+      <obj_property name="ObjectShortName">RUN</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/addrb">
-      <obj_property name="ElementShortName">addrb[6:2]</obj_property>
-      <obj_property name="ObjectShortName">addrb[6:2]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_idx">
-      <obj_property name="ElementShortName">q_idx[3:0]</obj_property>
-      <obj_property name="ObjectShortName">q_idx[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/addrb">
-      <obj_property name="ElementShortName">addrb[4:0]</obj_property>
-      <obj_property name="ObjectShortName">addrb[4:0]</obj_property>
+   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/gate_output_pin">
+      <obj_property name="ElementShortName">gate_output_pin[0:3]</obj_property>
+      <obj_property name="ObjectShortName">gate_output_pin[0:3]</obj_property>
    </wvobject>
 </wave_config>
