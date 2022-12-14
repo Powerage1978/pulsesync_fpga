@@ -120,9 +120,9 @@ module myip_v1_0_S00_AXI #
 
 
 	// BLockRAM assignments
-	parameter RAM_DEPTH = 2 ** LOG2_BUFFER_SIZE;    // Specify RAM depth (number of entries)
-	parameter RAM_PERFORMANCE = "HIGH_PERFORMANCE"; // Select "HIGH_PERFORMANCE" or "LOW_LATENCY" 
-	parameter INIT_FILE = "testdata.txt";           // Specify name/location of RAM initialization file if using one (leave blank if not)
+	localparam RAM_DEPTH = 2 ** LOG2_BUFFER_SIZE;    // Specify RAM depth (number of entries)
+	localparam RAM_PERFORMANCE = "HIGH_PERFORMANCE"; // Select "HIGH_PERFORMANCE" or "LOW_LATENCY" 
+	localparam INIT_FILE = "/home/mads/work/projects/picotem-transceiver-fpga/picotem-transceiver-fpga/picotem-transceiver-fpga.srcs/sources_1/imports/hdl/testdata.txt";           // Specify name/location of RAM initialization file if using one (leave blank if not)
 
 	wire [clogb2(RAM_DEPTH-1)-1:0] addra;           // Write address bus, width determined from RAM_DEPTH
 	// wire [clogb2(RAM_DEPTH-1)-1:0] addrb;           // Read address bus, width determined from RAM_DEPTH

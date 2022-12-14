@@ -38,3 +38,8 @@ xsim.dir/
 # Generated Vivado project dir
 picotem-transceiver-fpga/
 
+# Temporary VIvado directory for bookkeeping
+.Xil
+
+# Temp directory
+tmp/

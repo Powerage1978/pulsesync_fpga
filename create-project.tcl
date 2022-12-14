@@ -147,8 +147,11 @@ set obj [get_filesets sources_1]
 # Import local files from the original project
 set files [list \
  [file normalize "${origin_dir}/src/hdl/myip_v1_0_S00_AXI.v" ]\
+ [file normalize "${origin_dir}/src/hdl/toplevel.sv" ]\
+ [file normalize "${origin_dir}/src/hdl/gate_driver.sv" ]\
+ [file normalize "${origin_dir}/src/txt/testdata.txt" ]\
 ]
-set imported_files [import_files -fileset sources_1 $files]
+set added_files [add_files -fileset sources_1 $files]
 
 # Set 'sources_1' fileset file properties for remote files
 # None
@@ -158,7 +161,7 @@ set imported_files [import_files -fileset sources_1 $files]
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]
-set_property -name "top" -value "myip_v1_0_S00_AXI" -objects $obj
+set_property -name "top" -value "toplevel" -objects $obj
 set_property -name "top_auto_set" -value "0" -objects $obj
 
 # Create 'constrs_1' fileset (if not found)
@@ -190,9 +193,11 @@ set obj [get_filesets sim_1]
 # Import local files from the original project
 set files [list \
  [file normalize "${origin_dir}/sim/myip_v1_0_S00_AXI_tb.sv" ]\
+ [file normalize "${origin_dir}/sim/blockram_file_tb.sv" ]\
+ [file normalize "${origin_dir}/sim/gate_driver_tb.sv" ]\
  [file normalize "${origin_dir}/sim/cfg/myip_v1_0_S00_AXI_tb_behav.wcfg" ]\
 ]
-set imported_files [import_files -fileset sim_1 $files]
+set added_files [add_files -fileset sim_1 $files]
 
 # Set 'sim_1' fileset file properties for remote files
 # None
@@ -207,3 +212,9 @@ set_property -name "top_auto_set" -value "0" -objects $obj
 set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
 
 
+# Create block design
+source $origin_dir/src/bd/proc_module.tcl
+
+# Generate the wrapper
+set design_name [get_bd_designs]
+make_wrapper -files [get_files $design_name.bd] -top -import

@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,000.001 ns"></ZoomEndTime>
-      <Cursor1Time time="105.428 ns"></Cursor1Time>
+      <ZoomStartTime time="221.220 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,155.757 ns"></ZoomEndTime>
+      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="178"></ValueColumnWidth>
+      <ValueColumnWidth column_width="154"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="34" />
+   <WVObjectSize size="31" />
    <wvobject type="logic" fp_name="/myip_v1_0_S00_AXI_tb/s00_axi_aclk">
       <obj_property name="ElementShortName">s00_axi_aclk</obj_property>
       <obj_property name="ObjectShortName">s00_axi_aclk</obj_property>
@@ -36,13 +36,13 @@
       <obj_property name="ElementShortName">regceb</obj_property>
       <obj_property name="ObjectShortName">regceb</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/addrb">
-      <obj_property name="ElementShortName">addrb[4:0]</obj_property>
-      <obj_property name="ObjectShortName">addrb[4:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/doutb">
       <obj_property name="ElementShortName">doutb[31:0]</obj_property>
       <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/addrb">
+      <obj_property name="ElementShortName">addrb[6:2]</obj_property>
+      <obj_property name="ObjectShortName">addrb[6:2]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/myip_v1_0_S00_AXI_tb/s00_axi_aresetn">
       <obj_property name="ElementShortName">s00_axi_aresetn</obj_property>
@@ -136,21 +136,9 @@
       <obj_property name="ElementShortName">C_S00_AXI_ADDR_WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">C_S00_AXI_ADDR_WIDTH[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/slv_reg_rden">
-      <obj_property name="ElementShortName">slv_reg_rden</obj_property>
-      <obj_property name="ObjectShortName">slv_reg_rden</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/slv_reg_wren">
-      <obj_property name="ElementShortName">slv_reg_wren</obj_property>
-      <obj_property name="ObjectShortName">slv_reg_wren</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/status_reg">
-      <obj_property name="ElementShortName">status_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">status_reg[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/wea">
-      <obj_property name="ElementShortName">wea</obj_property>
-      <obj_property name="ObjectShortName">wea</obj_property>
+   <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/ram_data">
+      <obj_property name="ElementShortName">ram_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_data[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/myip_v1_0_S00_AXI_tb/myip_v1_0_S00_AXI_dut/ram_state_settings">
       <obj_property name="ElementShortName">ram_state_settings[31:0][31:0]</obj_property>

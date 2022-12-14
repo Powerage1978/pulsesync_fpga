@@ -1,10 +1,13 @@
+`timescale 1ns / 1ps
 module gate_driver # (
     parameter integer COUNT_SIZE = 25,
     parameter integer IDX_SIZE = 4,
     parameter integer OUTPUT_WIDTH = 4,
     parameter integer WORD_SIZE = 32,
     parameter integer NO_OF_STATES_OFFSET = 8,
-    parameter integer T_TOLERANCE = 0
+    parameter integer T_TOLERANCE = 0,
+    parameter integer STATUS_SIZE = 3
+    
 )
 (
     // System clock domain
@@ -17,6 +20,7 @@ module gate_driver # (
     output logic [WORD_SIZE-1:0] status,
     output logic enb,
     output logic regceb,
+    output logic [STATUS_SIZE-1:0] state_dbg,
 
     // External clock domain
     input logic sync,
@@ -25,9 +29,9 @@ module gate_driver # (
 
 
 localparam NUM_STAGES = 3;
-localparam STATUS_SIZE = 3;
+// localparam STATUS_SIZE = 3;
 
-typedef enum bit[STATUS_SIZE-1:0] {ERR = 3'b000, STOP, A, A2, B, C, D} state_t;
+typedef enum bit[STATUS_SIZE-1:0] {ERR = 3'b001, STOP, A, A2, B, C, D} state_t;
 typedef enum bit {TIME = 0, VALUE} tv_select_t;
 
 state_t q_state;
@@ -36,39 +40,42 @@ state_t d_state;
 assign status[STATUS_SIZE-1 : 0] = q_state;
 assign status[WORD_SIZE-1 : STATUS_SIZE] = {(WORD_SIZE - STATUS_SIZE){1'b0}};
 
-assign addrb = {q_idx, q_tv_select};
-
 logic [COUNT_SIZE-1 : 0] q_tcounter;
 logic [COUNT_SIZE-1 : 0] d_tcounter;
-
 logic [IDX_SIZE-1 : 0] q_idx;
 logic [IDX_SIZE-1 : 0] d_idx;
-
 logic [OUTPUT_WIDTH-1 : 0] q_value;
 logic [OUTPUT_WIDTH-1 : 0] d_value;
-
 logic q_mon_time;
 logic d_mon_time;
-
 logic q_reset_output, d_reset_output;
-
 logic RUN;
-assign RUN = ctrl_reg[0];
-
 logic SYNC_TOO_LATE;
-assign SYNC_TOO_LATE = q_tcounter[COUNT_SIZE-1];
-
 logic [IDX_SIZE-1 : 0] NO_OF_STATES;
-assign NO_OF_STATES = ctrl_reg[NO_OF_STATES_OFFSET+IDX_SIZE-1 : NO_OF_STATES_OFFSET];
-
 logic ssync;
 logic [NUM_STAGES:1] sync_reg;
 
 tv_select_t q_tv_select, d_tv_select;
 
+// Assignemnts
+
 assign enb = 1'b1;
 assign regceb = 1'b1;
 
+assign addrb = {q_idx, q_tv_select};
+
+// assign NO_OF_STATES = ctrl_reg[NO_OF_STATES_OFFSET+IDX_SIZE-1 : NO_OF_STATES_OFFSET];
+assign NO_OF_STATES = 8;
+
+// assign RUN = ctrl_reg[0];
+assign RUN = 1'b1;
+
+assign SYNC_TOO_LATE = q_tcounter[COUNT_SIZE-1];
+
+assign state_dbg = q_state;
+
+
+/*
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         q_reset_output <= 1;
@@ -77,8 +84,9 @@ always @(posedge clk or negedge rst_n) begin
         q_reset_output <= d_reset_output;
     end
 end
+*/
 
-always @(posedge clk)
+always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n) begin
         q_state <= STOP;
@@ -87,6 +95,7 @@ begin
         q_value <= 0;
         q_mon_time <= 0;
         q_tv_select <= TIME;
+        q_reset_output <= 1;
     end
     else begin
         q_state <= d_state;
@@ -159,7 +168,7 @@ begin
                 d_state = C;
                 d_reset_output = 0;
                 d_tcounter = doutb;
-                q_tv_select <= TIME;
+                d_tv_select = TIME;
             end
         end
     C:
