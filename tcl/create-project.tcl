@@ -32,7 +32,7 @@
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 #set origin_dir "."
 # Set the reference directory to where the script is
-set origin_dir [file dirname [info script]]
+set origin_dir "[pwd]"
 
 # Use origin directory path location variable, if specified in the tcl shell
 if { [info exists ::origin_dir_loc] } {
@@ -117,7 +117,7 @@ set proj_dir [get_property directory [current_project]]
 
 # Set project properties
 set obj [current_project]
-set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/../../../.Xilinx/Vivado/2022.1/xhub/board_store/xilinx_board_store"]" -objects $obj
+set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/board_store"]" -objects $obj
 set_property -name "board_part" -value "trenz.biz:te0720_20_2i:part0:1.0" -objects $obj
 set_property -name "default_lib" -value "xil_defaultlib" -objects $obj
 set_property -name "enable_resource_estimation" -value "0" -objects $obj
