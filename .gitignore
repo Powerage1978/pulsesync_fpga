@@ -8,6 +8,7 @@
 *.srcs/
 *.gen/
 *.ioplanning/
+ip_repo/
 
 # Vivado project files
 *.xpr
@@ -43,3 +44,8 @@ picotem-transceiver-fpga/
 
 # Temp directory
 tmp/
+
+# Makefile temp variables
+.comp_sv.timestamp
+.comp_v.timestamp
+.comp_vhdl.timestamp
