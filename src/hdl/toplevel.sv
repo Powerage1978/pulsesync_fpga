@@ -172,7 +172,7 @@ module toplevel #(
 		.regceb(regceb),
 		.state_dbg(state_dbg),
 		.sync(sync),
-		.gate_output(gate_output)
+		.gate_output_pin(gate_output)
 	);
 
 	myip_v1_0_S00_AXI #(

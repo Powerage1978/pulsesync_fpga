@@ -24,7 +24,7 @@ module gate_driver # (
 
     // External clock domain
     input logic sync,
-    output logic gate_output[OUTPUT_WIDTH]
+    output logic gate_output_pin[OUTPUT_WIDTH]
 );
 
 
@@ -54,6 +54,7 @@ logic SYNC_TOO_LATE;
 logic [IDX_SIZE-1 : 0] NO_OF_STATES;
 logic ssync;
 logic [NUM_STAGES:1] sync_reg;
+logic gate_output[OUTPUT_WIDTH];
 
 tv_select_t q_tv_select, d_tv_select;
 
@@ -73,6 +74,14 @@ assign RUN = 1'b1;
 assign SYNC_TOO_LATE = q_tcounter[COUNT_SIZE-1];
 
 assign state_dbg = q_state;
+
+generate
+    genvar i;
+    for (i = 0; i < OUTPUT_WIDTH; i++) begin
+        assign gate_output_pin[i] = gate_output[i] ? 1'b0 : 1'bZ;
+    end
+
+endgenerate
 
 
 /*
@@ -227,7 +236,6 @@ always @ (posedge clk) begin
 end
 
 generate
-    genvar i;
     for (i = 0; i < OUTPUT_WIDTH; i++) begin
         always @ (posedge sync or posedge q_reset_output) begin
             if (q_reset_output) begin
