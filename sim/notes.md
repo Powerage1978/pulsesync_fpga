@@ -25,3 +25,10 @@ xsim myip_tb_snapshot --tclbatch tcl/xsim_cfg.tcl --wdb sim/myip_tb_snapshot.wdb
 ```
 xsim --gui sim/myip_tb_snapshot.wdb -view sim/cfg/myip_v1_0_S00_AXI_tb_behav.wcfg -tempDir tmp --nolog
 ```
+
+
+Run a single test:
+
+```
+make simulate TB_TOP="axi4lite_bram_tb"
+```

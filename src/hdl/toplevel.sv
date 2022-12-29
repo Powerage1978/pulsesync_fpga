@@ -1,41 +1,22 @@
 `timescale 1ns / 1ps
 
+import axi4lite_pkg::*;
+import gatedriver_pkg::*;
+
 module toplevel #(
-    parameter C_S_AXI_DATA_WIDTH = 32,
-    parameter LOG2_BUFFER_SIZE = 5,
-    parameter C_S_AXI_ADDR_WIDTH	= LOG2_BUFFER_SIZE + 3,
-	parameter integer COUNT_SIZE = 25,
-	parameter integer IDX_SIZE = 4,
-	parameter integer OUTPUT_WIDTH = 4,
-	parameter integer WORD_SIZE = 32,
-	parameter integer NO_OF_STATES_OFFSET = 8,
-	parameter integer T_TOLERANCE = 24,
-	parameter integer STATUS_SIZE = 3
+
 )
 (
-        // Internal clock domain
-        output logic [STATUS_SIZE-1:0]state_dbg,
-        output logic clk_dbg,
-        output logic sync_dbg,
-        
-		// External clock domain
-        input logic sync_in_n,
-        input logic sync_in_p,
-        output logic gate_output[OUTPUT_WIDTH]
-        );
-
-    /*
-	localparam C_S_AXI_DATA_WIDTH = 32;
-    localparam LOG2_BUFFER_SIZE = 5;
-    localparam C_S_AXI_ADDR_WIDTH	= LOG2_BUFFER_SIZE + 3;
-	localparam integer COUNT_SIZE = 25;
-	localparam integer IDX_SIZE = 4;
-	localparam integer OUTPUT_WIDTH = 4;
-	localparam integer WORD_SIZE = 32;
-	localparam integer NO_OF_STATES_OFFSET = 8;
-	localparam integer T_TOLERANCE = 10;
-	*/
-
+	// Internal clock domain
+	output logic [C_STATUS_SIZE-1:0]state_dbg,
+	output logic clk_dbg,
+	output logic sync_dbg,
+	
+	// External clock domain
+	input logic sync_in_n,
+	input logic sync_in_p,
+	output logic gate_output[C_OUTPUT_WIDTH]
+	);
 
     logic sync_single_ended;
     logic sync;
@@ -65,20 +46,19 @@ module toplevel #(
 	logic FIXED_IO_ps_clk;
 	logic FIXED_IO_ps_porb;
 	logic FIXED_IO_ps_srstb;
-	// logic M_AXI_GP0_ACLK;
 	
 
     // Gate driver
 	logic external_err;
-	logic [WORD_SIZE-1:0] ctrl_reg;
+	logic [C_WORD_SIZE-1:0] ctrl_reg;
 	
 	// Myip axi
-	logic [WORD_SIZE-1:0]status;
+	logic [C_WORD_SIZE-1:0]status;
 	logic enb;
 	logic rstb;
 	logic regceb;
-	logic [IDX_SIZE:0]addrb;
-	logic [WORD_SIZE-1:0]doutb;
+	logic [C_IDX_SIZE:0]addrb;
+	logic [C_WORD_SIZE-1:0]doutb;
 	
 	logic S_AXI_AWADDR;
 	logic S_AXI_AWPROT;
@@ -95,51 +75,51 @@ module toplevel #(
     logic [2 : 0] S_AXI_ARPROT;
     logic S_AXI_ARVALID;
     logic S_AXI_ARREADY;
-    logic [WORD_SIZE-1 : 0] S_AXI_RDATA;
+    logic [C_WORD_SIZE-1 : 0] S_AXI_RDATA;
     logic [1 : 0] S_AXI_RRESP;
     logic S_AXI_RVALID;
     logic S_AXI_RREADY;
     
-      // AXI
-      logic M00_AXI_arvalid;
-      logic M00_AXI_awvalid;
-      logic M00_AXI_bready;
-      logic M00_AXI_rready;
-      logic M00_AXI_wlast;
-      logic M00_AXI_wvalid;
-      logic [11:0]M00_AXI_arid;
-      logic [11:0]M00_AXI_awid;
-      logic [11:0]M00_AXI_wid;
-      logic [1:0]M00_AXI_arburst;
-      logic [1:0]M00_AXI_arlock;
-      logic [2:0]M00_AXI_arsize;
-      logic [1:0]M00_AXI_awburst;
-      logic [1:0]M00_AXI_awlock;
-      logic [2:0]M00_AXI_awsize;
-      logic [2:0]M00_AXI_arprot;
-      logic [2:0]M00_AXI_awprot;
-      logic [31:0]M00_AXI_araddr;
-      logic [31:0]M00_AXI_awaddr;
-      logic [31:0]M00_AXI_wdata;
-      logic [3:0]M00_AXI_arcache;
-      logic [3:0]M00_AXI_arlen;
-      logic [3:0]M00_AXI_arqos;
-      logic [3:0]M00_AXI_awcache;
-      logic [3:0]M00_AXI_awlen;
-      logic [3:0]M00_AXI_awqos;
-      logic [3:0]M00_AXI_wstrb;
-      logic M00_AXI_ACLK;
-      logic M00_AXI_arready;
-      logic M00_AXI_awready;
-      logic M00_AXI_bvalid;
-      logic M00_AXI_rlast;
-      logic M00_AXI_rvalid;
-      logic M00_AXI_wready;
-      logic [11:0]M00_AXI_bid;
-      logic [11:0]M00_AXI_rid;
-      logic [1:0]M00_AXI_bresp;
-      logic [1:0]M00_AXI_rresp;
-      logic [31:0]M00_AXI_rdata;
+	// AXI
+	logic M00_AXI_arvalid;
+	logic M00_AXI_awvalid;
+	logic M00_AXI_bready;
+	logic M00_AXI_rready;
+	logic M00_AXI_wlast;
+	logic M00_AXI_wvalid;
+	logic [11:0]M00_AXI_arid;
+	logic [11:0]M00_AXI_awid;
+	logic [11:0]M00_AXI_wid;
+	logic [1:0]M00_AXI_arburst;
+	logic [1:0]M00_AXI_arlock;
+	logic [2:0]M00_AXI_arsize;
+	logic [1:0]M00_AXI_awburst;
+	logic [1:0]M00_AXI_awlock;
+	logic [2:0]M00_AXI_awsize;
+	logic [2:0]M00_AXI_arprot;
+	logic [2:0]M00_AXI_awprot;
+	logic [31:0]M00_AXI_araddr;
+	logic [31:0]M00_AXI_awaddr;
+	logic [31:0]M00_AXI_wdata;
+	logic [3:0]M00_AXI_arcache;
+	logic [3:0]M00_AXI_arlen;
+	logic [3:0]M00_AXI_arqos;
+	logic [3:0]M00_AXI_awcache;
+	logic [3:0]M00_AXI_awlen;
+	logic [3:0]M00_AXI_awqos;
+	logic [3:0]M00_AXI_wstrb;
+	logic M00_AXI_ACLK;
+	logic M00_AXI_arready;
+	logic M00_AXI_awready;
+	logic M00_AXI_bvalid;
+	logic M00_AXI_rlast;
+	logic M00_AXI_rvalid;
+	logic M00_AXI_wready;
+	logic [11:0]M00_AXI_bid;
+	logic [11:0]M00_AXI_rid;
+	logic [1:0]M00_AXI_bresp;
+	logic [1:0]M00_AXI_rresp;
+	logic [31:0]M00_AXI_rdata;
 
 
 	// input wire sync;
@@ -147,19 +127,14 @@ module toplevel #(
 
     assign external_err = 1'b0;
     assign rstb = 0;
-    assign ctrl_reg[NO_OF_STATES_OFFSET+IDX_SIZE-1 : NO_OF_STATES_OFFSET] = 4;
+    assign ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 4;
     assign ctrl_reg[0] = 1'b1;
     
     assign clk_dbg = FCLK_CLK0;
     assign sync_dbg = sync;
     
 	gate_driver #(
-		.COUNT_SIZE(COUNT_SIZE),
-		.IDX_SIZE(IDX_SIZE),
-		.OUTPUT_WIDTH(OUTPUT_WIDTH),
-		.WORD_SIZE(WORD_SIZE),
-		.NO_OF_STATES_OFFSET(NO_OF_STATES_OFFSET),
-		.T_TOLERANCE(T_TOLERANCE)
+
 	) gate_driver_instance(
 		.clk(FCLK_CLK0),
 		.rst_n(FCLK_RESET0_N),
@@ -175,40 +150,36 @@ module toplevel #(
 		.gate_output_pin(gate_output)
 	);
 
-	myip_v1_0_S00_AXI #(
-		.LOG2_BUFFER_SIZE(LOG2_BUFFER_SIZE),
-		.C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
-		.C_S_AXI_ADDR_WIDTH(C_S_AXI_ADDR_WIDTH)
-	) myip_v1_0_S00_AXI_instance(
-	    .status(status),
-		.enb(enb),
-		.rstb(rstb),
-		.regceb(regceb),
-		.addrb(addrb),
-		.doutb(doutb),
-		.S_AXI_ACLK(FCLK_CLK0),
-		.S_AXI_ARESETN(FCLK_RESET0_N),
-		.S_AXI_AWADDR(S_AXI_AWADDR),
-		.S_AXI_AWPROT(S_AXI_AWPROT),
-		.S_AXI_AWVALID(S_AXI_AWVALID),
-		.S_AXI_AWREADY(S_AXI_AWREADY),
-		.S_AXI_WDATA(S_AXI_WDATA),
-		.S_AXI_WSTRB(S_AXI_WSTRB),
-		.S_AXI_WVALID(S_AXI_WVALID),
-		.S_AXI_WREADY(S_AXI_WREADY),
-		.S_AXI_BRESP(S_AXI_BRESP),
-		.S_AXI_BVALID(S_AXI_BVALID),
-		.S_AXI_BREADY(S_AXI_BREADY),
-		.S_AXI_ARADDR(S_AXI_ARADDR),
-		.S_AXI_ARPROT(S_AXI_ARPROT),
-		.S_AXI_ARVALID(S_AXI_ARVALID),
-		.S_AXI_ARREADY(S_AXI_ARREADY),
-		.S_AXI_RDATA(S_AXI_RDATA),
-		.S_AXI_RRESP(S_AXI_RRESP),
-		.S_AXI_RVALID(S_AXI_RVALID),
-		.S_AXI_RREADY(S_AXI_RREADY)
+	axi4lite_bram #(
+
+	) axi4lite_bram_instance(
+		.s_axi_aclk(FCLK_CLK0),
+        .s_axi_aresetn(FCLK_RESET0_N),
+        .doutb(doutb),
+        .status_reg(status),
+        .enb(enb),
+        .regceb(regceb),
+        .s_axi_awaddr(M00_AXI_awaddr),
+        .s_axi_awprot(M00_AXI_awprot),
+        .s_axi_awvalid(M00_AXI_awvalid),
+        .s_axi_rready(M00_AXI_rready),
+        .s_axi_wdata(M00_AXI_wdata),
+        .s_axi_wstrb(M00_AXI_wstrb),
+        .s_axi_wvalid(M00_AXI_wvalid),
+        .s_axi_bready(M00_AXI_bready),
+        .s_axi_araddr(M00_AXI_araddr),
+        .s_axi_arprot(M00_AXI_arprot),
+        .s_axi_arvalid(M00_AXI_arvalid),
+        .s_axi_arready(M00_AXI_arready),
+        .s_axi_rdata(M00_AXI_rdata),
+        .s_axi_rresp(M00_AXI_rresp),
+        .s_axi_rvalid(M00_AXI_rvalid),
+        .s_axi_wready(M00_AXI_wready),
+        .s_axi_bresp(M00_AXI_bresp),
+        .s_axi_bvalid(M00_AXI_bvalid),
+        .s_axi_awready(M00_AXI_awready)
 	);
-	
+
 	proc_module_wrapper proc_module_wrapper_instance(
 		.DDR_addr(DDR_addr),
 		.DDR_ba(DDR_ba),

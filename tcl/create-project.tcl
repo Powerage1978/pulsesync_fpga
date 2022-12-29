@@ -29,9 +29,8 @@
 #
 #*****************************************************************************************
 
-# Set the reference directory for source file relative paths (by default the value is script directory path)
-#set origin_dir "."
-# Set the reference directory to where the script is
+
+# Set the reference directory to project root folder
 set origin_dir "[pwd]"
 
 # Use origin directory path location variable, if specified in the tcl shell
@@ -146,10 +145,14 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 set obj [get_filesets sources_1]
 # Import local files from the original project
 set files [list \
- [file normalize "${origin_dir}/src/hdl/myip_v1_0_S00_AXI.v" ]\
- [file normalize "${origin_dir}/src/hdl/toplevel.sv" ]\
- [file normalize "${origin_dir}/src/hdl/gate_driver.sv" ]\
- [file normalize "${origin_dir}/src/txt/testdata.txt" ]\
+  [file normalize "${origin_dir}/src/hdl/axi4lite_pkg.sv"]\
+  [file normalize "${origin_dir}/src/hdl/gatedriver_pkg.sv"]\
+  [file normalize "${origin_dir}/src/hdl/axi4lite.sv"]\
+  [file normalize "${origin_dir}/src/hdl/axi4lite_bram.sv"]\
+  [file normalize "${origin_dir}/src/hdl/bram.sv"]\
+  [file normalize "${origin_dir}/src/hdl/toplevel.sv"]\
+  [file normalize "${origin_dir}/src/hdl/gate_driver.sv"]\
+  [file normalize "${origin_dir}/src/txt/testdata.txt"]\
 ]
 set added_files [add_files -fileset sources_1 $files]
 
@@ -192,10 +195,16 @@ if {[string equal [get_filesets -quiet sim_1] ""]} {
 set obj [get_filesets sim_1]
 # Import local files from the original project
 set files [list \
- [file normalize "${origin_dir}/sim/myip_v1_0_S00_AXI_tb.sv" ]\
- [file normalize "${origin_dir}/sim/blockram_file_tb.sv" ]\
- [file normalize "${origin_dir}/sim/gate_driver_tb.sv" ]\
- [file normalize "${origin_dir}/sim/cfg/myip_v1_0_S00_AXI_tb_behav.wcfg" ]\
+  [file normalize "${origin_dir}/sim/sim_pkg.sv"]\
+  [file normalize "${origin_dir}/sim/axi4lite_bram_tb.sv"]\
+  [file normalize "${origin_dir}/sim/axi4lite_tb.sv"]\
+  [file normalize "${origin_dir}/sim/blockram_file_tb.sv"]\
+  [file normalize "${origin_dir}/sim/gate_driver_tb.sv"]\
+  [file normalize "${origin_dir}/sim/bram_tb.sv"]\
+  [file normalize "${origin_dir}/sim/cfg/axi4lite_bram_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]\
 ]
 set added_files [add_files -fileset sim_1 $files]
 
@@ -207,7 +216,7 @@ set added_files [add_files -fileset sim_1 $files]
 
 # Set 'sim_1' fileset properties
 set obj [get_filesets sim_1]
-set_property -name "top" -value "myip_v1_0_S00_AXI_tb" -objects $obj
+set_property -name "top" -value "bram_tb" -objects $obj
 set_property -name "top_auto_set" -value "0" -objects $obj
 set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
 
