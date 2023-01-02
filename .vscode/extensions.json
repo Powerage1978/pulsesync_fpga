@@ -1,6 +1,9 @@
 {
     "recommendations": [
         "bitwisecook.tcl",
-        "mshr-h.veriloghdl"
+        "mshr-h.veriloghdl",
+        "jebbs.plantuml",
+        "bmpenuelas.systemverilog-formatter-vscode",
+        "bmpenuelas.waveform-render"
     ]
-  }
+}

@@ -128,3 +128,11 @@ vivado-implementation :
 .PHONY : vivado-bitstream
 vivado-bitstream : 
 	vivado -mode batch -source tcl/create-bitstream.tcl
+
+.PHONY : build-docs
+build-docs :
+	sphinx-build -b html doc/. doc/_build
+
+.PHONY : clean-docs
+clean-docs :
+	rm -rf doc/_build/
