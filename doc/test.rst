@@ -35,6 +35,14 @@ Inline wavedrom
         ]}
 
 
-Referenced WaveDrom file
+Referenced WaveDrom files
 
 .. wavedrom:: ./wavedrom/test.json
+
+Some random text
+
+.. wavedrom:: ./wavedrom/bitfield.json
+
+Some more random text
+
+.. wavedrom:: ./wavedrom/bitfield2.json
