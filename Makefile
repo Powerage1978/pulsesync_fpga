@@ -6,12 +6,14 @@ SOURCES_SV := \
 	src/hdl/axi4lite.sv \
 	src/hdl/gate_driver.sv \
 	src/hdl/toplevel.sv \
+	src/hdl/pwm.sv \
 	sim/sim_pkg.sv \
 	sim/bram_tb.sv \
 	sim/axi4lite_bram_tb.sv \
 	sim/axi4lite_tb.sv \
 	sim/blockram_file_tb.sv \
-	sim/gate_driver_tb.sv
+	sim/gate_driver_tb.sv \
+	sim/pwm_tb.sv
 
 COMP_OPTS_SV := \
     --incr \
@@ -43,7 +45,7 @@ simulate : $(TB_TOP)_snapshot.wdb
 .PHONY : waves
 waves : $(TB_TOP)_snapshot.wdb
 	@echo "OPENING WAVES"
-	xsim --gui sim/myip_tb_snapshot.wdb -view sim/cfg/myip_v1_0_S00_AXI_tb_behav.wcfg -tempDir tmp --nolog
+	xsim --gui sim/$(TB_TOP)_snapshot.wdb -view sim/cfg/$(TB_TOP)_behav.wcfg -tempDir tmp --nolog
 
 $(TB_TOP)_snapshot.wdb : .elab.timestamp
 	@echo
