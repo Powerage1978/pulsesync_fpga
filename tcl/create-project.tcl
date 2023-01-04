@@ -153,6 +153,7 @@ set files [list \
   [file normalize "${origin_dir}/src/hdl/toplevel.sv"]\
   [file normalize "${origin_dir}/src/hdl/gate_driver.sv"]\
   [file normalize "${origin_dir}/src/hdl/pwm.sv"]\
+  [file normalize "${origin_dir}/src/hdl/dcdc.sv"]\
   [file normalize "${origin_dir}/src/txt/testdata.txt"]\
 ]
 set added_files [add_files -fileset sources_1 $files]
@@ -203,11 +204,13 @@ set files [list \
   [file normalize "${origin_dir}/sim/gate_driver_tb.sv"]\
   [file normalize "${origin_dir}/sim/bram_tb.sv"]\
   [file normalize "${origin_dir}/sim/pwm_tb.sv"]\
+  [file normalize "${origin_dir}/sim/dcdc_tb.sv"]\
   [file normalize "${origin_dir}/sim/cfg/axi4lite_bram_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/pwm_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/dcdc_tb_behav.wcfg"]\
 ]
 set added_files [add_files -fileset sim_1 $files]
 
