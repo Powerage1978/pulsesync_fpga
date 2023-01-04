@@ -109,8 +109,7 @@ end
 always @ (posedge clk) begin
     if (!rst_n) begin
         pwm_out_q <= 0;
-    end
-    else begin
+    end else begin
         pwm_out_q = pwm_out_d;
     end
 end

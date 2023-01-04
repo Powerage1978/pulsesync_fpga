@@ -7,13 +7,15 @@ SOURCES_SV := \
 	src/hdl/gate_driver.sv \
 	src/hdl/toplevel.sv \
 	src/hdl/pwm.sv \
+	src/hdl/dcdc.sv \
 	sim/sim_pkg.sv \
 	sim/bram_tb.sv \
 	sim/axi4lite_bram_tb.sv \
 	sim/axi4lite_tb.sv \
 	sim/blockram_file_tb.sv \
 	sim/gate_driver_tb.sv \
-	sim/pwm_tb.sv
+	sim/pwm_tb.sv \
+	sim/dcdc_tb.sv
 
 COMP_OPTS_SV := \
     --incr \
