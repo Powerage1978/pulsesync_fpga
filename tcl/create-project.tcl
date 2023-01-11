@@ -147,6 +147,7 @@ set obj [get_filesets sources_1]
 set files [list \
   [file normalize "${origin_dir}/src/hdl/axi4lite_pkg.sv"]\
   [file normalize "${origin_dir}/src/hdl/gatedriver_pkg.sv"]\
+  [file normalize "${origin_dir}/src/hdl/zynq_interface_pkg.sv"]\
   [file normalize "${origin_dir}/src/hdl/axi4lite.sv"]\
   [file normalize "${origin_dir}/src/hdl/axi4lite_bram.sv"]\
   [file normalize "${origin_dir}/src/hdl/bram.sv"]\
@@ -154,6 +155,7 @@ set files [list \
   [file normalize "${origin_dir}/src/hdl/gate_driver.sv"]\
   [file normalize "${origin_dir}/src/hdl/pwm.sv"]\
   [file normalize "${origin_dir}/src/hdl/dcdc.sv"]\
+  [file normalize "${origin_dir}/src/hdl/sync_generator.sv"]\
   [file normalize "${origin_dir}/src/txt/testdata.txt"]\
 ]
 set added_files [add_files -fileset sources_1 $files]
@@ -205,6 +207,8 @@ set files [list \
   [file normalize "${origin_dir}/sim/bram_tb.sv"]\
   [file normalize "${origin_dir}/sim/pwm_tb.sv"]\
   [file normalize "${origin_dir}/sim/dcdc_tb.sv"]\
+  [file normalize "${origin_dir}/sim/sync_generator_tb.sv"]\
+  [file normalize "${origin_dir}/sim/toplevel_tb.sv"]\
   [file normalize "${origin_dir}/sim/cfg/axi4lite_bram_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]\
@@ -225,6 +229,13 @@ set obj [get_filesets sim_1]
 set_property -name "top" -value "bram_tb" -objects $obj
 set_property -name "top_auto_set" -value "0" -objects $obj
 set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
+
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/axi4lite_bram_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/dcdc_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/pwm_tb_behav.wcfg"]
 
 
 # Create block design

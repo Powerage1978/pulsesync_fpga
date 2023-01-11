@@ -68,11 +68,11 @@ assign regceb = 1'b1;
 
 assign addrb = {q_idx, q_tv_select};
 
-assign NO_OF_STATES = ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET];
-// assign NO_OF_STATES = 8;
+// assign NO_OF_STATES = ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET];
+assign NO_OF_STATES = 8;
 
-assign RUN = ctrl_reg[0];
-// assign RUN = 1'b1;
+// assign RUN = ctrl_reg[0];
+assign RUN = 1'b1;
 
 assign SYNC_TOO_LATE = q_tcounter[C_COUNT_SIZE-1];
 

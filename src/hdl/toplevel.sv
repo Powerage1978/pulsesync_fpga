@@ -2,11 +2,35 @@
 
 import axi4lite_pkg::*;
 import gatedriver_pkg::*;
+import zynq_interface_pkg::*;
 
 module toplevel #(
 
 )
 (
+	// ZYNQ I/O
+	inout logic [C_DDR_ADDR_WIDTH-1 : 0]DDR_addr,
+	inout logic [C_DDR_BANKADDR_WIDTH-1 : 0]DDR_ba,
+	inout logic DDR_cas_n,
+	inout logic DDR_ck_n,
+	inout logic DDR_ck_p,
+	inout logic DDR_cke,
+	inout logic DDR_cs_n,
+	inout logic [C_DDR_DATAMASK_WIDTH-1 : 0]DDR_dm,
+	inout logic [C_DDR_DATA_WIDTH-1 : 0]DDR_dq,
+	inout logic [C_DDR_DATASTROBE_WIDTH-1 : 0]DDR_dqs_n,
+	inout logic [C_DDR_DATASTROBE_WIDTH-1 : 0]DDR_dqs_p,
+	inout logic DDR_odt,
+	inout logic DDR_ras_n,
+	inout logic DDR_reset_n,
+	inout logic DDR_we_n,
+	inout logic FIXED_IO_ddr_vrn,
+	inout logic FIXED_IO_ddr_vrp,
+	inout logic [C_MIO_WIDTH-1 : 0]FIXED_IO_mio,
+	inout logic FIXED_IO_ps_clk,
+	inout logic FIXED_IO_ps_porb,
+	inout logic FIXED_IO_ps_srstb,
+
 	// Internal clock domain
 	output logic [C_STATUS_SIZE-1:0]state_dbg,
 	output logic clk_dbg,
@@ -18,11 +42,16 @@ module toplevel #(
 	output logic gate_output[C_OUTPUT_WIDTH]
 	);
 
+	localparam C_TEST_ENABLE	= 1;
+
     logic sync_single_ended;
     logic sync;
+	logic sync_signal;
+	logic sync_gen;
     
     // Proc module
 	
+	/*
 	logic DDR_addr;
 	logic DDR_ba;
 	logic DDR_cas_n;
@@ -38,14 +67,17 @@ module toplevel #(
 	logic DDR_ras_n;
 	logic DDR_reset_n;
 	logic DDR_we_n;
+	*/
 	logic FCLK_CLK0;
 	logic FCLK_RESET0_N;
+	/*
 	logic FIXED_IO_ddr_vrn;
 	logic FIXED_IO_ddr_vrp;
 	logic FIXED_IO_mio;
 	logic FIXED_IO_ps_clk;
 	logic FIXED_IO_ps_porb;
 	logic FIXED_IO_ps_srstb;
+	*/
 	
 
     // Gate driver
@@ -60,6 +92,7 @@ module toplevel #(
 	logic [C_IDX_SIZE:0]addrb;
 	logic [C_WORD_SIZE-1:0]doutb;
 	
+	/*
 	logic S_AXI_AWADDR;
 	logic S_AXI_AWPROT;
 	logic S_AXI_AWVALID;
@@ -79,6 +112,7 @@ module toplevel #(
     logic [1 : 0] S_AXI_RRESP;
     logic S_AXI_RVALID;
     logic S_AXI_RREADY;
+	*/
     
 	// AXI
 	logic M00_AXI_arvalid;
@@ -131,7 +165,14 @@ module toplevel #(
     assign ctrl_reg[0] = 1'b1;
     
     assign clk_dbg = FCLK_CLK0;
-    assign sync_dbg = sync;
+    assign sync_dbg = sync_signal;
+
+	// Selector for test generator
+	if (C_TEST_ENABLE == 1'b0) begin
+		assign sync_signal = sync;
+	end else begin
+		assign sync_signal = sync_gen;
+	end
     
 	gate_driver #(
 
@@ -146,7 +187,7 @@ module toplevel #(
 		.enb(enb),
 		.regceb(regceb),
 		.state_dbg(state_dbg),
-		.sync(sync),
+		.sync(sync_signal),
 		.gate_output_pin(gate_output)
 	);
 
@@ -155,11 +196,12 @@ module toplevel #(
 	) axi4lite_bram_instance(
 		.s_axi_aclk(FCLK_CLK0),
         .s_axi_aresetn(FCLK_RESET0_N),
+		.addrb(addrb),
         .doutb(doutb),
         .status_reg(status),
         .enb(enb),
         .regceb(regceb),
-        .s_axi_awaddr(M00_AXI_awaddr),
+        .s_axi_awaddr(M00_AXI_awaddr[C_ADDR_WIDTH-1 : 0]),
         .s_axi_awprot(M00_AXI_awprot),
         .s_axi_awvalid(M00_AXI_awvalid),
         .s_axi_rready(M00_AXI_rready),
@@ -167,7 +209,7 @@ module toplevel #(
         .s_axi_wstrb(M00_AXI_wstrb),
         .s_axi_wvalid(M00_AXI_wvalid),
         .s_axi_bready(M00_AXI_bready),
-        .s_axi_araddr(M00_AXI_araddr),
+        .s_axi_araddr(M00_AXI_araddr[C_ADDR_WIDTH-1 : 0]),
         .s_axi_arprot(M00_AXI_arprot),
         .s_axi_arvalid(M00_AXI_arvalid),
         .s_axi_arready(M00_AXI_arready),
@@ -241,20 +283,27 @@ module toplevel #(
         .M00_AXI_wvalid(M00_AXI_wvalid),
         .peripheral_aresetn(peripheral_aresetn)
 	);
+
+	sync_generator#()
+	sync_generator_instance(
+		.clk	(FCLK_CLK0),
+		.rst_n	(FCLK_RESET0_N),
+		.sync	(sync_gen)
+	);
 	
 	IBUFDS #(
       .DIFF_TERM("FALSE"),       // Differential Termination
       .IBUF_LOW_PWR("TRUE"),     // Low power="TRUE", Highest performance="FALSE" 
       .IOSTANDARD("DEFAULT")     // Specify the input I/O standard
    ) IBUFDS_inst (
-      .O(sync_single_ended),  // Buffer output
-      .I(sync_in_p),  // Diff_p buffer input (connect directly to top-level port)
-      .IB(sync_in_n) // Diff_n buffer input (connect directly to top-level port)
+      .O(sync_single_ended),  	// Buffer output
+      .I(sync_in_p),  			// Diff_p buffer input (connect directly to top-level port)
+      .IB(sync_in_n) 			// Diff_n buffer input (connect directly to top-level port)
    );
    
    BUFG BUFG_inst (
-      .O(sync), // 1-bit output: Clock output
-      .I(sync_single_ended)  // 1-bit input: Clock input
+      .O(sync), 				// 1-bit output: Clock output
+      .I(sync_single_ended)  	// 1-bit input: Clock input
    );
 	
     

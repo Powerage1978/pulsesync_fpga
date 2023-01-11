@@ -1,6 +1,7 @@
 SOURCES_SV := \
 	src/hdl/axi4lite_pkg.sv \
 	src/hdl/gatedriver_pkg.sv \
+	src/hdl/zynq_interface_pkg.sv \
 	src/hdl/axi4lite_bram.sv \
 	src/hdl/bram.sv \
 	src/hdl/axi4lite.sv \
@@ -8,6 +9,7 @@ SOURCES_SV := \
 	src/hdl/toplevel.sv \
 	src/hdl/pwm.sv \
 	src/hdl/dcdc.sv \
+	src/hdl/sync_generator.sv \
 	sim/sim_pkg.sv \
 	sim/bram_tb.sv \
 	sim/axi4lite_bram_tb.sv \
@@ -15,7 +17,9 @@ SOURCES_SV := \
 	sim/blockram_file_tb.sv \
 	sim/gate_driver_tb.sv \
 	sim/pwm_tb.sv \
-	sim/dcdc_tb.sv
+	sim/dcdc_tb.sv \
+	sim/sync_generator_tb.sv \
+	sim/toplevel_tb.sv
 
 COMP_OPTS_SV := \
     --incr \
