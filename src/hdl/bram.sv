@@ -61,6 +61,25 @@ module bram #(
             ram_state_settings[13] = 32'h00000010;
             ram_state_settings[14] = 32'h000004dd;
             ram_state_settings[15] = 32'h00000018;
+
+            /*
+            ram_state_settings[16]  = 32'h00005d25;
+            ram_state_settings[17]  = 32'h00000015;
+            ram_state_settings[18]  = 32'h0000050f;
+            ram_state_settings[19]  = 32'h00000011;
+            ram_state_settings[20]  = 32'h00005cf3;
+            ram_state_settings[21]  = 32'h00000010;
+            ram_state_settings[22]  = 32'h000004dd;
+            ram_state_settings[23]  = 32'h00000018;
+            ram_state_settings[24]  = 32'h00005d25;
+            ram_state_settings[25]  = 32'h00000016;
+            ram_state_settings[26] = 32'h0000050f;
+            ram_state_settings[27] = 32'h00000012;
+            ram_state_settings[28] = 32'h00005cf3;
+            ram_state_settings[29] = 32'h00000010;
+            ram_state_settings[30] = 32'h000004dd;
+            ram_state_settings[31] = 32'h00000018;
+            */
         end
     end else begin : init_bram_to_zero
         integer ram_index;
@@ -77,10 +96,10 @@ module bram #(
         ram_data <= {C_DATA_WIDTH{1'b0}};
     end else begin
         if (wea) begin
-        ram_state_settings[addra] <= dina;
+            ram_state_settings[addra] <= dina;
         end
         if (enb) begin
-        ram_data <= ram_state_settings[addrb];
+            ram_data <= ram_state_settings[addrb];
         end
     end
     end
@@ -96,7 +115,7 @@ module bram #(
 
         // The following is a 2 clock cycle read latency with improve clock-to-out timing
 
-        reg [C_DATA_WIDTH-1:0] doutb_reg;
+        logic [C_DATA_WIDTH-1:0] doutb_reg;
 
         always @(posedge clk)
         if (!rst_n) begin
