@@ -54,3 +54,5 @@ tmp/
 doc/_build
 doc/**/*.png
 doc/**/*.svg
+
+output/

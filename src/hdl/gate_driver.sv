@@ -3,14 +3,7 @@
 import gatedriver_pkg::*;
 
 module gate_driver # (
-    // parameter integer COUNT_SIZE = 25,
-//    parameter integer C_IDX_SIZE = 4,
-//    parameter integer C_OUTPUT_WIDTH = 4,
-//    parameter integer C_WORD_SIZE = 32,
-//    parameter integer C_NO_OF_STATES_OFFSET = 8,
-//    parameter integer C_T_TOLERANCE = 0,
-//    parameter integer C_STATUS_SIZE = 3
-    
+   
 )
 (
     // System clock domain
@@ -27,7 +20,8 @@ module gate_driver # (
 
     // External clock domain
     input logic sync,
-    output logic gate_output_pin[C_OUTPUT_WIDTH]
+    output logic gate_output_pin[C_OUTPUT_WIDTH],
+    output logic gate_output_dbg[C_OUTPUT_WIDTH]
 );
 
 
@@ -68,11 +62,11 @@ assign regceb = 1'b1;
 
 assign addrb = {q_idx, q_tv_select};
 
-// assign NO_OF_STATES = ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET];
-assign NO_OF_STATES = 8;
+assign NO_OF_STATES = ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET];
+// assign NO_OF_STATES = 8;
 
-// assign RUN = ctrl_reg[0];
-assign RUN = 1'b1;
+assign RUN = ctrl_reg[0];
+// assign RUN = 1'b1;
 
 assign SYNC_TOO_LATE = q_tcounter[C_COUNT_SIZE-1];
 
@@ -82,6 +76,7 @@ generate
     genvar i;
     for (i = 0; i < C_OUTPUT_WIDTH; i++) begin
         assign gate_output_pin[i] = gate_output[i] ? 1'b0 : 1'bZ;
+        assign gate_output_dbg[i] = gate_output[i];
     end
 
 endgenerate

@@ -39,7 +39,11 @@ module toplevel #(
 	// External clock domain
 	input logic sync_in_n,
 	input logic sync_in_p,
-	output logic gate_output[C_OUTPUT_WIDTH]
+	output logic gate_output_dbg[C_OUTPUT_WIDTH],
+	output logic sync_a,
+	output logic sync_b,
+	output logic sync_k,
+	output logic dyn_damper
 	);
 
 	localparam C_TEST_ENABLE	= 1;
@@ -48,6 +52,7 @@ module toplevel #(
     logic sync;
 	logic sync_signal;
 	logic sync_gen;
+	logic gate_output[C_OUTPUT_WIDTH];
     
     // Proc module
 	
@@ -161,11 +166,16 @@ module toplevel #(
 
     assign external_err = 1'b0;
     assign rstb = 0;
-    assign ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 4;
+    assign ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 8;
     assign ctrl_reg[0] = 1'b1;
     
     assign clk_dbg = FCLK_CLK0;
     assign sync_dbg = sync_signal;
+
+	assign sync_a = gate_output[0];
+	assign sync_b = gate_output[1];
+	assign sync_k = gate_output[2];
+	assign dyn_damper = gate_output[3];
 
 	// Selector for test generator
 	if (C_TEST_ENABLE == 1'b0) begin
@@ -188,7 +198,8 @@ module toplevel #(
 		.regceb(regceb),
 		.state_dbg(state_dbg),
 		.sync(sync_signal),
-		.gate_output_pin(gate_output)
+		.gate_output_pin(gate_output),
+		.gate_output_dbg(gate_output_dbg)
 	);
 
 	axi4lite_bram #(
