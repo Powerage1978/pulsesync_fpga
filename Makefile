@@ -136,6 +136,8 @@ vivado-implementation :
 .PHONY : vivado-bitstream
 vivado-bitstream : 
 	vivado -mode batch -source tcl/create-bitstream.tcl
+	mkdir -p output
+	cp ./picotem-transceiver-fpga/picotem-transceiver-fpga.runs/impl_1/toplevel.bit ./output/
 
 .PHONY : build-docs
 build-docs :
