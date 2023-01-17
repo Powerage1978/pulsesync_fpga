@@ -1,8 +1,13 @@
 version: '3.8'
 
 services:
-    dev:
-        build: .
+    docs:
+        build:
+            context: .
+            args:
+                - uid=${UID_V}
+                - gid=${GID_V}
+            dockerfile: Dockerfile-docs
         working_dir: /app
         volumes:
             - type: bind

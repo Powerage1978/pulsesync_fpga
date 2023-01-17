@@ -52,8 +52,10 @@ tmp/
 .elab_timestamp
 
 # Documentation build folder and any output files from diagram conversion
-doc/_build
-doc/**/*.png
-doc/**/*.svg
+docs/_build
+docs/**/*.png
+docs/**/*.svg
+!docs/img/*.png
+!docs/img/*.png
 
 output/

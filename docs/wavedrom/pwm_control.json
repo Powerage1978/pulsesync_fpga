@@ -1,0 +1,6 @@
+{"reg":[
+    {"name": "en", "bits": 1},
+    {"bits": 17},
+    {"name": "idle_duty", "bits": 7},
+    {"name": "run_duty", "bits": 7}
+]}
