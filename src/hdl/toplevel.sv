@@ -35,6 +35,12 @@ module toplevel #(
 	output logic [C_STATUS_SIZE-1:0]state_dbg,
 	output logic clk_dbg,
 	output logic sync_dbg,
+
+	output logic rs485_p,
+	output logic rs485_n,
+	output logic fault,
+	output logic con_ext_en,
+
 	
 	// External clock domain
 	input logic sync_in_n,
@@ -176,6 +182,11 @@ module toplevel #(
 	assign sync_b = gate_output[1];
 	assign sync_k = gate_output[2];
 	assign dyn_damper = gate_output[3];
+
+	assign rs485_p = 1'bZ;
+	assign rs485_n = 1'bZ;
+	assign fault = 1'bZ;
+	assign con_ext_en = 1'bZ;
 
 	// Selector for test generator
 	if (C_TEST_ENABLE == 1'b0) begin
