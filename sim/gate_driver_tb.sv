@@ -48,7 +48,7 @@ gate_driver_instance (
         ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 5;
         #50
         rst_n = 1;
-        doutb[C_OUTPUT_WIDTH-1:0] = 4'b1111;
+        doutb[C_OUTPUT_WIDTH-1:0] = {C_OUTPUT_WIDTH{1'b1}};
         #50
         ctrl_reg[0] = 1'b1;
         #50
