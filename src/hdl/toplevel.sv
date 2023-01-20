@@ -49,7 +49,7 @@ module toplevel #(
 	output logic sync_a,
 	output logic sync_b,
 	output logic sync_k,
-	output logic dyn_damper
+	output logic mode
 	);
 
 	localparam C_TEST_ENABLE	= 1;
@@ -181,7 +181,6 @@ module toplevel #(
 	assign sync_a = gate_output[0];
 	assign sync_b = gate_output[1];
 	assign sync_k = gate_output[2];
-	assign dyn_damper = gate_output[3];
 
 	assign rs485_p = 1'bZ;
 	assign rs485_n = 1'bZ;
