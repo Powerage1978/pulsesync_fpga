@@ -49,6 +49,7 @@ tmp/
 .comp_sv.timestamp
 .comp_v.timestamp
 .comp_vhdl.timestamp
+.elab_timestamp
 
 # Documentation build folder and any output files from diagram conversion
 doc/_build

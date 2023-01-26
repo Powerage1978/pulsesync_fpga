@@ -2,6 +2,7 @@ SOURCES_SV := \
 	src/hdl/axi4lite_pkg.sv \
 	src/hdl/gatedriver_pkg.sv \
 	src/hdl/zynq_interface_pkg.sv \
+	src/hdl/sys_pkg.sv \
 	src/hdl/axi4lite_bram.sv \
 	src/hdl/bram.sv \
 	src/hdl/axi4lite.sv \

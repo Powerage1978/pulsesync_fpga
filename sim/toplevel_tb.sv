@@ -12,7 +12,19 @@ module toplevel_tb(
     logic sync_dbg;
     logic sync_in_n;
     logic sync_in_p;
-    logic gate_output[C_OUTPUT_WIDTH];
+    logic gate_output_dbg[C_OUTPUT_WIDTH];
+    logic sync_a;
+    logic sync_b;
+	logic sync_k;
+	logic mode;
+
+    logic curr_pwm;
+	logic volt_pwm;
+	logic psu_en;
+
+    logic rs485_p;
+	logic rs485_n;
+	logic fault;
 
     logic clk;
     logic rst_n;
@@ -75,11 +87,23 @@ module toplevel_tb(
         .state_dbg      (state_dbg),
         .clk_dbg        (clk_dbg),
         .sync_dbg       (sync_dbg),
+        .rs485_p        (rs485_p),
+	    .rs485_n        (rs485_n),
+	    .fault          (fault),
+
+        // PSU control
+	    .curr_pwm       (curr_pwm),
+	    .volt_pwm       (volt_pwm),
+	    .psu_en         (psu_en),
         
         // External clock domain
         .sync_in_n      (sync_in_n),
         .sync_in_p      (sync_in_p),
-        .gate_output    (gate_output)
+        .gate_output_dbg(gate_output_dbg),
+	    .sync_a         (sync_a),
+        .sync_b         (sync_b),
+	    .sync_k         (sync_k),
+	    .mode           (mode)
     );
 
 endmodule
