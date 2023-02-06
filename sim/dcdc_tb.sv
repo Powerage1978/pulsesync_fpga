@@ -12,8 +12,7 @@ module dcdc_tb(
     logic [C_DATA_WIDTH-1 : 0] volt_control;
     logic pwm_out_curr;
     logic pwm_out_volt;
-    logic ena_curr;
-    logic ena_volt;
+    logic ena_psu;
 
     dcdc #(
 
@@ -24,8 +23,7 @@ module dcdc_tb(
         .volt_control   (volt_control),
         .pwm_out_curr   (pwm_out_curr),
         .pwm_out_volt   (pwm_out_volt),
-        .ena_curr       (ena_curr),
-        .ena_volt       (ena_volt)
+        .ena_psu        (ena_psu)
     );
 
 
@@ -55,6 +53,7 @@ module dcdc_tb(
         curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd66;
         volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd66;
         repeat (350) @(negedge clk);
+        repeat (600000000) @(negedge clk);
         $display("Test done");
         #200 $finish;
     end

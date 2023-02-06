@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
 import axi4lite_pkg::*;
+import sys_pkg::*;
 
 module pwm #(
 )
@@ -11,7 +12,9 @@ module pwm #(
     output logic pwm_out
 );
 
-localparam integer C_COUNTER_PERIOD = 32'd250;
+
+localparam integer C_PWM_FREQ = 32'd200000;     // 200 kHz
+localparam integer C_COUNTER_PERIOD = C_SYS_FREQ / C_PWM_FREQ;
 localparam integer C_COUNT_SIZE = $clog2(C_COUNTER_PERIOD);
 localparam integer C_STATE_SIZE = 2;
 localparam integer C_COUNT_OFFSET = 2;
@@ -110,7 +113,7 @@ always @ (posedge clk) begin
     if (!rst_n) begin
         pwm_out_q <= 0;
     end else begin
-        pwm_out_q = pwm_out_d;
+        pwm_out_q <= pwm_out_d;
     end
 end
 

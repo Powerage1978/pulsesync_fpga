@@ -13,15 +13,18 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="27.500001 us"></ZoomEndTime>
-      <Cursor1Time time="1.130000 us"></Cursor1Time>
+      <ZoomStartTime time="1.114609500000 s"></ZoomStartTime>
+      <ZoomEndTime time="97,601.114609500001 s"></ZoomEndTime>
+      <Cursor1Time time="24,101.114609500000 s"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="160"></ValueColumnWidth>
+      <ValueColumnWidth column_width="142"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
+   <WVObjectSize size="10" />
+   <wave_markers>
+      <marker label="" time="10488996220" />
+   </wave_markers>
    <wvobject type="logic" fp_name="/dcdc_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -46,12 +49,20 @@
       <obj_property name="ElementShortName">pwm_out_volt</obj_property>
       <obj_property name="ObjectShortName">pwm_out_volt</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/dcdc_tb/ena_curr">
-      <obj_property name="ElementShortName">ena_curr</obj_property>
-      <obj_property name="ObjectShortName">ena_curr</obj_property>
+   <wvobject type="array" fp_name="/dcdc_tb/dcdc_instance/state_q">
+      <obj_property name="ElementShortName">state_q[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state_q[1:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/dcdc_tb/ena_volt">
-      <obj_property name="ElementShortName">ena_volt</obj_property>
-      <obj_property name="ObjectShortName">ena_volt</obj_property>
+   <wvobject type="array" fp_name="/dcdc_tb/dcdc_instance/delay_cnt_high_q">
+      <obj_property name="ElementShortName">delay_cnt_high_q[16:0]</obj_property>
+      <obj_property name="ObjectShortName">delay_cnt_high_q[16:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/dcdc_tb/dcdc_instance/delay_cnt_low_d">
+      <obj_property name="ElementShortName">delay_cnt_low_d[16:0]</obj_property>
+      <obj_property name="ObjectShortName">delay_cnt_low_d[16:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/dcdc_tb/dcdc_instance/ena_psu">
+      <obj_property name="ElementShortName">ena_psu</obj_property>
+      <obj_property name="ObjectShortName">ena_psu</obj_property>
    </wvobject>
 </wave_config>

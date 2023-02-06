@@ -148,6 +148,7 @@ set files [list \
   [file normalize "${origin_dir}/src/hdl/axi4lite_pkg.sv"]\
   [file normalize "${origin_dir}/src/hdl/gatedriver_pkg.sv"]\
   [file normalize "${origin_dir}/src/hdl/zynq_interface_pkg.sv"]\
+  [file normalize "${origin_dir}/src/hdl/sys_pkg.sv"]\
   [file normalize "${origin_dir}/src/hdl/axi4lite.sv"]\
   [file normalize "${origin_dir}/src/hdl/axi4lite_bram.sv"]\
   [file normalize "${origin_dir}/src/hdl/bram.sv"]\
@@ -215,6 +216,7 @@ set files [list \
   [file normalize "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/pwm_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/dcdc_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/toplevel_tb_behav.wcfg"]\
 ]
 set added_files [add_files -fileset sim_1 $files]
 

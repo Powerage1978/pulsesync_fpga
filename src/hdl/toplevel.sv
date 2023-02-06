@@ -36,15 +36,19 @@ module toplevel #(
 	output logic clk_dbg,
 	output logic sync_dbg,
 
-	output logic rs485_p,
-	output logic rs485_n,
+	output logic rs232_rx,
+	output logic rs232_tx,
+	output logic rs232_dir,
 	output logic fault,
-	output logic con_ext_en,
+
+	// PSU control
+	output logic curr_pwm,
+	output logic volt_pwm,
+	output logic psu_en,
 
 	
 	// External clock domain
-	input logic sync_in_n,
-	input logic sync_in_p,
+	input logic sync_in,
 	output logic gate_output_dbg[C_OUTPUT_WIDTH],
 	output logic sync_a,
 	output logic sync_b,
@@ -52,7 +56,7 @@ module toplevel #(
 	output logic mode
 	);
 
-	localparam C_TEST_ENABLE	= 1;
+	localparam C_TEST_ENABLE	= 1'b1;
 
     logic sync_single_ended;
     logic sync;
@@ -61,35 +65,8 @@ module toplevel #(
 	logic gate_output[C_OUTPUT_WIDTH];
     
     // Proc module
-	
-	/*
-	logic DDR_addr;
-	logic DDR_ba;
-	logic DDR_cas_n;
-	logic DDR_ck_n;
-	logic DDR_ck_p;
-	logic DDR_cke;
-	logic DDR_cs_n;
-	logic DDR_dm;
-	logic DDR_dq;
-	logic DDR_dqs_n;
-	logic DDR_dqs_p;
-	logic DDR_odt;
-	logic DDR_ras_n;
-	logic DDR_reset_n;
-	logic DDR_we_n;
-	*/
 	logic FCLK_CLK0;
 	logic FCLK_RESET0_N;
-	/*
-	logic FIXED_IO_ddr_vrn;
-	logic FIXED_IO_ddr_vrp;
-	logic FIXED_IO_mio;
-	logic FIXED_IO_ps_clk;
-	logic FIXED_IO_ps_porb;
-	logic FIXED_IO_ps_srstb;
-	*/
-	
 
     // Gate driver
 	logic external_err;
@@ -102,28 +79,6 @@ module toplevel #(
 	logic regceb;
 	logic [C_IDX_SIZE:0]addrb;
 	logic [C_WORD_SIZE-1:0]doutb;
-	
-	/*
-	logic S_AXI_AWADDR;
-	logic S_AXI_AWPROT;
-	logic S_AXI_AWVALID;
-	logic S_AXI_AWREADY;
-	logic S_AXI_WDATA;
-	logic S_AXI_WSTRB;
-	logic S_AXI_WVALID;
-	logic S_AXI_WREADY;
-	logic [1 : 0] S_AXI_BRESP;
-	logic S_AXI_BVALID;
-	logic S_AXI_BREADY;
-    logic S_AXI_ARADDR;
-    logic [2 : 0] S_AXI_ARPROT;
-    logic S_AXI_ARVALID;
-    logic S_AXI_ARREADY;
-    logic [C_WORD_SIZE-1 : 0] S_AXI_RDATA;
-    logic [1 : 0] S_AXI_RRESP;
-    logic S_AXI_RVALID;
-    logic S_AXI_RREADY;
-	*/
     
 	// AXI
 	logic M00_AXI_arvalid;
@@ -166,9 +121,9 @@ module toplevel #(
 	logic [1:0]M00_AXI_rresp;
 	logic [31:0]M00_AXI_rdata;
 
-
-	// input wire sync;
-	// output wire gate_output[OUTPUT_WIDTH];
+	// DCDC setup
+	logic [C_DATA_WIDTH-1 : 0] curr_control;
+	logic [C_DATA_WIDTH-1 : 0] volt_control;
 
     assign external_err = 1'b0;
     assign rstb = 0;
@@ -177,22 +132,32 @@ module toplevel #(
     
     assign clk_dbg = FCLK_CLK0;
     assign sync_dbg = sync_signal;
-
+	
 	assign sync_a = gate_output[0];
 	assign sync_b = gate_output[1];
 	assign sync_k = gate_output[2];
 
-	assign rs485_p = 1'bZ;
-	assign rs485_n = 1'bZ;
+	assign rs232_rx = 1'bZ;
+	assign rs232_tx = 1'bZ;
+	assign rs232_dir = 1'bZ;
 	assign fault = 1'bZ;
-	assign con_ext_en = 1'bZ;
+
+	// PWM setup
+	assign curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd10;		// Set curr duty cycle
+	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;	// Set volt duty cycle
+	assign curr_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable curr PWM
+	assign volt_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable volt PWM
 
 	// Selector for test generator
+	
 	if (C_TEST_ENABLE == 1'b0) begin
-		assign sync_signal = sync;
+		assign sync_signal = ~sync;
 	end else begin
 		assign sync_signal = sync_gen;
 	end
+	
+	
+	// assign sync_signal = ~sync;
     
 	gate_driver #(
 
@@ -305,27 +270,27 @@ module toplevel #(
         .peripheral_aresetn(peripheral_aresetn)
 	);
 
+	dcdc#()
+	dcdc_instance(
+		.clk			(FCLK_CLK0),
+    	.rst_n			(FCLK_RESET0_N),
+    	.curr_control	(curr_control),
+    	.volt_control	(volt_control),
+    	.pwm_out_curr	(curr_pwm),
+    	.pwm_out_volt	(volt_pwm),
+		.ena_psu		(psu_en)
+	);
+
 	sync_generator#()
 	sync_generator_instance(
 		.clk	(FCLK_CLK0),
 		.rst_n	(FCLK_RESET0_N),
 		.sync	(sync_gen)
 	);
-	
-	IBUFDS #(
-      .DIFF_TERM("FALSE"),       // Differential Termination
-      .IBUF_LOW_PWR("TRUE"),     // Low power="TRUE", Highest performance="FALSE" 
-      .IOSTANDARD("DEFAULT")     // Specify the input I/O standard
-   ) IBUFDS_inst (
-      .O(sync_single_ended),  	// Buffer output
-      .I(sync_in_p),  			// Diff_p buffer input (connect directly to top-level port)
-      .IB(sync_in_n) 			// Diff_n buffer input (connect directly to top-level port)
-   );
    
    BUFG BUFG_inst (
-      .O(sync), 				// 1-bit output: Clock output
-      .I(sync_single_ended)  	// 1-bit input: Clock input
+      .O(sync), 	// 1-bit output: Clock output
+      .I(sync_in)  	// 1-bit input: Clock input
    );
-	
     
 endmodule
