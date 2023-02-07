@@ -116,7 +116,7 @@ begin
     case (q_state)
     ERR:
         begin
-            d_value = 0;
+            d_value = 4'b0100;
             d_reset_output = 1;
             if (RUN == 0) begin
                 d_state = STOP;
@@ -127,7 +127,8 @@ begin
             d_state = STOP;
             d_tcounter = 0;
             d_idx = 0;
-            d_value = 0;
+            // d_value = 0;
+            d_value = 4'b0100;
             d_mon_time = 0;
             d_tv_select = TIME;
             d_reset_output = 1;
@@ -225,7 +226,8 @@ generate
     for (i = 0; i < C_OUTPUT_WIDTH; i++) begin
         always @ (posedge sync or posedge q_reset_output) begin
             if (q_reset_output) begin
-                gate_output[i] <= 0;
+                // gate_output[i] <= 0;
+                gate_output[i] <= q_value[i];
             end
             else begin
                 gate_output[i] <= q_value[i];

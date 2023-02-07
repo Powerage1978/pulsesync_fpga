@@ -66,7 +66,7 @@ gate_driver_instance (
         #10
         sync = 1'b0;
 
-        #200 $finish;
+        #400 $finish;
     end
 
 endmodule

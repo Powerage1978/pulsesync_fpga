@@ -56,10 +56,10 @@ module toplevel #(
 	output logic mode
 	);
 
-	localparam C_TEST_ENABLE	= 1'b1;
+	localparam C_TEST_ENABLE	= 1'b0;
 
     logic sync_single_ended;
-    logic sync;
+    logic sync_out;
 	logic sync_signal;
 	logic sync_gen;
 	logic gate_output[C_OUTPUT_WIDTH];
@@ -132,7 +132,7 @@ module toplevel #(
     
     assign clk_dbg = FCLK_CLK0;
     assign sync_dbg = sync_signal;
-	
+		
 	assign sync_a = gate_output[0];
 	assign sync_b = gate_output[1];
 	assign sync_k = gate_output[2];
@@ -144,18 +144,18 @@ module toplevel #(
 
 	// PWM setup
 	assign curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd10;		// Set curr duty cycle
-	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;	// Set volt duty cycle
+	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd64;	// Set volt duty cycle
 	assign curr_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable curr PWM
 	assign volt_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable volt PWM
 
 	// Selector for test generator
 	
+	
 	if (C_TEST_ENABLE == 1'b0) begin
-		assign sync_signal = ~sync;
+		assign sync_signal = ~sync_out;
 	end else begin
 		assign sync_signal = sync_gen;
 	end
-	
 	
 	// assign sync_signal = ~sync;
     
@@ -289,7 +289,7 @@ module toplevel #(
 	);
    
    BUFG BUFG_inst (
-      .O(sync), 	// 1-bit output: Clock output
+      .O(sync_out), 	// 1-bit output: Clock output
       .I(sync_in)  	// 1-bit input: Clock input
    );
     
