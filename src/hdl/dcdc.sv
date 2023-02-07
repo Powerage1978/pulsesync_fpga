@@ -15,7 +15,7 @@ module dcdc #(
     output logic ena_psu
 );
 
-localparam longint C_DELAY = 10000;             // Delay in ms
+localparam longint C_DELAY = 100;             // Delay in ms
 localparam longint C_COUNT_SIZE = 16;
 localparam longint C_COUNT_LOW_RESET = {C_COUNT_SIZE + 1{1'b1}};
 localparam longint C_COUNT_HIGH_RESET = C_SYS_FREQ * C_DELAY / 2**C_COUNT_SIZE / 1000;
