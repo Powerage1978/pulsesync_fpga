@@ -143,8 +143,8 @@ module toplevel #(
 	assign fault = 1'bZ;
 
 	// PWM setup
-	assign curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd10;		// Set curr duty cycle
-	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd64;	// Set volt duty cycle
+	assign curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;		// Set curr duty cycle
+	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;	// Set volt duty cycle
 	assign curr_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable curr PWM
 	assign volt_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable volt PWM
 
