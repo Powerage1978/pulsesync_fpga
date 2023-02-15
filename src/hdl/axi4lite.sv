@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1ns / 100ps
 
 import axi4lite_pkg::*;
 module axi4lite #

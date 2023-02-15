@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 import axi4lite_pkg::*;
 import gatedriver_pkg::*;
@@ -45,6 +45,7 @@ module toplevel #(
 	output logic curr_pwm,
 	output logic volt_pwm,
 	output logic psu_en,
+	output logic system_mode_dbg,
 
 	
 	// External clock domain
@@ -63,6 +64,8 @@ module toplevel #(
 	logic sync_signal;
 	logic sync_gen;
 	logic gate_output[C_OUTPUT_WIDTH];
+
+    logic system_mode;
     
     // Proc module
 	logic FCLK_CLK0;
@@ -132,6 +135,7 @@ module toplevel #(
     
     assign clk_dbg = FCLK_CLK0;
     assign sync_dbg = sync_signal;
+	assign system_mode_dbg = system_mode;
 		
 	assign sync_a = gate_output[0];
 	assign sync_b = gate_output[1];
@@ -141,16 +145,18 @@ module toplevel #(
 	assign rs232_tx = 1'bZ;
 	assign rs232_dir = 1'bZ;
 	assign fault = 1'bZ;
+	assign mode = 1'bZ;
 
 	// PWM setup
-	assign curr_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;		// Set curr duty cycle
-	assign volt_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 'd100;	// Set volt duty cycle
-	assign curr_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable curr PWM
-	assign volt_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 'b1;			// Enable volt PWM
+	assign curr_control[C_PWM_CTRL_IDLE_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_IDLE_DUTY_OFFSET] = 'd100;      // Set curr idle duty cycle
+	assign volt_control[C_PWM_CTRL_IDLE_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_IDLE_DUTY_OFFSET] = 'd63;	    // Set volt idle duty cycle
+	assign curr_control[C_PWM_CTRL_RUN_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_RUN_DUTY_OFFSET] = 'd100;        // Set curr run duty cycle
+	assign volt_control[C_PWM_CTRL_RUN_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_RUN_DUTY_OFFSET] = 'd100;        // Set volt run duty cycle
+
+	assign curr_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET] = 'b1;			// Enable curr PWM
+	assign volt_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET] = 'b1;			// Enable volt PWM
 
 	// Selector for test generator
-	
-	
 	if (C_TEST_ENABLE == 1'b0) begin
 		assign sync_signal = ~sync_out;
 	end else begin
@@ -172,6 +178,7 @@ module toplevel #(
 		.enb(enb),
 		.regceb(regceb),
 		.state_dbg(state_dbg),
+        .mode(system_mode),
 		.sync(sync_signal),
 		.gate_output_pin(gate_output),
 		.gate_output_dbg(gate_output_dbg)
@@ -276,6 +283,7 @@ module toplevel #(
     	.rst_n			(FCLK_RESET0_N),
     	.curr_control	(curr_control),
     	.volt_control	(volt_control),
+        .mode(system_mode),
     	.pwm_out_curr	(curr_pwm),
     	.pwm_out_volt	(volt_pwm),
 		.ena_psu		(psu_en)

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 package sim_pkg;
     parameter C_CLOCK_PERIOD = 20;

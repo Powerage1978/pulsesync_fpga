@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 package axi4lite_pkg;
     parameter C_LOG2_BUFFER_SIZE        = 5;
     parameter C_DATA_WIDTH              = 32;
@@ -8,10 +8,9 @@ package axi4lite_pkg;
     parameter C_OPT_MEM_ADDR_BITS       = 1;
 
     // Control word used by PWM generator
-    parameter C_PWM_CTRL_RUN_OFFSET     = 0;
-    parameter C_PWM_CTRL_RUN_SIZE       = 1;
-    parameter C_DCDC_ENA_OFFSET         = 1;
-    parameter C_DCDC_ENA_SIZE           = 1;
-    parameter C_PWM_CTRL_DUTY_OFFSET    = 25;
-    parameter C_PWM_CTRL_DUTY_SIZE      = 7;
+    parameter C_PWM_CTRL_ENA_OFFSET         = 0;
+    parameter C_PWM_CTRL_ENA_SIZE           = 1;
+    parameter C_PWM_CTRL_IDLE_DUTY_OFFSET   = 18;
+    parameter C_PWM_CTRL_RUN_DUTY_OFFSET    = 25;
+    parameter C_PWM_CTRL_DUTY_SIZE          = 7;
 endpackage

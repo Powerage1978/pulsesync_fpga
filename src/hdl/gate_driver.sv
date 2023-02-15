@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 import gatedriver_pkg::*;
 
@@ -17,6 +17,7 @@ module gate_driver # (
     output logic enb,
     output logic regceb,
     output logic [C_STATUS_SIZE-1:0] state_dbg,
+    output logic mode,
 
     // External clock domain
     input logic sync,
@@ -31,8 +32,12 @@ localparam NUM_STAGES = 3;
 typedef enum bit[C_STATUS_SIZE-1:0] {ERR = 3'b001, STOP, A, A2, B, C, D} state_t;
 typedef enum bit {TIME = 0, VALUE} tv_select_t;
 
+typedef enum bit {INACTIVE = 1'b0, ACTIVE = 1'b1} mode_status;
+
 state_t q_state;
 state_t d_state;
+
+mode_status mode_d, mode_q;
 
 assign status[C_STATUS_SIZE-1 : 0] = q_state;
 assign status[C_WORD_SIZE-1 : C_STATUS_SIZE] = {(C_WORD_SIZE - C_STATUS_SIZE){1'b0}};
@@ -71,6 +76,7 @@ assign RUN = ctrl_reg[0];
 assign SYNC_TOO_LATE = q_tcounter[C_COUNT_SIZE-1];
 
 assign state_dbg = q_state;
+assign mode = mode_q;
 
 generate
     genvar i;
@@ -91,6 +97,7 @@ begin
         q_mon_time <= 0;
         q_tv_select <= TIME;
         q_reset_output <= 1;
+        mode_q <= INACTIVE;
     end
     else begin
         q_state <= d_state;
@@ -100,6 +107,7 @@ begin
         q_mon_time <= d_mon_time;
         q_tv_select <= d_tv_select;
         q_reset_output <= d_reset_output;
+        mode_q <= mode_d;
     end
 end
 
@@ -112,10 +120,12 @@ begin
     d_mon_time = q_mon_time;
     d_tv_select = q_tv_select;
     d_reset_output = q_reset_output;
+    mode_d = mode_q;
 
     case (q_state)
     ERR:
         begin
+            mode_d = INACTIVE;
             d_value = 4'b0100;
             d_reset_output = 1;
             if (RUN == 0) begin
@@ -124,6 +134,7 @@ begin
         end
     STOP:
         begin
+            mode_d = INACTIVE;
             d_state = STOP;
             d_tcounter = 0;
             d_idx = 0;
@@ -179,6 +190,7 @@ begin
     D:
         begin
             if (ssync == 1) begin
+                mode_d = ACTIVE;
                 d_mon_time = 1;
                 d_state = A;
                 d_idx = (q_idx + 1) % NO_OF_STATES;
