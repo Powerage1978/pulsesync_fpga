@@ -25,6 +25,7 @@ set_property PACKAGE_PIN E19 [get_ports state_dbg[2]]
 
 set_property PACKAGE_PIN A21 [get_ports clk_dbg]
 set_property PACKAGE_PIN D16 [get_ports sync_dbg]
+set_property PACKAGE_PIN AA8 [get_ports system_mode_dbg]
 
 set_property IOSTANDARD LVCMOS33 [get_ports sync_a]
 set_property IOSTANDARD LVCMOS33 [get_ports sync_b]
@@ -53,3 +54,4 @@ set_property IOSTANDARD LVCMOS33 [get_ports state_dbg[2]]
 
 set_property IOSTANDARD LVCMOS33 [get_ports clk_dbg]
 set_property IOSTANDARD LVCMOS33 [get_ports sync_dbg]
+set_property IOSTANDARD LVCMOS33 [get_ports system_mode_dbg]

@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1ns / 100ps
 /**
  * @brief Xilinx Simple Dual Port Single Clock RAM
  * This code implements a parameterizable SDP single clock memory.

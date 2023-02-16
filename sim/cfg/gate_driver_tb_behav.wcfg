@@ -8,19 +8,20 @@
             <top_module name="gate_driver_tb" />
             <top_module name="gatedriver_pkg" />
             <top_module name="glbl" />
+            <top_module name="sim_pkg" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="129.166 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,102.167 ns"></ZoomEndTime>
+      <ZoomStartTime time="78.875 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,112.226 ns"></ZoomEndTime>
       <Cursor1Time time="940.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="148"></ValueColumnWidth>
+      <ValueColumnWidth column_width="142"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="13" />
    <wave_markers>
       <marker label="" time="155002" />
    </wave_markers>
@@ -71,5 +72,9 @@
    <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_instance/q_state">
       <obj_property name="ElementShortName">q_state[2:0]</obj_property>
       <obj_property name="ObjectShortName">q_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/gate_driver_tb/mode">
+      <obj_property name="ElementShortName">mode</obj_property>
+      <obj_property name="ObjectShortName">mode</obj_property>
    </wvobject>
 </wave_config>

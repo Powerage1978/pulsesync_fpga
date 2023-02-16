@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 package zynq_interface_pkg;
     parameter C_DDR_ADDR_WIDTH = 15;

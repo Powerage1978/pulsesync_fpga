@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 
 module pwm_tb(
@@ -8,7 +8,8 @@ module pwm_tb(
 
     logic clk;
     logic rst_n;
-    logic [C_DATA_WIDTH-1 : 0] pwm_control;
+    logic enable;
+    logic [C_PWM_CTRL_DUTY_SIZE-1 : 0] pwm_duty;
     logic pwm_out;
 
     pwm #(
@@ -16,7 +17,8 @@ module pwm_tb(
     )pwm_instance (
         .clk        (clk),
         .rst_n      (rst_n),
-        .control    (pwm_control),
+        .enable     (enable),
+        .pwm_duty   (pwm_duty),
         .pwm_out    (pwm_out)
     );
 
@@ -33,24 +35,25 @@ module pwm_tb(
 
     initial begin
         rst_n = 1'b0;
-        pwm_control[C_DATA_WIDTH-1 : 0] = {C_DATA_WIDTH{1'b0}};
+        enable = 1'b0;
+        pwm_duty = 7'd0;
         repeat (5) @(negedge clk);
         rst_n = 1'b1;
-        pwm_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 1'b1;
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd1;
+        enable = 1'b1;
+        pwm_duty = 7'd1;
         repeat (150) @(negedge clk);
-        pwm_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 1'b0;
+        enable = 1'b0;
         repeat (350) @(negedge clk);
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd66;
-        pwm_control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET] = 1'b1;
+        pwm_duty = 7'd66;
+        enable = 1'b1;
         repeat (350) @(negedge clk);
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd100;
+        pwm_duty = 7'd100;
         repeat (350) @(negedge clk);
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd66;
+        pwm_duty = 7'd66;
         repeat (350) @(negedge clk);
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd1;
+        pwm_duty = 7'd1;
         repeat (350) @(negedge clk);
-        pwm_control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET] = 7'd110;
+        pwm_duty = 7'd110;
         repeat (350) @(negedge clk);
 
 

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 package gatedriver_pkg;
     parameter C_COUNT_SIZE = 25;

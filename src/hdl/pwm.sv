@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 import axi4lite_pkg::*;
 import sys_pkg::*;
@@ -8,7 +8,8 @@ module pwm #(
 (
     input logic clk,
     input logic rst_n,
-    input logic [C_DATA_WIDTH-1 : 0] control,
+    input logic enable,
+    input logic [C_PWM_CTRL_DUTY_SIZE-1 : 0]pwm_duty,
     output logic pwm_out
 );
 
@@ -22,7 +23,7 @@ localparam integer C_COUNT_OFFSET = 2;
 typedef enum bit[C_STATE_SIZE-1 : 0] {ERR = 2'b01, STOP, RUN} state_t;
 typedef logic [C_COUNT_SIZE : 0] count_t;
 
-logic [C_PWM_CTRL_RUN_SIZE-1 : 0] pwm_active;
+logic [C_PWM_CTRL_ENA_SIZE-1 : 0] pwm_active;
 
 state_t state_q, state_d;
 logic [C_PWM_CTRL_DUTY_SIZE-1 : 0] duty_cycle_val;
@@ -30,8 +31,8 @@ count_t on_width_q, on_width_d, on_width_val;
 count_t pulse_width_q, pulse_width_d;
 logic pwm_out_q, pwm_out_d;
 
-assign pwm_active = control[C_PWM_CTRL_RUN_OFFSET+C_PWM_CTRL_RUN_SIZE-1 : C_PWM_CTRL_RUN_OFFSET];
-assign duty_cycle_val = control[C_PWM_CTRL_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_DUTY_OFFSET];
+assign pwm_active = enable;
+assign duty_cycle_val = pwm_duty;
 assign pwm_out = pwm_out_q;
 
 always @(posedge clk or negedge rst_n)
