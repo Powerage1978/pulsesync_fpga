@@ -151,7 +151,7 @@ module toplevel #(
 	assign curr_control[C_PWM_CTRL_IDLE_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_IDLE_DUTY_OFFSET] = 'd100;      // Set curr idle duty cycle
 	assign volt_control[C_PWM_CTRL_IDLE_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_IDLE_DUTY_OFFSET] = 'd63;	    // Set volt idle duty cycle
 	assign curr_control[C_PWM_CTRL_RUN_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_RUN_DUTY_OFFSET] = 'd100;        // Set curr run duty cycle
-	assign volt_control[C_PWM_CTRL_RUN_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_RUN_DUTY_OFFSET] = 'd100;        // Set volt run duty cycle
+	assign volt_control[C_PWM_CTRL_RUN_DUTY_OFFSET+C_PWM_CTRL_DUTY_SIZE-1 : C_PWM_CTRL_RUN_DUTY_OFFSET] = 'd93;        // Set volt run duty cycle
 
 	assign curr_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET] = 'b1;			// Enable curr PWM
 	assign volt_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET] = 'b1;			// Enable volt PWM

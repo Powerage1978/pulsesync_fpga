@@ -44,40 +44,29 @@ module bram #(
         initial begin
         // $readmemh(C_INIT_FILE, ram_state_settings, 0, C_RAM_DEPTH-1);
         // $readmemh({C_FILE_PATH, C_INIT_FILE}, ram_state_settings, 0, C_RAM_DEPTH-1);
-            /*
-            ram_state_settings[0]  = 32'h00005d25;
-            ram_state_settings[1]  = 32'h00000015;      // A, K, DCDC
-            ram_state_settings[2]  = 32'h0000050f;
-            ram_state_settings[3]  = 32'h00000011;      // A, DCDC
-            ram_state_settings[4]  = 32'h00005cf3;
-            ram_state_settings[5]  = 32'h00000010;      // DCDC
-            ram_state_settings[6]  = 32'h000004dd;
-            ram_state_settings[7]  = 32'h00000014;      // Damper, DCDC
-            ram_state_settings[8]  = 32'h00005d25;
-            ram_state_settings[9]  = 32'h00000016;      // B, K, DCDC
-            ram_state_settings[10] = 32'h0000050f;
-            ram_state_settings[11] = 32'h00000012;      // B, DCDC
-            ram_state_settings[12] = 32'h00005cf3;
-            ram_state_settings[13] = 32'h00000010;      // DCDC
-            ram_state_settings[14] = 32'h000004dd;
-            ram_state_settings[15] = 32'h00000014;      // Damper, DCDC
-            */
-            ram_state_settings[0]  = 32'h00008DD3;
-            ram_state_settings[1]  = 32'h00000015;      // A, K, DCDC
-            ram_state_settings[2]  = 32'h000004E9;
-            ram_state_settings[3]  = 32'h00000011;      // A, DCDC
-            ram_state_settings[4]  = 32'h00002BF9;
-            ram_state_settings[5]  = 32'h00000010;      // DCDC
-            ram_state_settings[6]  = 32'h000004B7;
-            ram_state_settings[7]  = 32'h00000014;      // Damper, DCDC
-            ram_state_settings[8]  = 32'h00008DD3;
-            ram_state_settings[9]  = 32'h00000016;      // B, K, DCDC
-            ram_state_settings[10] = 32'h000004E9;
-            ram_state_settings[11] = 32'h00000012;      // B, DCDC
-            ram_state_settings[12] = 32'h00002BF9;
-            ram_state_settings[13] = 32'h00000010;      // DCDC
-            ram_state_settings[14] = 32'h000004B7;
-            ram_state_settings[15] = 32'h00000014;      // Damper, DCDC
+
+        // Base_period: 1538.4
+        // hm_ontime: 400
+        // Kickin: 11
+        // Kickout: 15
+        // pulse_sync_damping_setuptime: 3
+        ram_state_settings[0]  = 32'h0000dc07;
+        ram_state_settings[1]  = 32'h00000015;  // A, K, DCDC
+        ram_state_settings[2]  = 32'h0000022d;
+        ram_state_settings[3]  = 32'h00000011;  // A, DCDC
+        ram_state_settings[4]  = 32'h00004c01;
+        ram_state_settings[5]  = 32'h00000010;  // DCDC
+        ram_state_settings[6]  = 32'h0000025f;
+        ram_state_settings[7]  = 32'h00000014;  // Damper, DCDC
+        ram_state_settings[8]  = 32'h0000dc07;
+        ram_state_settings[9]  = 32'h00000016;  // B, K, DCDC
+        ram_state_settings[10] = 32'h0000022d;
+        ram_state_settings[11] = 32'h00000012;  // B, DCDC
+        ram_state_settings[12] = 32'h00004c01;
+        ram_state_settings[13] = 32'h00000010;  // DCDC
+        ram_state_settings[14] = 32'h0000025f;
+        ram_state_settings[15] = 32'h00000014;  // Damper, DCDC
+
         end
     end else begin : init_bram_to_zero
         integer ram_index;
