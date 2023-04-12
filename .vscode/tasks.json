@@ -13,16 +13,17 @@
     "tasks": [
 
         {
-            "label": "dev-docs-build",
+            "label": "docs-html",
             "type": "shell",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "exec",
-              "dev",
+              "docs",
               "make",
-              "build-docs"
+              "html"
             ],
             "group": {
               "kind": "build",
@@ -31,16 +32,55 @@
             "problemMatcher": []
           },
           {
-            "label": "dev-docs-clean",
+            "label": "docs-pdf",
             "type": "shell",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "exec",
-              "dev",
+              "docs",
+              "make",
+              "pdf"
+            ],
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
+            "problemMatcher": []
+          },
+          {
+            "label": "docs-clean-build",
+            "type": "shell",
+            "command": "docker",
+            "args": [
+              "compose",
+              "-f",
+              "docker/docker-compose.yml",
+              "exec",
+              "docs",
               "make",
               "clean-docs"
+            ],
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
+            "problemMatcher": []
+          },
+          {
+            "label": "docs-clean-output",
+            "type": "shell",
+            "command": "docker",
+            "args": [
+              "compose",
+              "-f",
+              "docker/docker-compose.yml",
+              "exec",
+              "docs",
+              "make",
+              "clean-output"
             ],
             "group": {
               "kind": "build",
@@ -51,8 +91,9 @@
         {
             "type": "shell",
             "label": "docker-compose-build",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "build",
@@ -68,8 +109,9 @@
           {
             "type": "shell",
             "label": "docker-compose-up",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "up",
@@ -84,8 +126,9 @@
           {
             "type": "shell",
             "label": "docker-compose-down",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "down"
@@ -98,8 +141,9 @@
           {
             "type": "shell",
             "label": "docker-compose-status",
-            "command": "docker-compose",
+            "command": "docker",
             "args": [
+              "compose",
               "-f",
               "docker/docker-compose.yml",
               "ps"

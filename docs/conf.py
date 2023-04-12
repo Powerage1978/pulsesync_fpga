@@ -20,18 +20,16 @@ sys.path.insert(0, os.path.abspath('../src/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Picotem-transceiver-fpga'
-copyright = '2022, Skytem Surveys Aps'
-author = 'Skytem Surveys Aps'
+project = 'Picotem transceiver fpga'
+copyright = '2023, Skytem Surveys Aps'
+author = 'Skytem Surveys ApS'
 
 # The full version, including alpha/beta/rc tags
-#main_ns = {}
-#ver_path = convert_path('../src/testapp/version.py')
-#with open(ver_path) as ver_file:
-#    exec(ver_file.read(), main_ns)
-#release = main_ns['__version__']
-release="0.1.0"
-
+main_ns = {}
+ver_path = convert_path('../version.py')
+with open(ver_path) as ver_file:
+    exec(ver_file.read(), main_ns)
+release = main_ns['__version__']
 
 # -- General configuration ---------------------------------------------------
 
@@ -43,8 +41,12 @@ extensions = [
     'sphinx.ext.autodoc',
     'myst_parser',
     'sphinxcontrib.plantuml',
-    'sphinxcontrib.wavedrom'
+    'sphinxcontrib.wavedrom',
+    'sphinxcontrib.cairosvgconverter',
+    'sphinx_rtd_theme',
 ]
+
+# 'sphinxcontrib.rsvgconverter',
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
@@ -62,8 +64,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-# bizstyle  alabaster
-html_theme = 'bizstyle'
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -72,8 +73,6 @@ html_theme = 'bizstyle'
 
 html_show_sourcelink = False
 
-
-# source_suffix = '.rst'
 source_suffix = {
     '.rst': 'restructuredtext',
     '.txt': 'markdown',
@@ -82,6 +81,10 @@ source_suffix = {
 
 # Path to plantuml.jar file
 plantuml = 'java -jar /opt/plantuml/plantuml.jar'
+
+# Wavedrom -------------------------------------------------------------
+wavedrom_html_jsinline = False
+render_using_wavedrompy = True
 
 # LaTeX ----------------------------------------------------------------
 

@@ -11,6 +11,18 @@ User's guide
    :maxdepth: 1
 
    test
+   hw_interface
+   build
+   measurements
+
+Module descriptions
+===================
+
+.. toctree::
+   :maxdepth: 1
+
+   modules/module_description
+   block/block_description
 
 API Reference
 =============
