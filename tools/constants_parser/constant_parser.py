@@ -1,6 +1,7 @@
 import ast
 
 def parse_dict() -> None:
+
     settings_HM = {
         "preamp_gains": [21,21,1,1,1,1],
         "coil_areas": [5,5,1,1,1,1],
@@ -45,9 +46,13 @@ def parse_dict() -> None:
 
     test_str = format('{:#010x}'.format(12))
     kickin_clks_str = format('{:#010x}'.format(int(kickin_clks))).replace('0x','h')
+    kickin_clks_sim_str = format('{:#010x}'.format(int(kickin_clks - 55))).replace('0x','h')
     on_top_clks_str = format('{:#010x}'.format(int(on_top_clks))).replace('0x','h')
+    on_top_clks_sim_str = format('{:#010x}'.format(int(on_top_clks - 55))).replace('0x','h')
     time_to_damper_clks_str = format('{:#010x}'.format(int(time_to_damper_clks))).replace('0x','h')
+    time_to_damper_clks_sim_str = format('{:#010x}'.format(int(time_to_damper_clks - 55))).replace('0x','h')
     from_damp_to_next_clks_str = format('{:#010x}'.format(int(from_damp_to_next_clks))).replace('0x','h')
+    from_damp_to_next_clks_sim_str = format('{:#010x}'.format(int(from_damp_to_next_clks - 55))).replace('0x','h')
     print(f"Data: {kickin_clks_str}")
 
     print(f"***** PARSE DICT ********")
@@ -78,6 +83,17 @@ def parse_dict() -> None:
     print(f"ram_state_settings[14] = 32'" + time_to_damper_clks_str + ';')
     print(f"ram_state_settings[15] = 32'h00000014" + ';' + '\t// Damper, DCDC')
     print(f"*************")
+    print(f"**** Test generator settings ****")
+    print(f"sync_delay_settings[0]  = 32'" + kickin_clks_sim_str + ';')
+    print(f"sync_delay_settings[1]  = 32'" + on_top_clks_sim_str + ';')
+    print(f"sync_delay_settings[2]  = 32'" + time_to_damper_clks_sim_str + ';')    
+    print(f"sync_delay_settings[3]  = 32'" + from_damp_to_next_clks_sim_str + ';')
+    print(f"sync_delay_settings[4]  = 32'" + kickin_clks_sim_str + ';')
+    print(f"sync_delay_settings[5]  = 32'" + on_top_clks_sim_str + ';')
+    print(f"sync_delay_settings[6]  = 32'" + time_to_damper_clks_sim_str + ';')
+    print(f"sync_delay_settings[7]  = 32'" + from_damp_to_next_clks_sim_str + ';')
+    print(f"*************")
+   
 
 def main():
     parse_dict()
