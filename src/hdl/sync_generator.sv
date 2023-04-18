@@ -35,24 +35,15 @@ assign sync = sync_q;
 
 generate
     initial begin
-        /*
-        sync_delay_settings[0] = 32'h000004D8;  // 32'h0000050f;      1240
-        sync_delay_settings[1] = 32'h00005CBC;  // 32'h00005cf3;      23740
-        sync_delay_settings[2] = 32'h000004A6;  // 32'h000004dd;      1190
-        sync_delay_settings[3] = 32'h00005CEE;  // 32'h00005d25;      23790
-        sync_delay_settings[4] = 32'h000004D8;  // 32'h0000050f;      1240
-        sync_delay_settings[5] = 32'h00005CBC;  // 32'h00005cf3;      23740
-        sync_delay_settings[6] = 32'h000004A6;  // 32'h000004dd;      1190
-        sync_delay_settings[7] = 32'h00005CEE;  // 32'h00005d25;      23790
-        */
-        sync_delay_settings[0] = 32'h000004B2;  // 32'h0000050f;      1240
-        sync_delay_settings[1] = 32'h00002BC2;  // 32'h00005cf3;      23740
-        sync_delay_settings[2] = 32'h00000480;  // 32'h000004dd;      1190
-        sync_delay_settings[3] = 32'h00008D9C;  // 32'h00005d25;      23790
-        sync_delay_settings[4] = 32'h000004B2;  // 32'h0000050f;      1240
-        sync_delay_settings[5] = 32'h00002BC2;  // 32'h00005cf3;      23740
-        sync_delay_settings[6] = 32'h00000480;  // 32'h000004dd;      1190
-        sync_delay_settings[7] = 32'h00008D9C;  // 32'h00005d25;      23790
+        sync_delay_settings[0]  = 32'h000001f6;
+        sync_delay_settings[1]  = 32'h00004bca;
+        sync_delay_settings[2]  = 32'h00000228;
+        sync_delay_settings[3]  = 32'h0000dbd0;
+        sync_delay_settings[4]  = 32'h000001f6;
+        sync_delay_settings[5]  = 32'h00004bca;
+        sync_delay_settings[6]  = 32'h00000228;
+        sync_delay_settings[7]  = 32'h0000dbd0;
+
     end
 endgenerate
 
