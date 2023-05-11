@@ -78,15 +78,17 @@ module axi4lite #
 	//----------------------------------------------
 	//-- Signals for user logic register space example
 	//------------------------------------------------
-	//-- Number of Slave Registers 2
+	//-- Number of Slave Registers 3
 	logic [C_DATA_WIDTH-1:0]      control_reg;
     logic [C_DATA_WIDTH-1:0]      status_reg;
+	logic [C_DATA_WIDTH-1:0]      version_reg;
     logic                         slv_reg_rden;
 	logic                         slv_reg_wren;
 	logic [C_DATA_WIDTH-1:0]      reg_data_out;
 	logic                         aw_en;
     integer                       byte_index;
 
+	assign version_reg[C_DATA_WIDTH-1:0] = 32'hDEADBEEF;
 
 	// Implement s_axi_awready generation
 	// s_axi_awready is asserted for one s_axi_aclk clock cycle when both
@@ -280,8 +282,9 @@ module axi4lite #
 	begin
 		// Address decoding for reading registers
 		case ( axi_araddr[C_ADDR_LSB+C_OPT_MEM_ADDR_BITS : C_ADDR_LSB] )
-			2'h0   : reg_data_out <= control_reg;
-            2'h1   : reg_data_out <= status_reg;
+			5'h0   : reg_data_out <= control_reg;
+            5'h1   : reg_data_out <= status_reg;
+			5'h2   : reg_data_out <= version_reg;
 			default : reg_data_out <= {C_DATA_WIDTH{1'b0}};
 		endcase
 	end

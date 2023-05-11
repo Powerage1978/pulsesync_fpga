@@ -1,5 +1,8 @@
 `timescale 1ns / 100ps
 
+/*
+ * Defines constants for the Zynq platform.
+ */
 package zynq_interface_pkg;
     parameter C_DDR_ADDR_WIDTH = 15;
     parameter C_DDR_DATA_WIDTH = 32;

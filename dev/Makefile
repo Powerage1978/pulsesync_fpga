@@ -144,4 +144,3 @@ vivado-bitstream :
 vivado-hardware : vivado-bitstream
 	mkdir -p output
 	vivado -mode batch -source tcl/write-hw-platform.tcl
-#	cp ./picotem-transceiver-fpga/picotem-transceiver-fpga/toplevel.xsa ./output/

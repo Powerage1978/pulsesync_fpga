@@ -1,5 +1,18 @@
 `timescale 1ns / 100ps
 
+/*
+ * The gate driver module implements the mapping towards the driver transistors
+ * that transfers energy on the loop.
+ * The gate driver is triggered by the pulse sync signal from the TS, on each
+ * received TS signal it is evaluated if the sync signal arrives within a valid
+ * time slot window. If the sync arrives outside this window, the gate driver
+ * will enter an error state and set the control signal for the transistors in
+ * a fixed error state that doesn't moves power onto the loop.
+ * As long the sync signals arrive within the time window a new set of
+ * constatnts are loaded from embedded memory (BRAM), where a pair of
+ * transistor control values and delay until next sync signal is present.
+ */
+
 import gatedriver_pkg::*;
 
 module gate_driver # (
@@ -25,23 +38,18 @@ module gate_driver # (
     output logic gate_output_dbg[C_OUTPUT_WIDTH]
 );
 
-
+// Local parameters
 localparam NUM_STAGES = 3;
-// localparam C_STATUS_SIZE = 3;
 
+// Typedef definitions
 typedef enum bit[C_STATUS_SIZE-1:0] {ERR = 3'b001, STOP, A, A2, B, C, D} state_t;
 typedef enum bit {TIME = 0, VALUE} tv_select_t;
-
 typedef enum bit {INACTIVE = 1'b0, ACTIVE = 1'b1} mode_status;
 
+// Logic definitions
 state_t q_state;
 state_t d_state;
-
 mode_status mode_d, mode_q;
-
-assign status[C_STATUS_SIZE-1 : 0] = q_state;
-assign status[C_WORD_SIZE-1 : C_STATUS_SIZE] = {(C_WORD_SIZE - C_STATUS_SIZE){1'b0}};
-
 logic [C_COUNT_SIZE-1 : 0] q_tcounter;
 logic [C_COUNT_SIZE-1 : 0] d_tcounter;
 logic [C_IDX_SIZE-1 : 0] q_idx;
@@ -57,26 +65,23 @@ logic [C_IDX_SIZE-1 : 0] NO_OF_STATES;
 logic ssync;
 logic [NUM_STAGES:1] sync_reg;
 logic gate_output[C_OUTPUT_WIDTH];
-
 tv_select_t q_tv_select, d_tv_select;
 
 // Assignemnts
-
 assign enb = 1'b1;
 assign regceb = 1'b1;
-
 assign addrb = {q_idx, q_tv_select};
-
 assign NO_OF_STATES = ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET];
 // assign NO_OF_STATES = 8;
-
 assign RUN = ctrl_reg[0];
 // assign RUN = 1'b1;
-
 assign SYNC_TOO_LATE = q_tcounter[C_COUNT_SIZE-1];
-
 assign state_dbg = q_state;
 assign mode = mode_q;
+
+// assign status[C_STATUS_SIZE-1 : 0] = q_state;
+// assign status[C_WORD_SIZE-1 : C_STATUS_SIZE] = {(C_WORD_SIZE - C_STATUS_SIZE){1'b0}};
+assign status[C_WORD_SIZE-1:0] = 32'hABBAABBA;  // Debug purpose for now
 
 generate
     genvar i;

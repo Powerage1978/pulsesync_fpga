@@ -1,5 +1,13 @@
 `timescale 1ns / 100ps
 
+/*
+ * DCDC module implementation
+ * Interfaces to the DCDC module and sets PWM values for current and voltage.
+ * This DCDC module implememnts a softstart mechanism where the voltage and
+ * current PWM values (known as idle values) are held for a given amount of
+ * time, and then changes to the required run values.
+ *
+ */
 import axi4lite_pkg::*;
 import sys_pkg::*;
 
@@ -16,28 +24,32 @@ module dcdc #(
     output logic ena_psu
 );
 
+// Local parameters
 localparam longint C_DELAY = 100;             // Delay in ms
 localparam longint C_COUNT_SIZE = 16;
 localparam longint C_COUNT_LOW_RESET = {C_COUNT_SIZE + 1{1'b1}};
 localparam longint C_COUNT_HIGH_RESET = C_SYS_FREQ * C_DELAY / 2**C_COUNT_SIZE / 1000;
 localparam integer C_STATE_SIZE = 3; 
 
+// Typedef definitions
+typedef logic [C_COUNT_SIZE : 0] count_t;
+typedef enum bit {DISABLE_PSU = 1'b1, ENABLE_PSU = 1'b0} psu_status;
+typedef enum bit {DISABLE_PWM = 1'b0, ENABLE_PWM = 1'b1} pwm_status;
+typedef enum bit[C_STATE_SIZE-1 : 0] {ERR = 3'b111, STOP = 3'b000, DELAY, IDLE, RUN} state_t;
+
+// Logic definitions
 logic [C_PWM_CTRL_ENA_SIZE-1 : 0] ena_curr_d, ena_curr_q;
 logic [C_PWM_CTRL_ENA_SIZE-1 : 0] ena_volt_d, ena_volt_q;
 logic ena_psu_d, ena_psu_q;
 logic [C_PWM_CTRL_DUTY_SIZE-1 : 0] curr_pwm_duty_d, curr_pwm_duty_q;
 logic [C_PWM_CTRL_DUTY_SIZE-1 : 0] volt_pwm_duty_d, volt_pwm_duty_q;
-typedef logic [C_COUNT_SIZE : 0] count_t;
 
-typedef enum bit {DISABLE_PSU = 1'b1, ENABLE_PSU = 1'b0} psu_status;
-typedef enum bit {DISABLE_PWM = 1'b0, ENABLE_PWM = 1'b1} pwm_status;
-
-typedef enum bit[C_STATE_SIZE-1 : 0] {ERR = 3'b111, STOP = 3'b000, DELAY, IDLE, RUN} state_t;
 state_t state_q, state_d;
 
 count_t delay_cnt_low_d, delay_cnt_low_q;
 count_t delay_cnt_high_d, delay_cnt_high_q;
 
+// Assignments
 assign ena_curr_d = curr_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET];
 assign ena_volt_d = volt_control[C_PWM_CTRL_ENA_OFFSET+C_PWM_CTRL_ENA_SIZE-1 : C_PWM_CTRL_ENA_OFFSET];
 assign ena_psu = ena_psu_q;
@@ -66,7 +78,8 @@ begin
         state_q <= STOP;
         delay_cnt_low_q = C_COUNT_LOW_RESET;
         delay_cnt_high_q = C_COUNT_HIGH_RESET;
-    end else begin
+    end
+    else begin
         state_q <= state_d;
         delay_cnt_low_q <= delay_cnt_low_d;
         delay_cnt_high_q <= delay_cnt_high_d;
@@ -96,11 +109,13 @@ begin
         begin
             if (delay_cnt_low_q[C_COUNT_SIZE] == 1'b0) begin
                 delay_cnt_low_d = delay_cnt_low_q - 1;
-            end else begin
+            end
+            else begin
                 delay_cnt_low_d = {1'b0,{C_COUNT_SIZE{1'b1}}};
                 if (delay_cnt_high_q[C_COUNT_SIZE] == 1'b0) begin
                     delay_cnt_high_d = delay_cnt_high_q - 1;
-                end else begin
+                end
+                else begin
                     state_d = IDLE;
                 end
             end
@@ -121,7 +136,8 @@ begin
             if ((ena_volt_q | ena_curr_q) == 1'b0) begin
                 state_d = STOP;
                 ena_psu_d = DISABLE_PSU;
-            end else if (mode == 1'b0) begin
+            end
+            else if (mode == 1'b0) begin
                 state_d = IDLE;
             end
         end
@@ -143,7 +159,8 @@ always @ (posedge clk) begin
         ena_curr_q <= DISABLE_PWM;
         curr_pwm_duty_q <= 0;
         volt_pwm_duty_q <= 0;
-    end else begin
+    end
+    else begin
         ena_psu_q <= ena_psu_d;
         ena_volt_q <= ena_volt_d;
         ena_curr_q <= ena_curr_d;
