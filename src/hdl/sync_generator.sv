@@ -1,5 +1,10 @@
 `timescale 1ns / 100ps
 
+/*
+ * This synz generator is used as test module that can be initiated and
+ * generate an internal sync signal. This sync signal can be used to validate
+ * the behaviour of the gate driver module.
+ */
 module sync_generator #(
 
 )
@@ -8,6 +13,8 @@ module sync_generator #(
     input logic rst_n,
     output logic sync
 );
+
+// Local parameters
 localparam C_STATE_INDEX_LEN = 8;
 localparam C_STATE_INDEX_WIDTH = $clog2(C_STATE_INDEX_LEN);
 localparam C_CNT_WIDTH = 32;
@@ -15,9 +22,11 @@ localparam C_DATA_WIDTH = 32;
 localparam C_ON_CNT = 9;
 localparam C_IDLE_CNT = 50;
 
+// Typedef definitions
 typedef enum bit[1:0] {ERR = 2'b11, IDLE = 2'b00, ON, DELAY} state_t;
-state_t state_q, state_d;
 
+// Logic definitions
+state_t state_q, state_d;
 logic [C_CNT_WIDTH-1 : 0] delay_cnt_d, delay_cnt_q;
 logic [C_CNT_WIDTH-1 : 0] on_cnt_d, on_cnt_q;
 logic [C_CNT_WIDTH-1 : 0] idle_cnt_d, idle_cnt_q;
@@ -28,6 +37,7 @@ logic delay_cnt_msb;
 logic on_cnt_msb;
 logic idle_cnt_msb;
 
+// Assignemnts
 assign delay_cnt_msb = delay_cnt_q[C_CNT_WIDTH-1];
 assign on_cnt_msb = on_cnt_q[C_CNT_WIDTH-1];
 assign idle_cnt_msb = idle_cnt_q[C_CNT_WIDTH-1];

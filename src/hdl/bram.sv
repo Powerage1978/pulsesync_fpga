@@ -1,6 +1,6 @@
 `timescale 1ns / 100ps
-/**
- * @brief Xilinx Simple Dual Port Single Clock RAM
+/*
+ * Xilinx Simple Dual Port Single Clock RAM
  * This code implements a parameterizable SDP single clock memory.
  * If a reset or enable is not necessary, it may be tied off or removed from the code.
  */
@@ -8,43 +8,32 @@
 import axi4lite_pkg::*;
 module bram #(
 ) (
-    input logic clk,                                    /*!< Clock */
-    input logic rst_n,                                  /*!< reset */
-    input logic regceb,                                 /*!< Output register enable */
-    input logic enb,                                    /*!< Read Enable, for additional power savings, disable when not in use */
-    input logic wea,                                    /*!< Write enable */
-    input logic [C_DATA_WIDTH-1 : 0] dina,              /*!< RAM input data */
-    input logic [$clog2(C_RAM_DEPTH-1)-1 : 0] addra,    /*!< Write address bus */
-    input logic [C_ADDR_WIDTH-4 : 0] addrb,             /*!< Read address bus */
-    output logic [C_DATA_WIDTH-1 : 0] doutb             /*!< RAM output data*/
+    input logic clk,                                    // Clock
+    input logic rst_n,                                  // reset
+    input logic regceb,                                 // Output register enable
+    input logic enb,                                    // Read Enable, for additional power savings, disable when not in use
+    input logic wea,                                    // Write enable
+    input logic [C_DATA_WIDTH-1 : 0] dina,              // RAM input data
+    input logic [$clog2(C_RAM_DEPTH-1)-1 : 0] addra,    // Write address bus
+    input logic [C_ADDR_WIDTH-4 : 0] addrb,             // Read address bus
+    output logic [C_DATA_WIDTH-1 : 0] doutb             // RAM output data
 );
 
-  /**
-     * Local parameters
-     */
+    // Local parameters
+    localparam C_RAM_PERFORMANCE = "HIGH_PERFORMANCE";  // Select "HIGH_PERFORMANCE" or "LOW_LATENCY" 
+    localparam C_INIT_FILE = "testdata.txt";       // Specify name/location of RAM initialization file if using one (leave blank if not)
+    localparam C_FILE_PATH = "";
 
-  localparam C_RAM_PERFORMANCE = "HIGH_PERFORMANCE";  // Select "HIGH_PERFORMANCE" or "LOW_LATENCY" 
-  localparam C_INIT_FILE = "testdata.txt";       // Specify name/location of RAM initialization file if using one (leave blank if not)
-  localparam C_FILE_PATH = "";
+    // Logic definitions
+    logic [C_DATA_WIDTH-1:0] ram_state_settings[C_RAM_DEPTH-1:0];
+    logic [C_DATA_WIDTH-1:0] ram_data;
 
-  /**
-     * Logic definitions
-     */
-  logic [C_DATA_WIDTH-1:0] ram_state_settings[C_RAM_DEPTH-1:0];
-  logic [C_DATA_WIDTH-1:0] ram_data;
+    // Assignments
 
-
-  /**
-     * Assignments
-     */
-
-  // The following code either initializes the memory values to a specified file or to all zeros to match hardware
+    // The following code either initializes the memory values for a given pulsesync configuration
     generate
     if (C_INIT_FILE != "") begin : use_init_file
         initial begin
-        // $readmemh(C_INIT_FILE, ram_state_settings, 0, C_RAM_DEPTH-1);
-        // $readmemh({C_FILE_PATH, C_INIT_FILE}, ram_state_settings, 0, C_RAM_DEPTH-1);
-
         // Base_period: 1538.4
         // hm_ontime: 400
         // Kickin: 11
@@ -79,41 +68,44 @@ module bram #(
     endgenerate
 
     always @(posedge clk) begin
-    if (!rst_n) begin
-        ram_data <= {C_DATA_WIDTH{1'b0}};
-    end else begin
-        if (wea) begin
-            ram_state_settings[addra] <= dina;
-        end
-        if (enb) begin
-            ram_data <= ram_state_settings[addrb];
-        end
-    end
-    end
-
-  //  The following code generates HIGH_PERFORMANCE (use output register) or LOW_LATENCY (no output register)
-    generate
-    if (C_RAM_PERFORMANCE == "LOW_LATENCY") begin : no_output_register
-
-        // The following is a 1 clock cycle read latency at the cost of a longer clock-to-out timing
-        assign doutb = ram_data;
-
-    end else begin : output_register
-
-        // The following is a 2 clock cycle read latency with improve clock-to-out timing
-
-        logic [C_DATA_WIDTH-1:0] doutb_reg;
-
-        always @(posedge clk)
         if (!rst_n) begin
-            doutb_reg <= {C_DATA_WIDTH{1'b0}};
-        end else if (regceb) begin
-            doutb_reg <= ram_data;
+            ram_data <= {C_DATA_WIDTH{1'b0}};
         end
-
-        assign doutb = doutb_reg;
-
+        else begin
+            if (wea) begin
+                ram_state_settings[addra] <= dina;
+            end
+            if (enb) begin
+                ram_data <= ram_state_settings[addrb];
+            end
+        end
     end
+
+    //  The following code generates HIGH_PERFORMANCE (use output register) or LOW_LATENCY (no output register)
+    generate
+        if (C_RAM_PERFORMANCE == "LOW_LATENCY") begin : no_output_register
+
+            // The following is a 1 clock cycle read latency at the cost of a longer clock-to-out timing
+            assign doutb = ram_data;
+
+        end
+        else begin : output_register
+
+            // The following is a 2 clock cycle read latency with improve clock-to-out timing
+
+            logic [C_DATA_WIDTH-1:0] doutb_reg;
+
+            always @(posedge clk)
+            if (!rst_n) begin
+                doutb_reg <= {C_DATA_WIDTH{1'b0}};
+            end
+            else if (regceb) begin
+                doutb_reg <= ram_data;
+            end
+
+            assign doutb = doutb_reg;
+
+        end
     endgenerate
 
 endmodule

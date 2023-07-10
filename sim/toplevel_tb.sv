@@ -1,5 +1,10 @@
 `timescale 1ns / 100ps
 
+/*
+ * Simple test on top level that reads and write to select addresses mapped
+ * into BRAM. 
+ */
+
 module toplevel_tb(
     );
 
@@ -27,6 +32,9 @@ module toplevel_tb(
 
     logic clk;
     logic rst_n;
+    
+    logic [31:0] read_data;
+    logic resp;
 
     // logic temp_clk;
     wire temp_clk;
@@ -42,15 +50,32 @@ module toplevel_tb(
     end
 
     initial begin
+        $display("Test begin");
         rst_n = 1'b0;
         repeat (5) @(negedge clk);
         rst_n = 1'b1;
+        repeat (5) @(negedge clk);
         //Reset the PL
         toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.fpga_soft_reset(32'h1);
+        repeat (20) @(negedge clk);
         toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
+        
+        $display("Toplevel write");
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00000,4, 32'h01020304, resp);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00080,4, 32'h0A0A0A0A, resp);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00084,4, 32'h0B0B0B0B, resp);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00088,4, 32'h0C0C0C0C, resp);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C0008C,4, 32'h0D0D0D0D, resp);
 
-        repeat (250000) @(negedge clk);
+        $display("Toplevel read");
+        for (int i = 0; i < 64; i++) begin
+            int j = 'h43C00000 + (i << 2); 
+            toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.read_data(j,4,read_data,resp);
+            $display ("%t, running the testbench, data read from BRAM was 32'h%x",$time, read_data);
+        end
+        repeat (250000) @(negedge clk); // When enabled, can bu used to debug pulsesync test -> needs to run for a longer time to validate timing
         $display("Test done");
+        $stop;
         #200 $finish;
     end
 

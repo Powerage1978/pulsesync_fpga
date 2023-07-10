@@ -36,4 +36,4 @@ Timing diagram
 --------------
 
 Register definition
-------------------
+-------------------

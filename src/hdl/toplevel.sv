@@ -1,5 +1,9 @@
 `timescale 1ns / 100ps
 
+/*
+ * Instantiate modules on toplevel and maps the moduels I/O together.
+ */
+
 import axi4lite_pkg::*;
 import gatedriver_pkg::*;
 import zynq_interface_pkg::*;
@@ -57,8 +61,10 @@ module toplevel #(
 	output logic mode
 	);
 
-	localparam C_TEST_ENABLE	= 1'b0;
+	// Local parameters
+	localparam C_TEST_ENABLE	= 1'b0;		// Active high
 
+	// Logic definitions
     logic sync_single_ended;
     logic sync_out;
 	logic sync_signal;
@@ -128,6 +134,7 @@ module toplevel #(
 	logic [C_DATA_WIDTH-1 : 0] curr_control;
 	logic [C_DATA_WIDTH-1 : 0] volt_control;
 
+	// Assignemnts
     assign external_err = 1'b0;
     assign rstb = 0;
     assign ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 8;
@@ -159,7 +166,8 @@ module toplevel #(
 	// Selector for test generator
 	if (C_TEST_ENABLE == 1'b0) begin
 		assign sync_signal = ~sync_out;
-	end else begin
+	end
+	else begin
 		assign sync_signal = sync_gen;
 	end
 	
