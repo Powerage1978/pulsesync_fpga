@@ -37,7 +37,7 @@ xsim.log
 xsim.dir/
 
 # Generated Vivado project dir
-picotem-transceiver-fpga/
+pulsesync_fpga/
 
 # Temporary VIvado directory for bookkeeping
 .Xil
@@ -59,3 +59,6 @@ docs/**/*.svg
 !docs/img/*.png
 
 output/
+
+log/*
+!log/.gitkeep

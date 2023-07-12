@@ -9,6 +9,7 @@
             <top_module name="axi_vip_pkg" />
             <top_module name="gatedriver_pkg" />
             <top_module name="glbl" />
+            <top_module name="mem_map_pkg" />
             <top_module name="sim_pkg" />
             <top_module name="std" />
             <top_module name="toplevel_tb" />
@@ -17,27 +18,24 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="7,256.666 ns"></ZoomStartTime>
-      <ZoomEndTime time="11,328.667 ns"></ZoomEndTime>
-      <Cursor1Time time="10,650.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="10,510.000001 us"></ZoomEndTime>
+      <Cursor1Time time="375.270000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="365"></NameColumnWidth>
+      <NameColumnWidth column_width="299"></NameColumnWidth>
       <ValueColumnWidth column_width="97"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="16" />
+   <WVObjectSize size="14" />
    <wave_markers>
       <marker label="" time="5200000" />
-      <marker label="" time="5189900" />
       <marker label="" time="4607950000" />
+      <marker label="" time="5268032100" />
+      <marker label="" time="5189900" />
    </wave_markers>
    <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/peripheral_aresetn">
       <obj_property name="ElementShortName">peripheral_aresetn</obj_property>
       <obj_property name="ObjectShortName">peripheral_aresetn</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/toplevel_tb/state_dbg">
-      <obj_property name="ElementShortName">state_dbg[2:0]</obj_property>
-      <obj_property name="ObjectShortName">state_dbg[2:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/toplevel_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
@@ -47,10 +45,6 @@
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/sync">
-      <obj_property name="ElementShortName">sync</obj_property>
-      <obj_property name="ObjectShortName">sync</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/FCLK_CLK0">
       <obj_property name="ElementShortName">FCLK_CLK0</obj_property>
       <obj_property name="ObjectShortName">FCLK_CLK0</obj_property>
@@ -59,13 +53,10 @@
       <obj_property name="ElementShortName">FCLK_RESET0_N</obj_property>
       <obj_property name="ObjectShortName">FCLK_RESET0_N</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/state_q">
-      <obj_property name="ElementShortName">state_q[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state_q[1:0]</obj_property>
-   </wvobject>
    <wvobject type="group" fp_name="group93">
       <obj_property name="label">Gatedriver</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -82,76 +73,179 @@
          <obj_property name="ElementShortName">gate_output[0:3]</obj_property>
          <obj_property name="ObjectShortName">gate_output[0:3]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/q_tcounter">
-         <obj_property name="ElementShortName">q_tcounter[24:0]</obj_property>
-         <obj_property name="ObjectShortName">q_tcounter[24:0]</obj_property>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/mode">
+         <obj_property name="ElementShortName">mode</obj_property>
+         <obj_property name="ObjectShortName">mode</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/run_mode_d">
+         <obj_property name="ElementShortName">run_mode_d[2:0]</obj_property>
+         <obj_property name="ObjectShortName">run_mode_d[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/run_mode_q">
+         <obj_property name="ElementShortName">run_mode_q[2:0]</obj_property>
+         <obj_property name="ObjectShortName">run_mode_q[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/state_q">
+         <obj_property name="ElementShortName">state_q[8:0]</obj_property>
+         <obj_property name="ObjectShortName">state_q[8:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/state_d">
+         <obj_property name="ElementShortName">state_d[8:0]</obj_property>
+         <obj_property name="ObjectShortName">state_d[8:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group123">
       <obj_property name="label">BRAM</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/ram_state_settings">
-         <obj_property name="ElementShortName">ram_state_settings[31:0][31:0]</obj_property>
-         <obj_property name="ObjectShortName">ram_state_settings[31:0][31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/ram_data">
-         <obj_property name="ElementShortName">ram_data[31:0]</obj_property>
-         <obj_property name="ObjectShortName">ram_data[31:0]</obj_property>
-      </wvobject>
       <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/gate_driver_instance/doutb">
          <obj_property name="ElementShortName">doutb[31:0]</obj_property>
          <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/enb">
+   </wvobject>
+   <wvobject type="group" fp_name="group348">
+      <obj_property name="label">pulsesync_memory_block</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/pwm_status">
+         <obj_property name="ElementShortName">pwm_status[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pwm_status[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/pwm_ctrl">
+         <obj_property name="ElementShortName">pwm_ctrl[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pwm_ctrl[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/pwm_val">
+         <obj_property name="ElementShortName">pwm_val[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pwm_val[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/pulsesync_status">
+         <obj_property name="ElementShortName">pulsesync_status[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pulsesync_status[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/pulsesync_ctrl">
+         <obj_property name="ElementShortName">pulsesync_ctrl[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pulsesync_ctrl[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/gen_status">
+         <obj_property name="ElementShortName">gen_status[31:0]</obj_property>
+         <obj_property name="ObjectShortName">gen_status[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/gen_ctrl">
+         <obj_property name="ElementShortName">gen_ctrl[31:0]</obj_property>
+         <obj_property name="ObjectShortName">gen_ctrl[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/enb">
          <obj_property name="ElementShortName">enb</obj_property>
          <obj_property name="ObjectShortName">enb</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/wea">
-         <obj_property name="ElementShortName">wea</obj_property>
-         <obj_property name="ObjectShortName">wea</obj_property>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/regceb">
+         <obj_property name="ElementShortName">regceb</obj_property>
+         <obj_property name="ObjectShortName">regceb</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/dina">
-         <obj_property name="ElementShortName">dina[31:0]</obj_property>
-         <obj_property name="ObjectShortName">dina[31:0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject type="group" fp_name="group348">
-      <obj_property name="label">AXI4LITE_BRAM</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/bram_instance/\output_register.doutb_reg ">
-         <obj_property name="ElementShortName">\output_register.doutb_reg [31:0]</obj_property>
-         <obj_property name="ObjectShortName">\output_register.doutb_reg [31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/addrb">
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/addrb">
          <obj_property name="ElementShortName">addrb[4:0]</obj_property>
          <obj_property name="ObjectShortName">addrb[4:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/s_axi_aclk">
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/doutb">
+         <obj_property name="ElementShortName">doutb[31:0]</obj_property>
+         <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_aclk">
          <obj_property name="ElementShortName">s_axi_aclk</obj_property>
          <obj_property name="ObjectShortName">s_axi_aclk</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/s_axi_aresetn">
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_aresetn">
          <obj_property name="ElementShortName">s_axi_aresetn</obj_property>
          <obj_property name="ObjectShortName">s_axi_aresetn</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/wea">
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_awaddr">
+         <obj_property name="ElementShortName">s_axi_awaddr[7:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_awaddr[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_awprot">
+         <obj_property name="ElementShortName">s_axi_awprot[2:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_awprot[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_awvalid">
+         <obj_property name="ElementShortName">s_axi_awvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axi_awvalid</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_wdata">
+         <obj_property name="ElementShortName">s_axi_wdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_wdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_wstrb">
+         <obj_property name="ElementShortName">s_axi_wstrb[3:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_wstrb[3:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_wvalid">
+         <obj_property name="ElementShortName">s_axi_wvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axi_wvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_bready">
+         <obj_property name="ElementShortName">s_axi_bready</obj_property>
+         <obj_property name="ObjectShortName">s_axi_bready</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_araddr">
+         <obj_property name="ElementShortName">s_axi_araddr[7:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_araddr[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_arprot">
+         <obj_property name="ElementShortName">s_axi_arprot[2:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_arprot[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_arvalid">
+         <obj_property name="ElementShortName">s_axi_arvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axi_arvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_awready">
+         <obj_property name="ElementShortName">s_axi_awready</obj_property>
+         <obj_property name="ObjectShortName">s_axi_awready</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_arready">
+         <obj_property name="ElementShortName">s_axi_arready</obj_property>
+         <obj_property name="ObjectShortName">s_axi_arready</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_rdata">
+         <obj_property name="ElementShortName">s_axi_rdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_rdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_rresp">
+         <obj_property name="ElementShortName">s_axi_rresp[1:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_rresp[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_rvalid">
+         <obj_property name="ElementShortName">s_axi_rvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axi_rvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_wready">
+         <obj_property name="ElementShortName">s_axi_wready</obj_property>
+         <obj_property name="ObjectShortName">s_axi_wready</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_bresp">
+         <obj_property name="ElementShortName">s_axi_bresp[1:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axi_bresp[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_bvalid">
+         <obj_property name="ElementShortName">s_axi_bvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axi_bvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/s_axi_rready">
+         <obj_property name="ElementShortName">s_axi_rready</obj_property>
+         <obj_property name="ObjectShortName">s_axi_rready</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/wea">
          <obj_property name="ElementShortName">wea</obj_property>
          <obj_property name="ObjectShortName">wea</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/s_axi_awaddr">
-         <obj_property name="ElementShortName">s_axi_awaddr[7:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awaddr[7:0]</obj_property>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/pulsesync_memory_block_instance/addra">
+         <obj_property name="ElementShortName">addra[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addra[4:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group35">
       <obj_property name="label">Sync_Gen</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/sync">
-         <obj_property name="ElementShortName">sync</obj_property>
-         <obj_property name="ObjectShortName">sync</obj_property>
-      </wvobject>
       <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/rst_n">
          <obj_property name="ElementShortName">rst_n</obj_property>
          <obj_property name="ObjectShortName">rst_n</obj_property>
@@ -173,13 +267,26 @@
          <obj_property name="ObjectShortName">index_q[2:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/state_q">
-         <obj_property name="ElementShortName">state_q[1:0]</obj_property>
-         <obj_property name="ObjectShortName">state_q[1:0]</obj_property>
+         <obj_property name="ElementShortName">state_q[4:0]</obj_property>
+         <obj_property name="ObjectShortName">state_q[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/sync_signal">
+         <obj_property name="ElementShortName">sync_signal</obj_property>
+         <obj_property name="ObjectShortName">sync_signal</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/sync_generator_instance/sync_signal_n">
+         <obj_property name="ElementShortName">sync_signal_n</obj_property>
+         <obj_property name="ObjectShortName">sync_signal_n</obj_property>
       </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group41">
       <obj_property name="label">DCDC</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/pwm_val">
+         <obj_property name="ElementShortName">pwm_val[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pwm_val[31:0]</obj_property>
+      </wvobject>
       <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/pwm_out_curr">
          <obj_property name="ElementShortName">pwm_out_curr</obj_property>
          <obj_property name="ObjectShortName">pwm_out_curr</obj_property>
@@ -192,6 +299,22 @@
          <obj_property name="ElementShortName">ena_psu</obj_property>
          <obj_property name="ObjectShortName">ena_psu</obj_property>
       </wvobject>
+      <wvobject type="logic" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/mode">
+         <obj_property name="ElementShortName">mode</obj_property>
+         <obj_property name="ObjectShortName">mode</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/pwm_curr_instance/state_q">
+         <obj_property name="ElementShortName">state_q[2:0]</obj_property>
+         <obj_property name="ObjectShortName">state_q[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/pwm_curr_instance/state_d">
+         <obj_property name="ElementShortName">state_d[2:0]</obj_property>
+         <obj_property name="ObjectShortName">state_d[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/dcdc_instance/pwm_status">
+         <obj_property name="ElementShortName">pwm_status[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pwm_status[31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/toplevel_tb/resp">
       <obj_property name="ElementShortName">resp</obj_property>
@@ -201,21 +324,12 @@
       <obj_property name="ElementShortName">read_data[31:0]</obj_property>
       <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
    </wvobject>
-   <wvobject type="group" fp_name="group140">
-      <obj_property name="label">AXI4Lite</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/axi4lite_instance/status_reg">
-         <obj_property name="ElementShortName">status_reg[31:0]</obj_property>
-         <obj_property name="ObjectShortName">status_reg[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/axi4lite_instance/control_reg">
-         <obj_property name="ElementShortName">control_reg[31:0]</obj_property>
-         <obj_property name="ObjectShortName">control_reg[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/toplevel_tb/toplevel_instance/axi4lite_bram_instance/axi4lite_instance/s_axi_araddr">
-         <obj_property name="ElementShortName">s_axi_araddr[7:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_araddr[7:0]</obj_property>
-      </wvobject>
+   <wvobject type="logic" fp_name="/toplevel_tb/curr_pwm">
+      <obj_property name="ElementShortName">curr_pwm</obj_property>
+      <obj_property name="ObjectShortName">curr_pwm</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/toplevel_tb/volt_pwm">
+      <obj_property name="ElementShortName">volt_pwm</obj_property>
+      <obj_property name="ObjectShortName">volt_pwm</obj_property>
    </wvobject>
 </wave_config>

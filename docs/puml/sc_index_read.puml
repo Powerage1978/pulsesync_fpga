@@ -1,0 +1,18 @@
+@startuml
+
+hide empty description
+
+state Err
+
+state Fetch_index {
+    [*] -> Fetch_number_of_ids_ws
+    state Fetch_number_of_ids_ws
+    state Fetch_number_of_ids
+    Fetch_number_of_ids_ws --> Fetch_number_of_ids
+}
+
+Fetch_index -left-> Err
+
+Fetch_number_of_ids --> [*]
+
+@enduml

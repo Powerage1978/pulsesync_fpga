@@ -1,0 +1,23 @@
+@startuml
+
+hide empty description
+state Stop
+state Err
+State Fetch_index
+state Run
+
+[*] --> Stop
+Stop -> Fetch_index
+Fetch_index --> Run
+
+Run -> Stop
+Run -> Err
+
+Fetch_index -> Stop
+Fetch_index -> Err
+
+Err -> Stop
+Stop -> Err
+
+
+@enduml

@@ -1,36 +1,16 @@
 .. rst-class:: hide-header
 
-*******************************************
-Welcome to picotem-transceiver-fpga project
-*******************************************
-
-User's guide
-============
+*****************************
+Pulsesync FPGA implementation
+*****************************
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   test
-   hw_interface
-   build
-   measurements
-
-Module descriptions
-===================
-
-.. toctree::
-   :maxdepth: 1
-
-   modules/module_description
-   block/block_description
-
-API Reference
-=============
-
-.. toctree::
-   :maxdepth: 1
-
-   source/modules
+   intro
+   block_description
+   memory_map
+   development
 
 Additional Notes
 ================
