@@ -1,0 +1,6 @@
+{"reg":[
+    {"name": "v_idle_duty", "bits": 8},
+    {"name": "v_run_duty", "bits": 8},
+    {"name": "i_idle_duty", "bits": 8},
+    {"name": "i_run_duty", "bits": 8}
+]}

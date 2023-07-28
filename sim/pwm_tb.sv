@@ -5,11 +5,12 @@ module pwm_tb(
 );
     import sim_pkg::*;
     import axi4lite_pkg::*;
+    import mem_map_pkg::*;
 
     logic clk;
     logic rst_n;
     logic enable;
-    logic [C_PWM_CTRL_DUTY_SIZE-1 : 0] pwm_duty;
+    logic [C_PWM_VAL_DUTY_SIZE-1 : 0] pwm_duty;
     logic pwm_out;
 
     pwm #(

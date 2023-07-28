@@ -1,1 +1,1 @@
-# picotem-transceiver-fpga
+# Pulsesync-fpga

@@ -1,0 +1,5 @@
+{"reg":[
+    {"name": "i_info", "bits": 2},
+    {"name": "v_info", "bits": 2},
+    {"bits": 28}
+]}

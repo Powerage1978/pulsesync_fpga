@@ -2,7 +2,11 @@
     "editor.rulers": [79],
     "editor.wordWrap": "off",
     "editor.wordWrapColumn":80,
-    "[rst]":{
+    "[restructuredtext]":{
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 80,
+    },
+    "[markdown]":{
         "editor.wordWrap": "wordWrapColumn",
         "editor.wordWrapColumn": 80,
     },

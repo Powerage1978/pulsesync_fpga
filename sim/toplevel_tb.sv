@@ -11,12 +11,12 @@ module toplevel_tb(
     import sim_pkg::*;
     import axi4lite_pkg::*;
     import gatedriver_pkg::*;
+    import mem_map_pkg::*;
 
-    logic [C_STATUS_SIZE-1 : 0]state_dbg;
-    logic clk_dbg;
-    logic sync_dbg;
+    logic sync_gen;
+    logic sync_gen_n;
     logic sync_in;
-    logic gate_output_dbg[C_OUTPUT_WIDTH];
+    logic gate_output_dbg[C_GATEDRIVE_WIDTH];
     logic sync_a;
     logic sync_b;
 	logic sync_k;
@@ -36,9 +36,15 @@ module toplevel_tb(
     logic [31:0] read_data;
     logic resp;
 
-    // logic temp_clk;
     wire temp_clk;
     wire temp_rst_n;
+
+    localparam C_BASE_ADDR      = 32'h43C00000;
+    localparam C_RW_BYTE_SIZE   = 4;
+    localparam C_BRAM_BASE      = 'd32;
+
+    assign sync_in = sync_gen_n;
+    // assign sync_in = sync_gen;
 
     initial begin
         clk = 0;
@@ -52,7 +58,7 @@ module toplevel_tb(
     initial begin
         $display("Test begin");
         rst_n = 1'b0;
-        repeat (5) @(negedge clk);
+        repeat (20) @(negedge clk);
         rst_n = 1'b1;
         repeat (5) @(negedge clk);
         //Reset the PL
@@ -60,20 +66,53 @@ module toplevel_tb(
         repeat (20) @(negedge clk);
         toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
         
-        $display("Toplevel write");
-        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00000,4, 32'h01020304, resp);
-        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00080,4, 32'h0A0A0A0A, resp);
-        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00084,4, 32'h0B0B0B0B, resp);
-        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C00088,4, 32'h0C0C0C0C, resp);
-        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(32'h43C0008C,4, 32'h0D0D0D0D, resp);
+        repeat (1000) @(negedge clk);
+
+        $display("Toplevel write to BRAM");
+        // Base_period: 1538.4
+        // hm_ontime: 400
+        // Kickin: 11
+        // Kickout: 15
+        // pulse_sync_damping_setuptime: 3
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 0) << 2), C_RW_BYTE_SIZE, 32'h00000008, resp);  // Control word defining number of id pairs
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 1) << 2), C_RW_BYTE_SIZE, 32'h00000000, resp);  // Spare control word
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 2) << 2), C_RW_BYTE_SIZE, 32'h0000dc07, resp);  // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 3) << 2), C_RW_BYTE_SIZE, 32'h00000015, resp);  // A, K, DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 4) << 2), C_RW_BYTE_SIZE, 32'h0000022d, resp);  // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 5) << 2), C_RW_BYTE_SIZE, 32'h00000011, resp);  // A, DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 6) << 2), C_RW_BYTE_SIZE, 32'h00004c01, resp);  // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 7) << 2), C_RW_BYTE_SIZE, 32'h00000010, resp);  // DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 8) << 2), C_RW_BYTE_SIZE, 32'h0000025f, resp);  // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 9) << 2), C_RW_BYTE_SIZE, 32'h00000014, resp);  // Damper, DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 10) << 2), C_RW_BYTE_SIZE, 32'h0000dc07, resp); // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 11) << 2), C_RW_BYTE_SIZE, 32'h00000016, resp); // B, K, DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 12) << 2), C_RW_BYTE_SIZE, 32'h0000022d, resp); // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 13) << 2), C_RW_BYTE_SIZE, 32'h00000012, resp); // B, DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 14) << 2), C_RW_BYTE_SIZE, 32'h00004c01, resp); // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 15) << 2), C_RW_BYTE_SIZE, 32'h00000010, resp); // DCDC
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 16) << 2), C_RW_BYTE_SIZE, 32'h0000025f, resp); // 
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + ((C_BRAM_BASE + 17) << 2), C_RW_BYTE_SIZE, 32'h00000014, resp); // Damper, DCDC
 
         $display("Toplevel read");
         for (int i = 0; i < 64; i++) begin
-            int j = 'h43C00000 + (i << 2); 
+            automatic int j = 'h43C00000 + (i << 2); 
             toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.read_data(j,4,read_data,resp);
+            repeat (250) @(negedge clk);
             $display ("%t, running the testbench, data read from BRAM was 32'h%x",$time, read_data);
         end
-        repeat (250000) @(negedge clk); // When enabled, can bu used to debug pulsesync test -> needs to run for a longer time to validate timing
+
+        repeat (250) @(negedge clk);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + (C_PWM_CTRL_ADDR << 2), C_RW_BYTE_SIZE, 32'h00000005, resp);  // enable curr_pwm
+        repeat (250) @(negedge clk);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + (C_PWM_VAL_ADDR << 2), C_RW_BYTE_SIZE, 32'h503C2814, resp);  // pwm_value setup
+        repeat (250) @(negedge clk);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + (C_CONTROL_ADDR << 2), C_RW_BYTE_SIZE, 32'h00000001, resp);  // Arm gate driver and set number of id's
+        repeat (250) @(negedge clk);
+        toplevel_tb.toplevel_instance.proc_module_wrapper_instance.proc_module_i.processing_system7_0.inst.write_data(C_BASE_ADDR + (C_GEN_CTRL_ADDR << 2), C_RW_BYTE_SIZE, 32'h00000001, resp);  // enable generator
+
+        repeat (2500000) @(negedge clk);
+        
+        // repeat (250000) @(negedge clk); // When enabled, can bu used to debug pulsesync test -> needs to run for a longer time to validate timing
         $display("Test done");
         $stop;
         #200 $finish;
@@ -108,13 +147,8 @@ module toplevel_tb(
 		.FIXED_IO_ps_srstb(temp_rst_n),
 
         // Internal clock domain
-        .state_dbg      (state_dbg),
-        .clk_dbg        (clk_dbg),
-        .sync_dbg       (sync_dbg),
-        .rs232_rx       (rs232_rx),
-	    .rs232_tx       (rs232_tx),
-	    .rs232_dir      (rs232_dir),
-	    .fault          (fault),
+        .sync_gen       (sync_gen),
+        .sync_gen_n     (sync_gen_n),
 
         // PSU control
 	    .curr_pwm       (curr_pwm),

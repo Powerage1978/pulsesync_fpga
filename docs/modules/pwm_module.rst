@@ -7,7 +7,7 @@ Functional description
 
 The PWM module is a basic PWM module where the base frequency is fixed and the
 duty cycle is the only input that can be altered in the range from 0% to 100%,
-where 0% equals total off siganl and 100% equals constant on.
+where 0% equals total off signal and 100% equals constant on.
 
 I/O description
 ---------------

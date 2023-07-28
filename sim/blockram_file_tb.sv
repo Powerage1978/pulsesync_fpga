@@ -5,16 +5,8 @@ module blockram_file_tb(
     import axi4lite_pkg::*;
     import gatedriver_pkg::*;
     import sim_pkg::*;
+    import mem_map_pkg::*;
 
-    //localparam integer C_COUNT_SIZE = 25;
-    //localparam integer C_IDX_SIZE = 4;
-    //localparam integer C_OUTPUT_WIDTH = 4;
-    //localparam integer C_WORD_SIZE = 32;
-    //localparam integer C_NO_OF_STATES_OFFSET = 8;
-    //localparam integer C_T_TOLERANCE = 100;
-    //localparam integer C_STATUS_SIZE = 3;
-    //localparam integer C_CLOCK_PERIOD = 20;
-    //localparam C_HALF_PERIOD = C_CLOCK_PERIOD / 2;
     localparam C_SYNC_LENGTH = 10;
 
     logic [C_DATA_WIDTH-1 : 0] status;
@@ -46,17 +38,35 @@ module blockram_file_tb(
     logic axi_rvalid;
     logic axi_rready;
     logic sync;
-    logic [C_WORD_SIZE-1 : 0]ctrl_reg;
-    logic gate_output[C_OUTPUT_WIDTH];
-    logic [C_STATUS_SIZE-1 : 0] state_dbg;
+    logic [C_DATA_WIDTH-1 : 0]ctrl_reg;
+    logic gate_output[C_GATEDRIVE_WIDTH];
 
-  axi4lite_bram #(
-  ) axi4lite_bram_instance(
-    .status_reg(status),
+    // PWM interface
+    logic     [C_DATA_WIDTH-1 : 0] pwm_status;
+    logic    [C_DATA_WIDTH-1 : 0] pwm_ctrl;
+    logic    [C_DATA_WIDTH-1 : 0] pwm_val;
+
+    // Gate driver interface
+    logic     [C_DATA_WIDTH-1 : 0] pulsesync_status;
+    logic    [C_DATA_WIDTH-1 : 0] pulsesync_ctrl;
+
+
+  pulsesync_memory_block #(
+  ) pulsesync_memory_block_instance(
+    
+    // PWM interface
+    .pwm_status(pwm_status),
+    .pwm_ctrl(pwm_ctrl),
+    .pwm_val(pwm_val),
+
+    // Gate driver interface
+    .pulsesync_status(pulsesync_status),
+    .pulsesync_ctrl(pulsesync_ctrl),
+    
     .enb(enb),
-	  .regceb(regceb),
-	  .addrb(addrb),
-	  .doutb(doutb),
+	.regceb(regceb),
+	.addrb(addrb),
+	.doutb(doutb),
 
     .s_axi_aclk(axi_aclk),
     .s_axi_aresetn(axi_aresetn),
@@ -82,23 +92,15 @@ module blockram_file_tb(
   );
 
   gate_driver #(
-    .COUNT_SIZE(C_COUNT_SIZE),
-    .IDX_SIZE(C_IDX_SIZE),
-    .OUTPUT_WIDTH(C_OUTPUT_WIDTH),
-    .WORD_SIZE(C_WORD_SIZE),
-    .NO_OF_STATES_OFFSET(C_NO_OF_STATES_OFFSET),
-    .T_TOLERANCE(C_T_TOLERANCE)
   ) gate_driver_instance(
     .clk(axi_aclk),
     .rst_n(axi_aresetn),
     .doutb(doutb),
     .ctrl_reg(ctrl_reg),
-    .external_err(external_err),
     .addrb(addrb),
     .status(status),
     .enb(enb),
     .regceb(regceb),
-    .state_dbg(state_dbg),
     .sync(sync),
     .gate_output_pin(gate_output)
   );
@@ -118,7 +120,7 @@ module blockram_file_tb(
        axi_aresetn = 0;
        rstb = 1;
        axi_bready = 0;
-       ctrl_reg[C_NO_OF_STATES_OFFSET+C_IDX_SIZE-1 : C_NO_OF_STATES_OFFSET] = 8;
+       ctrl_reg[C_NO_OF_ID_OFFSET+C_NO_OF_ID_SIZE-1 : C_NO_OF_ID_OFFSET] = 8;
        repeat (5) @(negedge axi_aclk);
        ctrl_reg[0] = 1'b1;
        axi_aresetn = 1;

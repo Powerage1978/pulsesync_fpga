@@ -19,8 +19,8 @@ module bram_tb (
 	logic [$clog2(C_RAM_DEPTH-1)-1 : 0] addra;
     logic [C_ADDR_WIDTH-4 : 0] addrb;
 
-bram #(
-) bram_instance(
+pulsesync_bram #(
+) pulsesync_bram_instance(
     .clk(clk),
     .rst_n(rst_n),
     .regceb(regceb),

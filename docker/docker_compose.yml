@@ -7,7 +7,7 @@ services:
             args:
                 - uid=${UID_V}
                 - gid=${GID_V}
-            dockerfile: Dockerfile-docs
+            dockerfile: Dockerfile_docs
         working_dir: /app
         volumes:
             - type: bind

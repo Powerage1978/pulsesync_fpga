@@ -37,12 +37,37 @@ module axi4lite_bram_tb (
     logic enb;
     logic regceb;
 
-    axi4lite_bram #(
-    ) axi4lite_bram_instance(
+    // PWM interface
+    logic   [C_DATA_WIDTH-1 : 0] pwm_status;
+    logic   [C_DATA_WIDTH-1 : 0] pwm_ctrl;
+    logic   [C_DATA_WIDTH-1 : 0] pwm_val;
+
+    // Gate driver interface
+    logic   [C_DATA_WIDTH-1 : 0] pulsesync_status;
+    logic   [C_DATA_WIDTH-1 : 0] pulsesync_ctrl;
+
+    // Generator interface
+    logic   [C_DATA_WIDTH-1 : 0] gen_status;
+    logic   [C_DATA_WIDTH-1 : 0] gen_ctrl;
+
+    pulsesync_memory_block #(
+    ) pulsesync_memory_block_instance(
+        // PWM interface
+        .pwm_status(pwm_status),
+        .pwm_ctrl(pwm_ctrl),
+        .pwm_val(pwm_val),
+
+        // Gate driver interface
+        .pulsesync_status(pulsesync_status),
+        .pulsesync_ctrl(pulsesync_ctrl),
+
+        // Generator interface
+        .gen_status(gen_status),
+        .gen_ctrl(gen_ctrl),
+
         .s_axi_aclk(clk),
         .s_axi_aresetn(rst_n),
         .doutb(doutb),
-        .status_reg(status),
         .enb(enb),
         .regceb(regceb),
         .s_axi_awaddr(axi_awaddr),

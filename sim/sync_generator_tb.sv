@@ -4,16 +4,23 @@ module sync_generator_tb(
     );
 
     import sim_pkg::*;
+    import axi4lite_pkg::*;
 
     logic clk;
     logic rst_n;
-    logic sync;
+    logic [C_DATA_WIDTH-1:0]gen_ctrl;
+    logic [C_DATA_WIDTH-1:0]gen_status;
+    logic sync_signal;
+    logic sync_signal_n;
 
     sync_generator#(
     ) sync_generator_instance(
         .clk    (clk),
         .rst_n  (rst_n),
-        .sync   (sync)
+        .gen_ctrl(gen_ctrl),
+        .gen_status(gen_status),
+        .sync_signal(sync_signal),
+        .sync_signal_n(sync_signal_n)
     );
 
     initial begin

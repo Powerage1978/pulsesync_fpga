@@ -7,20 +7,23 @@
          <top_modules>
             <top_module name="axi4lite_pkg" />
             <top_module name="blockram_file_tb" />
+            <top_module name="gatedriver_pkg" />
             <top_module name="glbl" />
+            <top_module name="mem_map_pkg" />
+            <top_module name="sim_pkg" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1,500,137.400 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,500,527.801 ns"></ZoomEndTime>
-      <Cursor1Time time="1,500,430.000 ns"></Cursor1Time>
+      <ZoomStartTime time="283.050 ns"></ZoomStartTime>
+      <ZoomEndTime time="478.851 ns"></ZoomEndTime>
+      <Cursor1Time time="464.990 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="404"></NameColumnWidth>
-      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="36" />
+   <WVObjectSize size="43" />
    <wvobject type="array" fp_name="/blockram_file_tb/status">
       <obj_property name="ElementShortName">status[31:0]</obj_property>
       <obj_property name="ObjectShortName">status[31:0]</obj_property>
@@ -41,13 +44,45 @@
       <obj_property name="ElementShortName">regceb</obj_property>
       <obj_property name="ObjectShortName">regceb</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/doutb">
-      <obj_property name="ElementShortName">doutb[31:0]</obj_property>
-      <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/sync">
+      <obj_property name="ElementShortName">sync</obj_property>
+      <obj_property name="ObjectShortName">sync</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/ssync">
+      <obj_property name="ElementShortName">ssync</obj_property>
+      <obj_property name="ObjectShortName">ssync</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/state_q">
+      <obj_property name="ElementShortName">state_q[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state_q[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/idx_d">
+      <obj_property name="ElementShortName">idx_d[3:0]</obj_property>
+      <obj_property name="ObjectShortName">idx_d[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/idx_q">
+      <obj_property name="ElementShortName">idx_q[3:0]</obj_property>
+      <obj_property name="ObjectShortName">idx_q[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/blockram_file_tb/gate_driver_instance/tv_select_d">
+      <obj_property name="ElementShortName">tv_select_d</obj_property>
+      <obj_property name="ObjectShortName">tv_select_d</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/blockram_file_tb/gate_driver_instance/tv_select_q">
+      <obj_property name="ElementShortName">tv_select_q</obj_property>
+      <obj_property name="ObjectShortName">tv_select_q</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/blockram_file_tb/addrb">
       <obj_property name="ElementShortName">addrb[6:2]</obj_property>
       <obj_property name="ObjectShortName">addrb[6:2]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/doutb">
+      <obj_property name="ElementShortName">doutb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/state_dbg">
+      <obj_property name="ElementShortName">state_dbg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state_dbg[3:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/axi_aresetn">
       <obj_property name="ElementShortName">axi_aresetn</obj_property>
@@ -137,10 +172,6 @@
       <obj_property name="ElementShortName">ctrl_reg[31:0]</obj_property>
       <obj_property name="ObjectShortName">ctrl_reg[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/state_dbg">
-      <obj_property name="ElementShortName">state_dbg[2:0]</obj_property>
-      <obj_property name="ObjectShortName">state_dbg[2:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/axi_arvalid">
       <obj_property name="ElementShortName">axi_arvalid</obj_property>
       <obj_property name="ObjectShortName">axi_arvalid</obj_property>
@@ -149,14 +180,6 @@
       <obj_property name="ElementShortName">external_err</obj_property>
       <obj_property name="ObjectShortName">external_err</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_tcounter">
-      <obj_property name="ElementShortName">q_tcounter[24:0]</obj_property>
-      <obj_property name="ObjectShortName">q_tcounter[24:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/q_value">
-      <obj_property name="ElementShortName">q_value[3:0]</obj_property>
-      <obj_property name="ObjectShortName">q_value[3:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/RUN">
       <obj_property name="ElementShortName">RUN</obj_property>
       <obj_property name="ObjectShortName">RUN</obj_property>
@@ -164,5 +187,13 @@
    <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/gate_output_pin">
       <obj_property name="ElementShortName">gate_output_pin[0:3]</obj_property>
       <obj_property name="ObjectShortName">gate_output_pin[0:3]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/pulsesync_memory_block_instance/addrb">
+      <obj_property name="ElementShortName">addrb[4:0]</obj_property>
+      <obj_property name="ObjectShortName">addrb[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/blockram_file_tb/pulsesync_memory_block_instance/doutb">
+      <obj_property name="ElementShortName">doutb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
    </wvobject>
 </wave_config>

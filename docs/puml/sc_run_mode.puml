@@ -1,0 +1,26 @@
+@startuml
+
+hide empty description
+
+state Run {
+    state Fetch_delay_ws
+    state Fetch_delay
+    state Fetch_value_ws
+    state Fetch_value
+    state Sync_wait
+
+    [*] --> Fetch_delay_ws
+    Fetch_delay_ws -down-> Fetch_delay
+    Fetch_delay -down-> Fetch_value_ws
+    Fetch_value_ws -down-> Fetch_value
+    Fetch_value -down-> Sync_wait
+    Sync_wait --> Fetch_delay_ws
+}
+
+state Err
+state Stop
+
+Run --> Err
+Run --> Stop
+
+@enduml

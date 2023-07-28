@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../src/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Picotem transceiver fpga'
+project = 'Pulsesync FPGA'
 copyright = '2023, Skytem Surveys Aps'
 author = 'Skytem Surveys ApS'
 
@@ -44,6 +44,7 @@ extensions = [
     'sphinxcontrib.wavedrom',
     'sphinxcontrib.cairosvgconverter',
     'sphinx_rtd_theme',
+    'sphinx.ext.graphviz'
 ]
 
 # 'sphinxcontrib.rsvgconverter',
@@ -80,11 +81,17 @@ source_suffix = {
 }
 
 # Path to plantuml.jar file
-plantuml = 'java -jar /opt/plantuml/plantuml.jar'
+plantuml = 'java -jar /opt/plantuml/plantuml.jar -tpng'
 
 # Wavedrom -------------------------------------------------------------
 wavedrom_html_jsinline = False
 render_using_wavedrompy = True
 
 # LaTeX ----------------------------------------------------------------
-
+latex_elements = {
+    'preamble': r'''
+\newcolumntype{\Yl}[1]{>{\raggedright\arraybackslash}\Y{#1}}
+\newcolumntype{\Yr}[1]{>{\raggedleft\arraybackslash}\Y{#1}}
+\newcolumntype{\Yc}[1]{>{\centering\arraybackslash}\Y{#1}}
+''',
+}
