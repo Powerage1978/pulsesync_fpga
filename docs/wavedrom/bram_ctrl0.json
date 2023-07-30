@@ -1,4 +1,4 @@
 {"reg":[
-    {"name": "no_ids", "bits": 4},
+    {"name": "no_idx", "bits": 4},
     {"bits": 28}
 ]}

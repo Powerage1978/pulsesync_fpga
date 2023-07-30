@@ -91,8 +91,8 @@ module blockram_file_tb(
     .s_axi_awready(axi_awready)
   );
 
-  gate_driver #(
-  ) gate_driver_instance(
+  gatedriver #(
+  ) gatedriver_instance(
     .clk(axi_aclk),
     .rst_n(axi_aresetn),
     .doutb(doutb),

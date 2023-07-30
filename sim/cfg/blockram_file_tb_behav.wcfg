@@ -44,31 +44,31 @@
       <obj_property name="ElementShortName">regceb</obj_property>
       <obj_property name="ObjectShortName">regceb</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/sync">
+   <wvobject type="logic" fp_name="/blockram_file_tb/gatedriver_instance/sync">
       <obj_property name="ElementShortName">sync</obj_property>
       <obj_property name="ObjectShortName">sync</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/ssync">
+   <wvobject type="logic" fp_name="/blockram_file_tb/gatedriver_instance/ssync">
       <obj_property name="ElementShortName">ssync</obj_property>
       <obj_property name="ObjectShortName">ssync</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/state_q">
+   <wvobject type="array" fp_name="/blockram_file_tb/gatedriver_instance/state_q">
       <obj_property name="ElementShortName">state_q[3:0]</obj_property>
       <obj_property name="ObjectShortName">state_q[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/idx_d">
+   <wvobject type="array" fp_name="/blockram_file_tb/gatedriver_instance/idx_d">
       <obj_property name="ElementShortName">idx_d[3:0]</obj_property>
       <obj_property name="ObjectShortName">idx_d[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/idx_q">
+   <wvobject type="array" fp_name="/blockram_file_tb/gatedriver_instance/idx_q">
       <obj_property name="ElementShortName">idx_q[3:0]</obj_property>
       <obj_property name="ObjectShortName">idx_q[3:0]</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/blockram_file_tb/gate_driver_instance/tv_select_d">
+   <wvobject type="other" fp_name="/blockram_file_tb/gatedriver_instance/tv_select_d">
       <obj_property name="ElementShortName">tv_select_d</obj_property>
       <obj_property name="ObjectShortName">tv_select_d</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/blockram_file_tb/gate_driver_instance/tv_select_q">
+   <wvobject type="other" fp_name="/blockram_file_tb/gatedriver_instance/tv_select_q">
       <obj_property name="ElementShortName">tv_select_q</obj_property>
       <obj_property name="ObjectShortName">tv_select_q</obj_property>
    </wvobject>
@@ -180,11 +180,11 @@
       <obj_property name="ElementShortName">external_err</obj_property>
       <obj_property name="ObjectShortName">external_err</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/blockram_file_tb/gate_driver_instance/RUN">
+   <wvobject type="logic" fp_name="/blockram_file_tb/gatedriver_instance/RUN">
       <obj_property name="ElementShortName">RUN</obj_property>
       <obj_property name="ObjectShortName">RUN</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/blockram_file_tb/gate_driver_instance/gate_output_pin">
+   <wvobject type="array" fp_name="/blockram_file_tb/gatedriver_instance/gate_output_pin">
       <obj_property name="ElementShortName">gate_output_pin[0:3]</obj_property>
       <obj_property name="ObjectShortName">gate_output_pin[0:3]</obj_property>
    </wvobject>

@@ -1,6 +1,6 @@
 {"reg":[
-    {"name": "i_ctrl", "bits": 3},
-    {"name": "v_ctrl", "bits": 3},
-    {"bits": 26}
+    {"name": "i_ctrl", "bits": 2},
+    {"name": "v_ctrl", "bits": 2},
+    {"bits": 28}
     
 ]}

@@ -30,9 +30,9 @@ module pwm #(
     localparam integer C_COUNT_OFFSET = 2;
 
     // Typedef definitions
-    typedef enum logic[2:0] { ERR  = 3'b001,
-                              STOP,
-                              RUN} state_t;
+    typedef enum logic[2:0] { ERR   = 3'b001,
+                              STOP  = 3'b010,
+                              RUN   = 3'b100} state_t;
     typedef logic [C_COUNT_SIZE : 0] count_t;
 
     // Logic definitions

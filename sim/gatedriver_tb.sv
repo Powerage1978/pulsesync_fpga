@@ -2,7 +2,7 @@
 
 
 
-module gate_driver_tb (
+module gatedriver_tb (
 
 );
     import gatedriver_pkg::*;
@@ -24,10 +24,10 @@ module gate_driver_tb (
     logic sync;
     logic gate_output[C_GATEDRIVE_WIDTH];
 
-gate_driver #(
+gatedriver #(
 
 )
-gate_driver_instance (
+gatedriver_instance (
     .clk            (clk),
     .rst_n          (rst_n),
     .doutb          (doutb),

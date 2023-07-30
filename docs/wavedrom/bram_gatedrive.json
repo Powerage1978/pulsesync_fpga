@@ -1,3 +1,4 @@
 {"reg":[
-    {"name": "BRAM gatedrive value", "bits": 32}
+    {"name": "gatedrive", "bits": 4},
+    {"bits": 28}
 ]}
