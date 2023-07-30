@@ -9,19 +9,18 @@ The memory map is divided into two sections, one generic section where all the m
 
 .. list-table:: Memory map overview
    :header-rows: 1
-   :widths: 1 1
 
    * - **Register**
      - **Address**
-   * - Gate driver ctrl
+   * - Gatedriver control
      - 0x00
-   * - Gate driver status
+   * - Gatedriver status
      - 0x01
-   * - Generator ctrl 
+   * - Generator control 
      - 0x02
    * - Generator status
      - 0x03
-   * - PWM ctrl
+   * - PWM control
      - 0x0A
    * - PWM status
      - 0x0B
@@ -31,35 +30,34 @@ The memory map is divided into two sections, one generic section where all the m
      - 0x1E
    * - Dummy
      - 0x1F
-   * - BRAM - Ctrl0
+   * - BRAM - Control0
      - 0x20
-   * - BRAM - Ctrl1 
+   * - BRAM - Control1
      - 0x21
    * - BRAM - Delay0
      - 0x22
-   * - BRAM - Value0
+   * - BRAM - Gatedrive value0
      - 0x23
    * - ...
      - ...
    * - BRAM - Delay14
      - 0x3E
-   * - BRAM - Value14
+   * - BRAM - Gatedrive value14
      - 0x3F
 
 Registers
 ---------
 
-Gate driver ctrl
-^^^^^^^^^^^^^^^^
+Gatedriver control
+^^^^^^^^^^^^^^^^^^
 
-The gate driver control register is used to start the pulsesync gatedriver . stop and reset
+The gatedriver control register is used to enable/start, stop and reset the pulsesync gatedriver. The pulsesync module can require a reset if the received sync pulses from the TS get out of sync with required timing.
 
-.. wavedrom:: ./wavedrom/gatedriver/control_reg.json
-   :caption: Gate driver control reg
+.. wavedrom:: ./wavedrom/gatedriver_control_reg.json
+   :caption: Gatedriver control reg
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
-.. list-table:: Gate driver control reg bit definitions
-   :widths: 1 2
+.. list-table:: Gatedriver control register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -68,57 +66,52 @@ The gate driver control register is used to start the pulsesync gatedriver . sto
      - | Unimplemented
    * - | 1-0
      - | 00 = Reserved
-       | 01 = Enable gate driver
-       | 10 = Stop gate driver
-       | 11 = Reset gate driver
+       | 01 = Enable gatedriver
+       | 10 = Stop gatedriver
+       | 11 = Reset gatedriver
 
 .. raw:: latex
    
    \newpage
 
 
-Gate driver status
-^^^^^^^^^^^^^^^^^^
+Gatedriver status
+^^^^^^^^^^^^^^^^^
 
-The gate driver status reg
+The gatedriver status register reads back the current operating mode.
 
-.. wavedrom:: ./wavedrom/gatedriver/status_reg.json
-   :caption: Gate driver status reg
+.. wavedrom:: ./wavedrom/gatedriver_status_reg.json
+   :caption: Gatedriver status register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: Gate driver status reg bit definitions
-   :widths: 1 2
+.. list-table:: Gatedriver status register bit definitions
    :header-rows: 1
 
    * - **Bit**
      - **Definition**
-   * - | 31-3
+   * - | 31-2
      - | Unimplemented
-   * - | 2-0
-     - | 000 = Reserved
-       | 001 = Armed
-       | 010 = Running
-       | 011 = Stopped
-       | 100 = Error
-       | 101 = Unused
-       | 110 = Unused
-       | 111 = Unused
+   * - | 1-0
+     - | 00 = Stopped
+       | 01 = Armed
+       | 10 = Running
+       | 11 = Error
 
 .. raw:: latex
    
    \newpage
 
-Generator ctrl
-^^^^^^^^^^^^^^
+Generator control
+^^^^^^^^^^^^^^^^^
+The generator control register is used for controlling the build-in generator, for starting and stopping its operation.
 
 .. wavedrom:: ./wavedrom/generator_status_reg.json
    :caption: Generator status register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: Generator status reg bit definitions
-   :widths: 1 2
+.. list-table:: Generator status register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -138,13 +131,14 @@ Generator ctrl
 Generator status
 ^^^^^^^^^^^^^^^^
 
-.. wavedrom:: ./wavedrom/generator_ctrl_reg.json
-   :caption: Generator control register
+The generator status register is used for reading back the current operation status of the generator.
+
+.. wavedrom:: ./wavedrom/generator_status_reg.json
+   :caption: Generator status register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: Generator control reg bit definitions
-   :widths: 1 2
+.. list-table:: Generator status register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -152,9 +146,9 @@ Generator status
    * - | 31-2
      - | Unimplemented
    * - | 1-0
-     - | 00 = Reserved
-       | 01 = Stopped
-       | 10 = Running
+     - | 00 = Stopped
+       | 01 = Running
+       | 10 = Unused
        | 11 = Unused
 
 .. raw:: latex
@@ -164,15 +158,14 @@ Generator status
 DCDC PWM ctrl
 ^^^^^^^^^^^^^
 
-The PWM control reg
+The DCDC PWM control register is used to start and stop the PWMs controlling the current and voltage on the external hardware DCDC module. Each PWM can be started and stopped individually.
 
 .. wavedrom:: ./wavedrom/pwm_control.json
    :caption: PWM control register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: DCDC PWM control reg bit definitions
-   :widths: 1 2
+.. list-table:: DCDC PWM control register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -180,12 +173,14 @@ The PWM control reg
    * - | 31-4
      - | Unimplemented
    * - | 3-2
-     - | 00 = Reserved
+     - | *PWM voltage control*
+       | 00 = Reserved
        | 01 = Start
        | 10 = Stop
        | 11 = Unused
    * - | 1-0
-     - | 00 = Reserved
+     - | *PWM current control*
+       | 00 = Reserved
        | 01 = Start
        | 10 = Stop
        | 11 = Unused
@@ -197,33 +192,38 @@ The PWM control reg
 DCDC PWM status
 ^^^^^^^^^^^^^^^
 
-The PWM status reg 
+The DCDC PWM status register 
 
 .. wavedrom:: ./wavedrom/pwm_status.json
    :caption: PWM status register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: DCDC PWM status reg bit definitions
-   :widths: 1 2
+.. list-table:: DCDC PWM status register bit definitions
    :header-rows: 1
 
    * - **Bit**
      - **Definition**
-   * - | 31-4
+   * - | 31-6
      - | Unimplemented
+   * - | 5-4
+     - | *DCDC status*
+       | 00 = Stopped
+       | 01 = Running
+       | 10 = Error
+       | 11 = Unused
    * - | 3-2
-     - | V info
-       | 00 = Reserved
-       | 01 = Start
-       | 10 = Stop
-       | 11 = Error
+     - | *Voltage PWM status*
+       | 00 = Stopped
+       | 01 = Running
+       | 10 = Error
+       | 11 = Unused
    * - | 1-0
-     - | I info
-       | 00 = Reserved
-       | 01 = Start
-       | 10 = Stop
-       | 11 = Error
+     - | *Current PWM status*
+       | 00 = Stopped
+       | 01 = Running
+       | 10 = Error
+       | 11 = Unused
 
 .. raw:: latex
    
@@ -239,8 +239,7 @@ All four pwm values are the duty cycle in percent ranging from 0% to 100%. The r
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: DCDC PWM value reg bit definitions
-   :widths: 1 2
+.. list-table:: DCDC PWM value register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -261,7 +260,7 @@ All four pwm values are the duty cycle in percent ranging from 0% to 100%. The r
 Version
 ^^^^^^^
 
-The version reg
+The version register is used for reading back the current version of the bitstream. *Currently not holding a valid value*.
 
 .. raw:: latex
    
@@ -270,22 +269,23 @@ The version reg
 Dummy
 ^^^^^
 
-A dummy variabel that is read only and can be used to validate if the memory section can be accessed by user space. It contains the value `0xDEADBEEF`.
+A dummy variable that is read only and can be used to validate if the memory section can be accessed by user space. It contains the value `0xDEADBEEF`.
 
 .. raw:: latex
    
    \newpage
 
-BRAM ctrl0
-^^^^^^^^^^
+BRAM control0
+^^^^^^^^^^^^^
+
+The BRAM control0 register holds the number of index containing valid values in the BRAM region, used by the gatedriver module during its operation. When the gatedriver is started, this value is read and uses it to operate the whole BRAM region as a circular buffer, for reading out delay/gatedrive value pairs.
 
 .. wavedrom:: ./wavedrom/bram_ctrl0.json
-   :caption: BRAM ctrl0 register
+   :caption: BRAM control0 register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
-.. list-table:: BRAM ctrl0 register bit definitions
-   :widths: 1 2
+.. list-table:: BRAM control0 register bit definitions
    :header-rows: 1
 
    * - **Bit**
@@ -293,15 +293,15 @@ BRAM ctrl0
    * - | 31-4
      - | Unimplemented
    * - | 3-0
-     - | Number of ids stored in BRAM region
+     - | Number of indexes holding valid delay/gatedriver values in BRAM region
 
 .. raw:: latex
    
    \newpage
 
 
-BRAM ctrl1
-^^^^^^^^^^
+BRAM control1
+^^^^^^^^^^^^^
 
 N/A
 
@@ -312,18 +312,21 @@ N/A
 BRAM delay value[X]
 ^^^^^^^^^^^^^^^^^^^
 
+One part of the delay/gatedrive value pair. This holds the delay value in clock cycles, until the next sync pulse shall arrive from the TS.
+
 .. wavedrom:: ./wavedrom/bram_delay.json
    :caption: BRAM delay value[X] register
 
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
 .. list-table:: BRAM region delay register[X]
-   :widths: 1 2
    :header-rows: 1
 
    * - **Bit**
      - **Definition**
-   * - | 31-0
+   * - | 31-25
+     - | Unused
+   * - | 24-0
      - | Delay value in clock cycles
 
 
@@ -335,6 +338,8 @@ BRAM delay value[X]
 BRAM gatedrive value[X]
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+The gatedrive value, that shall be used directly driving the Gatecon circuit.
+
 .. wavedrom:: ./wavedrom/bram_gatedrive.json
    :caption: BRAM gatedrive value[X] register
 
@@ -342,12 +347,13 @@ BRAM gatedrive value[X]
 .. tabularcolumns:: \Yl{0.2}|\Yl{0.4}
 
 .. list-table:: BRAM region gatedrive value register[X]
-   :widths: 1 2
    :header-rows: 1
    
    * - **Bit**
      - **Definition**
-   * - | 31-0
+   * - | 31-4
+     - | Unused
+   * - | 3-0
      - | Gatedrive value bit pattern
 
 

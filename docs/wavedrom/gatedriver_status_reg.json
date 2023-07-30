@@ -1,0 +1,4 @@
+{"reg":[
+    {"name": "mode", "bits": 2},
+    {"bits": 30}
+]}

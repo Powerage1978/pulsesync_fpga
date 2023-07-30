@@ -1,5 +1,6 @@
 {"reg":[
-    {"name": "i_info", "bits": 2},
-    {"name": "v_info", "bits": 2},
-    {"bits": 28}
+    {"name": "curr", "bits": 2},
+    {"name": "colt", "bits": 2},
+    {"name": "dcdc", "bits": 2},
+    {"bits": 26}
 ]}

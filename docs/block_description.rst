@@ -90,7 +90,7 @@ The interface consists of three modules
 - pulsesync_memory_map
 - pulsesync_bram
 
-The ``pulsesync_memory_block`` acts a the overall memory interface towards the rest of the system. It handles AXI communication with the CPU, which allows for 32 bits word access to the memory region. The ``pulsesync_memory_block`` module also implements the switching functionality to control the access between, what is called the register region and the BRAM region. The register region holds all the control and status registers used for controlling various peripheral components and reporting their status. The BRAM region is used for holding the delay/value pairs used for the gate driver during sync signal synchronization and gate driver activity. The ``pulsesync_memory_block`` module relays the BRAM interface from the ``pulsesync_bram`` module to the ``gate_driver`` :ref:`module <gate_driver>` which reads out data stored within the BRAM region during its operation. The ``pulsesync_bram`` is implemented as simple single port memory block, which allows for writing via the AXI interface and reading through a dedicated read interface connected directly to the ``gate_driver`` module. The register region connects the control registers to the surrounding logic modules, and is written through the AXI interface, and the corresponding status registers are read through the AXI interface, allowing for user-space application to read back status from each of the peripheral modules within the system.
+The ``pulsesync_memory_block`` acts a the overall memory interface towards the rest of the system. It handles AXI communication with the CPU, which allows for 32 bits word access to the memory region. The ``pulsesync_memory_block`` module also implements the switching functionality to control the access between, what is called the register region and the BRAM region. The register region holds all the control and status registers used for controlling various peripheral components and reporting their status. The BRAM region is used for holding the delay/gatedrive value pairs used for the gate driver during sync signal synchronization and gate driver activity. The ``pulsesync_memory_block`` module relays the BRAM interface from the ``pulsesync_bram`` module to the ``gatedriver`` :ref:`module <gatedriver>` which reads out data stored within the BRAM region during its operation. The ``pulsesync_bram`` is implemented as simple single port memory block, which allows for writing via the AXI interface and reading through a dedicated read interface connected directly to the ``gatedriver`` module. The register region connects the control registers to the surrounding logic modules, and is written through the AXI interface, and the corresponding status registers are read through the AXI interface, allowing for user-space application to read back status from each of the peripheral modules within the system.
 
 Pulsesync memory block module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -102,7 +102,7 @@ The memory block module segments the access to the BRAM section and the memory m
 Pulsesync BRAM module
 ^^^^^^^^^^^^^^^^^^^^^
 
-This module implements a simple dual port RAM which implements one write interface and one read interface. The write interface is implemented via the AXI4Lite interface from the pulsesync memory block module. The read interface is mapped out into the gate driver module, since it is the only consumer. The ``gate_driver`` will see the BRAM section as a read only section and the ``pulsesync_memory_block`` module will se it as a write only section.
+This module implements a simple dual port RAM which implements one write interface and one read interface. The write interface is implemented via the AXI4Lite interface from the pulsesync memory block module. The read interface is mapped out into the gate driver module, since it is the only consumer. The ``gatedriver`` will see the BRAM section as a read only section and the ``pulsesync_memory_block`` module will se it as a write only section.
 
 Pulsesync memory map module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,7 +111,7 @@ The pulsesync memory map module maps all the user memory mapped registers into t
 
 Each write to a control register will clear its contents on the next clock cycle, thus the content of the registers are stateless.
 
-.. _gate_driver:
+.. _gatedriver:
 
 Gatedriver block
 ----------------
@@ -119,11 +119,11 @@ Gatedriver block
 Gatedriver module
 ^^^^^^^^^^^^^^^^^
 
-The ``gate_driver`` module sets the pins for controlling the transistors for driving what is known as the A, B, K and dynamic damper transistors. These signals are accessed through the Gatecon interface and not directly mapped as physical connections directly to the TX. The ``gate_driver`` synchronizes towards the sync signal from the TS and monitors if the sync signal arrives within a determined timing threshold, as long as the sync signal complies to threshold values, the ``gate_driver`` modules keeps driving the transistor signals. If the sync signals comes too early or too late, the ``gate_driver`` will enter a error state and stop driving the transistor signals, and will await and active reset of the state machine to be able to restart driving the transistor signals. This acts as an safe guard for keep driving the transistor signals if the system wide communication breaks down. The reset of the state machine requires higher level functionality, i.e. from the TC, to read out the status of the ``gate_driver`` and transmit a reset indicator.
+The ``gatedriver`` module sets the pins for controlling the transistors for driving what is known as the A, B, K and dynamic damper transistors. These signals are accessed through the Gatecon interface and not directly mapped as physical connections directly to the TX. The ``gatedriver`` synchronizes towards the sync signal from the TS and monitors if the sync signal arrives within a determined timing threshold, as long as the sync signal complies to threshold values, the ``gatedriver`` modules keeps driving the transistor signals. If the sync signals comes too early or too late, the ``gatedriver`` will enter a error state and stop driving the transistor signals, and will await and active reset of the state machine to be able to restart driving the transistor signals. This acts as an safe guard for keep driving the transistor signals if the system wide communication breaks down. The reset of the state machine requires higher level functionality, i.e. from the TC, to read out the status of the ``gatedriver`` and transmit a reset indicator.
 
 The delay value and the actual pattern for driving the transistors are stored within local BlockRAM accessed through the ``pulsesync_memory_block``. The delay is clock cycles until next sync should arrive, and when the sync signals arrives within a given threshold, the transistor driver signal will be output to the Gatecon. The storage of the [delay, transistor driver] pairs are implemented as a circular buffer allowing for the system to be running indefinitely as long as the sync signal continuously is detected within valid threshold.
 
-The ``gate_driver`` is build around a state machine that can be in four different modes:
+The ``gatedriver`` is build around a state machine that can be in four different modes:
 
 - Error: if any error is detected during run, typically from receiving a sync signal to early or to late, this is where the state machine will find itself
 - Stopped: default state when the system is initialized, and can be entered when the staye machine is reset from an error
@@ -136,7 +136,7 @@ At any time, the state machine can be moved into its ``stopped`` mode, though it
 
 When reading values out of the BRAM region, it is required to have a wait-state present to ensure a reading from the address setup to valid output available, this wait-states are present when a BRAM region read is performed, as depicted in the state chart below.
 
-.. uml:: ./puml/sc_gate_driver.puml
+.. uml:: ./puml/sc_gatedriver.puml
    :caption: Gate driver state chart
    :scale: 75%
 
@@ -146,7 +146,7 @@ The index read for number of id's present in the BRAM section, is done with a re
    :caption: Gate driver index read
    :scale: 75%
 
-When the index indicator has been read, the state machine will start reading out delay/value pairs from the BRAM region. Until the first sync pulse has been detected, the state machine will wait in the ``sync_wait`` state.
+When the index indicator has been read, the state machine will start reading out delay/gatedrive value pairs from the BRAM region. Until the first sync pulse has been detected, the state machine will wait in the ``sync_wait`` state.
 
 .. uml:: ./puml/sc_run_mode.puml
    :caption: Gate driver run mode
@@ -168,7 +168,6 @@ The reuse of the Gatecon (with modified firmware) makes usage of the A, B, and K
 .. tabularcolumns:: \Yl{0.05}\Yl{0.05}\Yl{0.05}|\Yl{0.1}\Yl{0.1}\Yl{0.1}\Yl{0.1}\Yl{0.1}\Yl{0.1}
 
 .. csv-table:: Gatecon truth table
-   :widths: 1 1 1 1 1 1 1 1 1
    :header-rows: 1
 
    **A**,**B**,**K**,**K_Hi**,**R_Hi**,**L_Lo**,**L_Hi**,**R_Lo**,**Damper**

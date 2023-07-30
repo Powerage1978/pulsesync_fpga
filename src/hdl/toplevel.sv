@@ -139,9 +139,9 @@ module toplevel #(
         .rst_n(asyncrst_n)
     );
 
-    gate_driver #(
+    gatedriver #(
 
-    ) gate_driver_instance(
+    ) gatedriver_instance(
         .clk(FCLK_CLK0),
         .rst_n	        (rst_n),
         .doutb(doutb),

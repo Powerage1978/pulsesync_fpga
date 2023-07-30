@@ -157,7 +157,7 @@ set files [list \
   [file normalize "${origin_dir}/src/hdl/pulsesync_memory_block.sv"]\
   [file normalize "${origin_dir}/src/hdl/pulsesync_bram.sv"]\
   [file normalize "${origin_dir}/src/hdl/toplevel.sv"]\
-  [file normalize "${origin_dir}/src/hdl/gate_driver.sv"]\
+  [file normalize "${origin_dir}/src/hdl/gatedriver.sv"]\
   [file normalize "${origin_dir}/src/hdl/pwm.sv"]\
   [file normalize "${origin_dir}/src/hdl/dcdc.sv"]\
   [file normalize "${origin_dir}/src/hdl/sync_generator.sv"]\
@@ -208,7 +208,7 @@ set files [list \
   [file normalize "${origin_dir}/sim/axi4lite_bram_tb.sv"]\
   [file normalize "${origin_dir}/sim/axi4lite_tb.sv"]\
   [file normalize "${origin_dir}/sim/blockram_file_tb.sv"]\
-  [file normalize "${origin_dir}/sim/gate_driver_tb.sv"]\
+  [file normalize "${origin_dir}/sim/gatedriver_tb.sv"]\
   [file normalize "${origin_dir}/sim/bram_tb.sv"]\
   [file normalize "${origin_dir}/sim/pwm_tb.sv"]\
   [file normalize "${origin_dir}/sim/dcdc_tb.sv"]\
@@ -217,7 +217,7 @@ set files [list \
   [file normalize "${origin_dir}/sim/cfg/axi4lite_bram_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]\
-  [file normalize "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]\
+  [file normalize "${origin_dir}/sim/cfg/gatedriver_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/pwm_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/dcdc_tb_behav.wcfg"]\
   [file normalize "${origin_dir}/sim/cfg/toplevel_tb_behav.wcfg"]\
@@ -241,7 +241,7 @@ set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/axi4lite_bram_t
 set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/blockram_file_tb_behav.wcfg"]
 set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/bram_tb_behav.wcfg"]
 set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/dcdc_tb_behav.wcfg"]
-set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/gate_driver_tb_behav.wcfg"]
+set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/gatedriver_tb_behav.wcfg"]
 set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/pwm_tb_behav.wcfg"]
 set_property is_enabled false [get_files  "${origin_dir}/sim/cfg/sync_generator_tb_behav.wcfg"]
 

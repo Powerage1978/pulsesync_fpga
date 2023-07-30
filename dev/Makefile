@@ -7,7 +7,7 @@ SOURCES_SV := \
 	src/hdl/pulsesync_memory_block.sv \
 	src/hdl/pulsesync_bram.sv \
 	src/hdl/pulsesync_memory_map.sv \
-	src/hdl/gate_driver.sv \
+	src/hdl/gatedriver.sv \
 	src/hdl/toplevel.sv \
 	src/hdl/pwm.sv \
 	src/hdl/dcdc.sv \
@@ -18,7 +18,7 @@ SOURCES_SV := \
 	sim/axi4lite_bram_tb.sv \
 	sim/axi4lite_tb.sv \
 	sim/blockram_file_tb.sv \
-	sim/gate_driver_tb.sv \
+	sim/gatedriver_tb.sv \
 	sim/pwm_tb.sv \
 	sim/dcdc_tb.sv \
 	sim/sync_generator_tb.sv \
@@ -46,7 +46,7 @@ COMP_OPTS_VHDL := \
 
 DEFINES_VHDL :=
 
-#TB_TOP := gate_driver_tb
+#TB_TOP := gatedriver_tb
 
 ## Simulate
 

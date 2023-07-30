@@ -38,11 +38,11 @@ module dcdc #(
     typedef enum bit {DISABLE_PSU = 1'b1, ENABLE_PSU = 1'b0} psu_status_t;
     typedef enum bit {DISABLE_PWM = 1'b0, ENABLE_PWM = 1'b1} pwm_status_t;
     typedef enum bit {UNSET = 1'b0, SET = 1'b1} pwm_ctrl_t;
-    typedef enum logic[4:0] {ERR = 5'b00001,
-                            STOP,
-                            DELAY,
-                            IDLE,
-                            RUN} state_t;
+    typedef enum logic[4:0] {ERR    = 5'b00001,
+                             STOP   = 5'b00010,
+                             DELAY  = 5'b00100,
+                             IDLE   = 5'b01000,
+                             RUN    = 5'b10000} state_t;
 
     // Logic definitions
     pwm_status_t ena_volt_q, ena_curr_q;

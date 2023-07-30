@@ -3,9 +3,9 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="gate_driver_tb_behav.wdb" id="1">
+      <db_ref path="gatedriver_tb_behav.wdb" id="1">
          <top_modules>
-            <top_module name="gate_driver_tb" />
+            <top_module name="gatedriver_tb" />
             <top_module name="gatedriver_pkg" />
             <top_module name="glbl" />
             <top_module name="sim_pkg" />
@@ -25,55 +25,55 @@
    <wave_markers>
       <marker label="" time="155002" />
    </wave_markers>
-   <wvobject type="logic" fp_name="/gate_driver_tb/clk">
+   <wvobject type="logic" fp_name="/gatedriver_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/rst_n">
+   <wvobject type="logic" fp_name="/gatedriver_tb/rst_n">
       <obj_property name="ElementShortName">rst_n</obj_property>
       <obj_property name="ObjectShortName">rst_n</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/doutb">
+   <wvobject type="array" fp_name="/gatedriver_tb/doutb">
       <obj_property name="ElementShortName">doutb[31:0]</obj_property>
       <obj_property name="ObjectShortName">doutb[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/ctrl_reg">
+   <wvobject type="array" fp_name="/gatedriver_tb/ctrl_reg">
       <obj_property name="ElementShortName">ctrl_reg[31:0]</obj_property>
       <obj_property name="ObjectShortName">ctrl_reg[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/external_err">
+   <wvobject type="logic" fp_name="/gatedriver_tb/external_err">
       <obj_property name="ElementShortName">external_err</obj_property>
       <obj_property name="ObjectShortName">external_err</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/addrb">
+   <wvobject type="array" fp_name="/gatedriver_tb/addrb">
       <obj_property name="ElementShortName">addrb[3:0]</obj_property>
       <obj_property name="ObjectShortName">addrb[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/status">
+   <wvobject type="array" fp_name="/gatedriver_tb/status">
       <obj_property name="ElementShortName">status[31:0]</obj_property>
       <obj_property name="ObjectShortName">status[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/sync">
+   <wvobject type="logic" fp_name="/gatedriver_tb/sync">
       <obj_property name="ElementShortName">sync</obj_property>
       <obj_property name="ObjectShortName">sync</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_output">
+   <wvobject type="array" fp_name="/gatedriver_tb/gate_output">
       <obj_property name="ElementShortName">gate_output[0:3]</obj_property>
       <obj_property name="ObjectShortName">gate_output[0:3]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/gate_driver_instance/ssync">
+   <wvobject type="logic" fp_name="/gatedriver_tb/gatedriver_instance/ssync">
       <obj_property name="ElementShortName">ssync</obj_property>
       <obj_property name="ObjectShortName">ssync</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_instance/gate_output_pin">
+   <wvobject type="array" fp_name="/gatedriver_tb/gatedriver_instance/gate_output_pin">
       <obj_property name="ElementShortName">gate_output_pin[0:3]</obj_property>
       <obj_property name="ObjectShortName">gate_output_pin[0:3]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/gate_driver_tb/gate_driver_instance/q_state">
+   <wvobject type="array" fp_name="/gatedriver_tb/gatedriver_instance/q_state">
       <obj_property name="ElementShortName">q_state[2:0]</obj_property>
       <obj_property name="ObjectShortName">q_state[2:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/gate_driver_tb/mode">
+   <wvobject type="logic" fp_name="/gatedriver_tb/mode">
       <obj_property name="ElementShortName">mode</obj_property>
       <obj_property name="ObjectShortName">mode</obj_property>
    </wvobject>

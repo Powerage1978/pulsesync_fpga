@@ -17,7 +17,7 @@ import gatedriver_pkg::*;
 import mem_map_pkg::*;
 import axi4lite_pkg::*;
 
-module gate_driver # (
+module gatedriver # (
    
 )
 (
@@ -42,15 +42,15 @@ module gate_driver # (
     localparam C_COUNT_SIZE = 25;
 
     // Typedef definitions
-    typedef enum logic[8:0] {ERR = 9'b000000001,
-                             STOP,
-                             FETCH_DELAY_WS,
-                             FETCH_DELAY,
-                             FETCH_VALUE_WS,
-                             FETCH_VALUE,
-                             SYNC_WAIT,
-                             FETCH_NUMBER_OF_IDS_WS,
-                             FETCH_NUMBER_OF_IDS} state_t;
+    typedef enum logic[8:0] {ERR                    = 9'b000000001,
+                             STOP                   = 9'b000000010,
+                             FETCH_DELAY_WS         = 9'b000000100,
+                             FETCH_DELAY            = 9'b000001000,
+                             FETCH_VALUE_WS         = 9'b000010000,
+                             FETCH_VALUE            = 9'b000100000,
+                             SYNC_WAIT              = 9'b001000000,
+                             FETCH_NUMBER_OF_IDX_WS = 9'b010000000,
+                             FETCH_NUMBER_OF_IDX    = 9'b100000000} state_t;
     typedef enum bit {DELAY = 1'b0, GATE = 1'b1} idx_lsb_t;     // Selector for either the delay value until next sync pulse or gate value to control the gate transistors
     typedef enum bit {INACTIVE = 1'b0, ACTIVE = 1'b1} mode_status_t;
     typedef enum bit {UNSET = 1'b0, SET = 1'b1} gd_ctrl_t;
@@ -108,7 +108,7 @@ module gate_driver # (
             mon_time_q <= 0;
             idx_lsb_q <= DELAY;
             reset_output_q <= 1'b1;
-            run_mode_q <= C_STATUS_RUN_MODE_RESET;
+            run_mode_q <= C_STATUS_RUN_MODE_STOPPED;
             no_of_idx_q <= 0;
         end
         else begin
@@ -156,14 +156,14 @@ module gate_driver # (
                 idx_lsb_d = DELAY;
                 reset_output_d = 1'b1;
                 if (GD_RUN == SET) begin
-                    state_d = FETCH_NUMBER_OF_IDS_WS;
+                    state_d = FETCH_NUMBER_OF_IDX_WS;
                     idx_msb_d = 1;      // Set to offset for first value pair containing delay and gate values
                 end
                 if (ssync == 1'b1) begin
                     state_d = ERR;
                 end
             end
-        FETCH_NUMBER_OF_IDS_WS:
+        FETCH_NUMBER_OF_IDX_WS:
             begin
                 if (ssync == 1'b1) begin
                     state_d = ERR;
@@ -172,10 +172,10 @@ module gate_driver # (
                     state_d = STOP;
                 end
                 else begin
-                    state_d = FETCH_NUMBER_OF_IDS;
+                    state_d = FETCH_NUMBER_OF_IDX;
                 end
             end
-        FETCH_NUMBER_OF_IDS:
+        FETCH_NUMBER_OF_IDX:
             begin
                 no_of_idx_d = doutb[C_NO_OF_ID_OFFSET+C_NO_OF_ID_SIZE-1 : C_NO_OF_ID_OFFSET];
                 if (ssync == 1'b1 || doutb[C_NO_OF_ID_OFFSET+C_NO_OF_ID_SIZE-1 : C_NO_OF_ID_OFFSET] == {C_NO_OF_ID_SIZE{1'b0}}) begin

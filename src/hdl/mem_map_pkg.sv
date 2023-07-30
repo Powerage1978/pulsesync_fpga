@@ -17,11 +17,10 @@ package mem_map_pkg;
     parameter C_STATUS_RUN_MODE_OFFSET      = 0;
     parameter C_STATUS_RUN_MODE_SIZE        = 3;
 
-    parameter C_STATUS_RUN_MODE_RESET       = 3'b000;
-    parameter C_STATUS_RUN_MODE_ARMED       = 3'b001;
-    parameter C_STATUS_RUN_MODE_RUNNING     = 3'b010;
-    parameter C_STATUS_RUN_MODE_STOPPED     = 3'b011;
-    parameter C_STATUS_RUN_MODE_ERR         = 3'b100;
+    parameter C_STATUS_RUN_MODE_STOPPED     = 3'b00;
+    parameter C_STATUS_RUN_MODE_ARMED       = 3'b01;
+    parameter C_STATUS_RUN_MODE_RUNNING     = 3'b10;
+    parameter C_STATUS_RUN_MODE_ERR         = 3'b11;
     
     // Generator control word
     parameter C_GEN_CTRL_ADDR               = 2;

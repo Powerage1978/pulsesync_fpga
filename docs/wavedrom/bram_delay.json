@@ -1,3 +1,4 @@
 {"reg":[
-    {"name": "BRAM delay value", "bits": 32}
+    {"name": "delay", "bits": 25},
+    {"bits": 7}
 ]}

@@ -1,6 +1,0 @@
-{"reg":[
-    {"name": "OP-IMM-32", "bits": 7,  "attr": 27},
-    {"name": "rd",     "bits": 5,  "attr": 0},
-    {"name": "func3",  "bits": 3,  "attr": "ADDIW"},
-    {"bits": 17}
-]}

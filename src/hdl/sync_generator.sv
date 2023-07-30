@@ -30,11 +30,11 @@ module sync_generator #(
     localparam C_IDLE_CNT = 50;
 
     // Typedef definitions
-    typedef enum bit[4:0] {ERR = 5'b00001,
-                        STOP,
-                        IDLE,
-                        ON,
-                        DELAY} state_t;
+    typedef enum bit[4:0] {ERR      = 5'b00001,
+                           STOP     = 5'b00010,
+                           IDLE     = 5'b00100,
+                           ON       = 5'b01000,
+                           DELAY    = 5'b10000} state_t;
     typedef enum bit {UNSET = 1'b0, SET = 1'b1} gen_ctrl_t;
 
     // Logic definitions
