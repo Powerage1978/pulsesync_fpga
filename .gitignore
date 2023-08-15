@@ -62,3 +62,5 @@ output/
 
 log/*
 !log/.gitkeep
+
+vivado_pid*

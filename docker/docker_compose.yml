@@ -14,3 +14,19 @@ services:
               source : ".."
               target : "/app"
         command: sleep infinity
+    dev:
+        build:
+            context: .
+            args:
+                - uid=${UID_V}
+                - gid=${GID_V}
+            dockerfile: Dockerfile_dev
+        working_dir: /app
+        environment:
+            - DISPLAY=${DISPLAY}
+        network_mode: host
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix
+            - type: bind
+              source : ".."
+              target : "/app"
