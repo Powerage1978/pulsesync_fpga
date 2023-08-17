@@ -1,0 +1,9 @@
+FROM ghcr.io/luftkode/vivado_2022.1_docker:1.0.1
+
+ARG uid
+ARG gid
+ARG USER=skytemdev
+
+RUN usermod -u $uid $USER \
+    && groupmod -g $gid $USER \
+    && usermod -a -G $gid $USER

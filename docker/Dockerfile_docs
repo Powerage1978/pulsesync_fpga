@@ -2,6 +2,10 @@ FROM ubuntu:22.04 as python-base
 
 LABEL maintainer="Skytem Surveys Aps"
 
+ENV TERM xterm-256color
+
+ARG USER=skytemdev
+ARG HOME=/home/$USER
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -28,14 +32,32 @@ RUN apt-get update \
     wget \
     xz-utils \
     zlib1g-dev \
-    nano
+    latexmk \
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-xetex \
+    fonts-freefont-otf \
+    texlive-fonts-recommended \
+    texlive-lang-greek \
+    tex-gyre \
+    libcairo2 \
+    default-jre \
+    graphviz \
+    nodejs \
+    npm \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
 
-# librsvg2-bin
 
-RUN rm -rf /var/lib/apt/lists/*
+RUN useradd -m -s $(which bash) $USER \
+    && mkdir -p /app \
+    && chown $USER:$USER /app \
+    && echo "export PS1='\e[32;1m\$(whoami)@ \e[34m[\$(pwd)]\e[0m# '" >> $HOME/.bashrc \
+    && mkdir -p /usr/src/python \
+    && mkdir -p /opt/plantuml
 
-RUN useradd -m -s $(which bash) skytemdev && mkdir -p /app && chown skytemdev:skytemdev /app && echo "export PS1='\$(whoami)@ [\$(pwd)]# '" >> /etc/bashrc
-ARG HOME=/home/skytemdev 
 ENV PATH="${PATH}:$HOME/.local/bin"
 
 # gpg: key 64E628F8D684696D: public key "Pablo Galindo Salgado <pablogsal@gmail.com>" imported
@@ -44,18 +66,15 @@ ENV GPG_KEY "A035C8C19219BA821ECEA86B64E628F8D684696D",
 ENV PYTHON_VERSION 3.10.10
 
 WORKDIR /tmp
-RUN wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz"
-RUN wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc"
+RUN wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
+    && wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc"
 
-
-RUN GNUPGHOME="$(mktemp -d)" && export GNUPGHOME
-RUN gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$GPG_KEY" \
+RUN GNUPGHOME="$(mktemp -d)" && export GNUPGHOME \
+    && gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$GPG_KEY" \
     gpg --batch --verify python.tar.xz.asc python.tar.xz \
     command -v gpgconf > /dev/null && gpgconf --kill all || : \
-    rm -rf "$GNUPGHOME" python.tar.xz.asc
-
-RUN mkdir -p /usr/src/python
-RUN tar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz
+    rm -rf "$GNUPGHOME" python.tar.xz.asc \
+    && tar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz
 
 WORKDIR /usr/src/python
 
@@ -79,8 +98,8 @@ ARG PROFILE_TASK=""
 RUN make -j $(nproc) \
                 "EXTRA_CFLAGS=${EXTRA_CFLAGS:-}" \
                 "LDFLAGS=${LDFLAGS:-}" \
-                "PROFILE_TASK=${PROFILE_TASK:-}"
-RUN make install
+                "PROFILE_TASK=${PROFILE_TASK:-}" \
+    && make install
 
 WORKDIR /
 RUN rm -rf /usr/src/python && rm /tmp/python.tar.xz && rm /tmp/python.tar.xz.asc
@@ -92,8 +111,6 @@ RUN /bin/bash -c 'find /usr/local -depth \
         '
 
 RUN ldconfig
-
-RUN apt-get autoremove -y && apt-get clean -y
 
 RUN /bin/bash -c 'for src in idle3 pydoc3 python3 python3-config; \
     do \
@@ -112,85 +129,45 @@ ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/d5cb0afaf23b8520f1bbc
 ENV PYTHON_GET_PIP_SHA256 394be00f13fa1b9aaa47e911bdb59a09c3b2986472130f30aa0bfaf7f3980637
 
 WORKDIR /tmp
-RUN wget -O get-pip.py "$PYTHON_GET_PIP_URL"
-RUN     echo "$PYTHON_GET_PIP_SHA256 *get-pip.py" | sha256sum -c -
-
-RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
-RUN rm -rf /var/lib/apt/lists/*
+RUN wget -O get-pip.py "$PYTHON_GET_PIP_URL" \
+    && echo "$PYTHON_GET_PIP_SHA256 *get-pip.py" | sha256sum -c -
 
 RUN python get-pip.py \
         --disable-pip-version-check \
         --no-cache-dir \
         --no-compile \
         "pip==$PYTHON_PIP_VERSION" \
-        "setuptools==$PYTHON_SETUPTOOLS_VERSION"
-
-RUN rm -f get-pip.py
+        "setuptools==$PYTHON_SETUPTOOLS_VERSION" \
+    && rm -f get-pip.py
 
 FROM python-base as sphinx-setup
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    latexmk \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-xetex \
-    fonts-freefont-otf \
-    texlive-fonts-recommended \
-    texlive-lang-greek \
-    tex-gyre \
-    libcairo2
-
-RUN python -m pip install --user sphinx==6.1.3
-RUN python -m pip install --user sphinxcontrib-wavedrom==3.0.4
-RUN python -m pip install --user sphinxcontrib-plantuml==0.25
-RUN python -m pip install --user myst-parser==1.0.0
-RUN python -m pip install --user sphinxcontrib-svg2pdfconverter[CairoSVG]==1.2.2
-RUN python -m pip install --user sphinx_rtd_theme==1.2.0
-RUN python -m pip install --user graphviz==0.20.1
-
+USER $USER
+RUN python -m pip install --user sphinx==6.1.3 \
+    sphinxcontrib-wavedrom==3.0.4 \
+    sphinxcontrib-plantuml==0.25 \
+    myst-parser==1.0.0 \
+    sphinxcontrib-svg2pdfconverter[CairoSVG]==1.2.2 \
+    sphinx_rtd_theme==1.2.0 \
+    graphviz==0.20.1
 
 FROM sphinx-setup as plantuml-setup
 # *** Plantuml support ***
+USER root
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    default-jre \
-    unzip \
-    graphviz
+RUN wget -O /opt/plantuml/plantuml.jar "https://sourceforge.net/projects/plantuml/files/plantuml.jar/download"
 
-WORKDIR /tmp
-RUN wget http://sourceforge.net/projects/plantuml/files/plantuml-jar-mit-1.2022.14.zip/download
-RUN unzip download
-RUN rm download
-RUN mkdir -p /opt/plantuml
-RUN mv plantuml.jar /opt/plantuml
 ENV GRAPHVIZ_DOT /usr/bin/dot
+ENV PLANTUML_JAR=/opt/plantuml/plantuml.jar
 
 FROM plantuml-setup as wavedrom-setup
 
 # *** Wavedrom-cli install ***
-USER root
-RUN apt-get update \
-        && apt-get install -y --no-install-recommends \
-    nodejs \
-    npm
 RUN npm i wavedrom-cli -g
 
-FROM wavedrom-setup as clean-image
-
-RUN apt-get update \
-    && apt-get remove -y wget \
-    unzip
-
-RUN apt-get autoremove -y && apt-get clean -y
-
-FROM clean-image as user-setup
+FROM wavedrom-setup as user-setup
 ARG uid
 ARG gid
 
-RUN usermod -u $uid skytemdev
-RUN groupmod -g $gid skytemdev && usermod -a -G $gid skytemdev
-
-ENV TERM xterm-256color
-USER skytemdev
+RUN usermod -u $uid $USER \
+    && groupmod -g $gid $USER \
+    && usermod -a -G $gid $USER
