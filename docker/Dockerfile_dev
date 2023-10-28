@@ -1,8 +1,60 @@
-FROM ghcr.io/luftkode/vivado_2022.1_docker:1.0.1
+FROM ghcr.io/luftkode/vivado_2022.1_docker:1.0.2
 
+ARG SVUNIT_VER=3.37.0
+ARG VERILATOR_VER=5.016
+
+ENV PATH="${PATH}:/opt/verilator/bin:/opt/svunit/svunit-$SVUNIT_VER/bin"
 ARG uid
 ARG gid
 ARG USER=skytemdev
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    wget \
+    unzip \
+    perl \
+    git \
+    help2man \
+    python3 \
+    make \
+    autoconf \
+    g++ \
+    flex \
+    bison \
+    ccache \
+    libgoogle-perftools-dev \
+    numactl \
+    perl-doc \
+    libfl2 \
+    libfl-dev \
+    zlib1g \
+    zlib1g-dev \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /opt/svunit
+
+RUN wget -O /tmp/v$SVUNIT_VER.zip https://github.com/svunit/svunit/archive/refs/tags/v$SVUNIT_VER.zip \
+    && unzip /tmp/v$SVUNIT_VER.zip -d /opt/svunit \
+    && rm /tmp/v$SVUNIT_VER.zip
+
+#  --no-check-certificate
+
+RUN cd /tmp \
+    && wget https://github.com/verilator/verilator/archive/refs/tags/v$VERILATOR_VER.zip \
+    && unzip v$VERILATOR_VER.zip \
+    && unset VERILATOR_ROOT \
+    && cd verilator-$VERILATOR_VER \
+    && autoconf \
+    && ./configure --prefix /opt/verilator/ \
+    && make -j `nproc` \
+    && make install \
+    && cd / \
+    && rm /tmp/v$VERILATOR_VER.zip \
+    && rm -rf /tmp/verilator-$VERILATOR_VER
 
 RUN usermod -u $uid $USER \
     && groupmod -g $gid $USER \

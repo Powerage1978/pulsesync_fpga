@@ -1,0 +1,12 @@
+INFO:  [0][__ts]: Registering Unit Test Case adder_ut
+INFO:  [0][testrunner]: Registering Test Suite __ts
+INFO:  [0][__ts]: RUNNING
+INFO:  [0][adder_ut]: RUNNING
+INFO:  [0][adder_ut]: test0::RUNNING
+INFO:  [76][adder_ut]: test0::PASSED
+INFO:  [76][adder_ut]: PASSED (1 of 1 tests passing)
+
+INFO:  [76][__ts]: PASSED (1 of 1 testcases passing)
+
+INFO:  [76][testrunner]: PASSED (1 of 1 suites passing) [SVUnit 3.37.0]
+- /app/sim/test1/.testrunner.sv:40: Verilog $finish

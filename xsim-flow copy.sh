@@ -1,8 +1,17 @@
 #!/bin/bash
 
 SOURCES_SV=" \
-    sim/test/testbench.sv \
+    sim/test/driver.sv \
     sim/test/design.sv \
+    sim/test/directed_test.sv \
+    sim/test/environment.sv \
+    sim/test/generator.sv \
+    sim/test/interface.sv \
+    sim/test/monitor.sv \
+    sim/test/random_test.sv \
+    sim/test/scoreboard.sv \
+    sim/test/testbench.sv \
+    sim/test/transaction.sv \
 "
 
 COMP_OPTS_SV=" \
@@ -33,7 +42,7 @@ if [ $? -ne 0 ]; then
     exit 10
 fi
 
-xelab -top tbench_top -snapshot myip_tb_snapshot -debug all --nolog
+xelab -top testbench -snapshot myip_tb_snapshot -debug all --nolog
 
 if [ $? -ne 0 ]; then
     echo "### ELABORATION FAILED ###"

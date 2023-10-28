@@ -23,7 +23,8 @@
             "vscode": {
                     "extensions": [
                             "mhutchie.git-graph",
-                            "eamodio.gitlens"
+                            "eamodio.gitlens",
+                            "mshr-h.veriloghdl"
                     ]
             }
     },

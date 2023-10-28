@@ -1,0 +1,9 @@
++incdir+/app/sim/test1
++incdir+/opt/svunit/svunit-3.37.0/svunit_base/junit-xml
+/opt/svunit/svunit-3.37.0/svunit_base/junit-xml/junit_xml.sv
++incdir+/opt/svunit/svunit-3.37.0/svunit_base
+/opt/svunit/svunit-3.37.0/svunit_base/svunit_pkg.sv
+/app/sim/test1/./design_unit_test.sv
++incdir+/app/sim/test1/.
+.__testsuite.sv
+.testrunner.sv

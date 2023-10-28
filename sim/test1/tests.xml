@@ -1,0 +1,6 @@
+<testsuites>
+  <testsuite name="__ts">
+    <testcase classname="adder_ut" name="test0">
+    </testcase>
+  </testsuite>
+</testsuites>
