@@ -1,0 +1,7 @@
+tests.xml
+run.log
+.svunit*
+.testrunner*
+.__testsuite*
+
+obj_dir
