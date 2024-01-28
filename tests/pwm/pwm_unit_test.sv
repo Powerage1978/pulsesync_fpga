@@ -37,12 +37,7 @@ module pwm_unit_test;
     .status(status)
   );
 
-//  initial begin
-//    clk = 0;
-//    forever #(C_HALF_PERIOD) clk = ~clk;
-//  end
-
-// clk generator
+  // clk generator
   initial begin
     clk = 0;
     forever begin
